@@ -1,0 +1,224 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+/* code blocks */
+.cb{margin:18px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:12px;font-weight:700;letter-spacing:.5px;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:13.5px;line-height:1.7;color:#3d3530;margin:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media(max-width:700px){.cmp{grid-template-columns:1fr}}
+.cmp .cb{margin:0}
+.bi{margin:10px 0;padding:10px 16px;background:var(--surface);border-radius:7px;border-left:3px solid var(--accent-bd);border:1px solid var(--border);border-left:3px solid var(--accent-bd)}
+.bi .bl{font-weight:700;color:var(--accent);font-family:var(--fc);font-size:13px}
+.rb{margin:22px 0;padding:18px 22px;background:var(--warm);border-radius:8px;border-left:4px solid var(--accent-bd)}
+.rb .rt{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:14px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">02</div>
+<div class="clab">অধ্যায় ২</div>
+<div class="ctbn">অর্থবহ নাম</div>
+<div class="cten">Meaningful Names</div>
+<div class="caut">by Tim Ottinger</div>
+</div>
+<div class="ct">
+
+<p>Software এ সর্বত্র নাম ব্যবহার হয় — variable, function, argument, class, package, source file, directory — সবকিছুর নাম দিতে হয়। যেহেতু আমরা এত বেশি নামকরণ করি, তাই সেটা ভালোভাবে করা উচিত। নিচে কিছু সহজ নিয়ম দেওয়া হলো ভালো নাম তৈরির জন্য।</p>
+
+<h2>উদ্দেশ্য প্রকাশকারী নাম <span class="en">Use Intention-Revealing Names</span></h2>
+<p>নাম দেখে বোঝা উচিত এটি কেন আছে, কী করে, এবং কীভাবে ব্যবহৃত হয়। ভালো নাম বেছে নিতে সময় লাগে, কিন্তু পরে অনেক বেশি সময় বাঁচায়। যদি নামের পাশে comment লাগে, তাহলে নামটি তার উদ্দেশ্য প্রকাশ করছে না।</p>
+<div class="cmp">
+<div class="cb"><div class="cl bad">✗ খারাপ:</div><pre>int d; // elapsed time in days</pre></div>
+<div class="cb"><div class="cl good">✓ ভালো:</div><pre>int elapsedTimeInDays;
+int daysSinceCreation;
+int daysSinceModification;
+int fileAgeInDays;</pre></div>
+</div>
+<p>"d" নামটা কিছুই বলে না — দিনও মনে হয় না, অতিবাহিত সময়ও মনে হয় না। কিন্তু "elapsedTimeInDays" পড়লেই বোঝা যায় এটা দিনের হিসেবে অতিবাহিত সময়।</p>
+<p>একটি উদাহরণ দেখুন — এই code কী করে বুঝতে পারেন?</p>
+<div class="cb"><div class="cl bad">✗ অস্পষ্ট code:</div><pre>public List&lt;int[]&gt; getThem() {
+    List&lt;int[]&gt; list1 = new ArrayList&lt;int[]&gt;();
+    for (int[] x : theList)
+        if (x[0] == 4)
+            list1.add(x);
+    return list1;
+}</pre></div>
+<p>Code টি সহজ — কোনো জটিল expression নেই, indentation যুক্তিসঙ্গত, মাত্র তিনটি variable। কিন্তু কী হচ্ছে বুঝতে পারা যায় না! theList কী? x[0] == 4 মানে কী? return করা list কীভাবে ব্যবহার হবে?</p>
+<p>ধরুন এটা minesweeper game এর code — theList হলো gameBoard, প্রতিটি cell একটি array, zeroth subscript হলো status, এবং 4 মানে "flagged"। এখন ভালো নাম দিলে:</p>
+<div class="cb"><div class="cl good">✓ অর্থবহ নামসহ:</div><pre>public List&lt;int[]&gt; getFlaggedCells() {
+    List&lt;int[]&gt; flaggedCells = new ArrayList&lt;int[]&gt;();
+    for (int[] cell : gameBoard)
+        if (cell[STATUS_VALUE] == FLAGGED)
+            flaggedCells.add(cell);
+    return flaggedCells;
+}</pre></div>
+<p>Code এর complexity একই আছে — একই সংখ্যক operator, constant, nesting level। কিন্তু এখন পড়লেই বোঝা যাচ্ছে কী হচ্ছে। আরো ভালো করতে পারি — Cell class তৈরি করে isFlagged() method দিয়ে:</p>
+<div class="cb"><div class="cl good">✓ আরো ভালো — Cell class ব্যবহার করে:</div><pre>public List&lt;Cell&gt; getFlaggedCells() {
+    List&lt;Cell&gt; flaggedCells = new ArrayList&lt;Cell&gt;();
+    for (Cell cell : gameBoard)
+        if (cell.isFlagged())
+            flaggedCells.add(cell);
+    return flaggedCells;
+}</pre></div>
+<p>ভালো নাম বেছে নেওয়ার শক্তি এটাই!</p>
+
+<h2>ভুল তথ্য এড়াও <span class="en">Avoid Disinformation</span></h2>
+<p>Programmer দের এমন নাম দেওয়া উচিত নয় যা ভুল ইঙ্গিত দেয়। কিছু উদাহরণ:</p>
+<div class="bi"><span class="bl">hp, aix, sco</span> — এগুলো Unix platform এর নাম, তাই variable নাম হিসেবে ভুল ইঙ্গিত দেয়। hypotenuse এর জন্য hp ভালো abbreviation মনে হলেও, programmer দের কাছে এটা ভিন্ন অর্থ বহন করে।</div>
+<div class="bi"><span class="bl">accountList</span> — যদি container টি আসলে List না হয়, তাহলে এই নাম ভুল ইঙ্গিত দেয় (List শব্দটি programmer দের কাছে নির্দিষ্ট অর্থ রাখে)। accounts বা accountGroup ভালো হবে।</div>
+<div class="bi"><span class="bl">খুব কাছাকাছি নাম</span> — XYZControllerForEfficientHandlingOfStrings বনাম XYZControllerForEfficientStorageOfStrings — এদের পার্থক্য দ্রুত ধরা কঠিন।</div>
+<div class="bi"><span class="bl">ছোট হাতের l (এল) বা বড় হাতের O</span> — এগুলো সংখ্যা 1 এবং 0 এর মতো দেখতে, তাই variable নাম হিসেবে ভয়ানক!</div>
+
+<h2>অর্থপূর্ণ পার্থক্য <span class="en">Make Meaningful Distinctions</span></h2>
+<p>Compiler satisfy করতে গিয়ে অর্থহীন নাম দেওয়া উচিত নয়।</p>
+<p>Number-series naming (a1, a2, …) কোনো তথ্য দেয় না:</p>
+<div class="cb"><div class="cl bad">✗ a1, a2 — অর্থহীন:</div><pre>public static void copyChars(char a1[], char a2[]) {
+    for (int i = 0; i &lt; a1.length; i++) {
+        a2[i] = a1[i];
+    }
+}</pre></div>
+<p>a1 এবং a2 এর বদলে <span class="b">source</span> এবং <span class="b">destination</span> লিখলে অনেক ভালো হতো।</p>
+<p>Noise words (Info, Data, a, an, the) অর্থহীন পার্থক্য তৈরি করে। Product, ProductInfo, ProductData — এদের মধ্যে কী পার্থক্য? Customer আর CustomerObject — কোনটা ব্যবহার করবো? variable নামে variable শব্দটা, table নামে table শব্দটা — সব redundant।</p>
+<div class="cb"><div class="cl bad">✗ কোনটা কোন কাজে?</div><pre>getActiveAccount();
+getActiveAccounts();
+getActiveAccountInfo();</pre></div>
+<p>এই তিনটি function এর মধ্যে কোনটা ব্যবহার করতে হবে — programmer কীভাবে বুঝবে? নাম এমন হওয়া উচিত যে পাঠক বুঝতে পারেন পার্থক্যটা কোথায়।</p>
+
+<h2>উচ্চারণযোগ্য নাম <span class="en">Use Pronounceable Names</span></h2>
+<p>আমাদের মস্তিষ্কের একটি বিশাল অংশ শব্দ নিয়ে কাজ করে। নাম উচ্চারণ করতে না পারলে আলোচনা করা কঠিন হয়। "ওই bee cee arr three cee enn tee তে একটা pee ess zee kyew int আছে, দেখো!" — এভাবে কথা বলা হাস্যকর। Programming হলো social activity।</p>
+<div class="cmp">
+<div class="cb"><div class="cl bad">✗ উচ্চারণ অযোগ্য:</div><pre>class DtaRcrd102 {
+  private Date genymdhms;
+  private Date modymdhms;
+  private final String pszqint
+      = "102";
+}</pre></div>
+<div class="cb"><div class="cl good">✓ উচ্চারণযোগ্য:</div><pre>class Customer {
+  private Date
+      generationTimestamp;
+  private Date
+      modificationTimestamp;
+  private final String
+      recordId = "102";
+}</pre></div>
+</div>
+<p>এখন সহকর্মীকে বলতে পারেন: "এই record এর generation timestamp আগামীকালের date দেখাচ্ছে — এটা কীভাবে হলো?" বুদ্ধিদীপ্ত আলোচনা এখন সম্ভব!</p>
+
+<h2>খুঁজে পাওয়া যায় এমন নাম <span class="en">Use Searchable Names</span></h2>
+<p>একটি অক্ষরের নাম বা numeric constant খুঁজে বের করা কঠিন। MAX_CLASSES_PER_STUDENT সহজে grep করা যায়, কিন্তু 7 নম্বরটি অনেক জায়গায় থাকতে পারে। e নামের variable সর্বত্র পাওয়া যাবে কারণ e ইংরেজির সবচেয়ে সাধারণ অক্ষর।</p>
+<div class="rb"><div class="rt">নিয়ম:</div>নামের দৈর্ঘ্য তার scope এর আকারের সাথে সামঞ্জস্যপূর্ণ হওয়া উচিত। ছোট method এর local variable একটি অক্ষরের হতে পারে, কিন্তু একাধিক জায়গায় ব্যবহৃত variable বা constant এর নাম search-friendly হতে হবে।</div>
+<div class="cmp">
+<div class="cb"><div class="cl bad">✗ অ-searchable:</div><pre>for (int j=0; j&lt;34; j++) {
+    s += (t[j]*4)/5;
+}</pre></div>
+<div class="cb"><div class="cl good">✓ Searchable:</div><pre>int realDaysPerIdealDay = 4;
+const int WORK_DAYS_PER_WEEK
+    = 5;
+int sum = 0;
+for (int j=0;
+    j &lt; NUMBER_OF_TASKS;
+    j++) {
+  int realTaskDays =
+    taskEstimate[j]
+    * realDaysPerIdealDay;
+  int realTaskWeeks =
+    (realdays
+    / WORK_DAYS_PER_WEEK);
+  sum += realTaskWeeks;
+}</pre></div>
+</div>
+<p>WORK_DAYS_PER_WEEK খুঁজে বের করা কত সহজ! কিন্তু 5 খুঁজতে গেলে সব জায়গায় 5 এর ব্যবহার বাছাই করতে হবে।</p>
+
+<h2>Encoding এড়াও <span class="en">Avoid Encodings</span></h2>
+<p><span class="b">Hungarian Notation (HN)</span> মানে হলো variable নামের সাথে type এর সংকেত জুড়ে দেওয়া। আগে দরকার ছিল যখন compiler type check করতো না। আধুনিক ভাষায় (Java, C# ইত্যাদি) এর কোনো দরকার নেই — IDE এবং compiler type মনে রাখে এবং enforce করে। HN এখন code পড়তে কঠিন করে এবং নাম বা type পরিবর্তন করাও কঠিন হয়।</p>
+<p><span class="b">Member prefix (m_)</span> — আগে member variable চেনাতে m_ prefix দেওয়া হতো। এখন class এবং function ছোট রাখলে এর দরকার নেই। আধুনিক IDE member variable আলাদা রঙে দেখায়।</p>
+<div class="cmp">
+<div class="cb"><div class="cl bad">✗ পুরোনো ধাঁচ — m_ prefix:</div><pre>public class Part {
+  private String m_dsc;
+  // The textual description
+  void setName(String name) {
+      m_dsc = name;
+  }
+}</pre></div>
+<div class="cb"><div class="cl good">✓ আধুনিক ধাঁচ — পরিষ্কার নাম:</div><pre>public class Part {
+  String description;
+  void setDescription(
+      String description) {
+    this.description
+        = description;
+  }
+}</pre></div>
+</div>
+<p>মানুষ দ্রুত prefix ignore করতে শিখে যায় এবং অর্থবহ অংশটুকুই দেখে। Prefix শেষ পর্যন্ত অদৃশ্য clutter হয়ে দাঁড়ায় — পুরোনো code র চিহ্ন।</p>
+<p><span class="b">Interface ও Implementation:</span> IShapeFactory এর বদলে ShapeFactory ব্যবহার করুন। Interface এ I prefix না দিয়ে implementation এ suffix দিন — ShapeFactoryImp। ব্যবহারকারীর জানার দরকার নেই এটা interface।</p>
+
+<h2>Mental Mapping এড়াও <span class="en">Avoid Mental Mapping</span></h2>
+<p>পাঠকের মস্তিষ্কে নামকে আরেকটি ধারণায় রূপান্তর করতে হবে না। Single-letter variable (i, j, k ছাড়া loop counter হিসেবে) এড়াও। r variable দিয়ে "lower-cased URL with host and scheme removed" মনে রাখা চালাকি হতে পারে, কিন্তু professional নয়। <span class="b">Professional programmer জানে — clarity is king।</span></p>
+
+<h2>Class ও Method এর নামকরণ</h2>
+<p><span class="b">Class এর নাম:</span> noun বা noun phrase হবে — Customer, WikiPage, Account, AddressParser। Manager, Processor, Data, Info এসব এড়াও। Class এর নাম verb হবে না।</p>
+<p><span class="b">Method এর নাম:</span> verb বা verb phrase হবে — postPayment, deletePage, save। Accessor, mutator, predicate যথাক্রমে get, set, is prefix ব্যবহার করবে (javabean standard অনুযায়ী)।</p>
+<div class="cb"><div class="cl neu">উদাহরণ:</div><pre>string name = employee.getName();
+customer.setName("mike");
+if (paycheck.isPosted())...
+
+// Overloaded constructor এর বদলে static factory method ভালো:
+Complex fulcrumPoint = Complex.FromRealNumber(23.0); // ✓ ভালো
+Complex fulcrumPoint = new Complex(23.0);             // কম স্পষ্ট</pre></div>
+
+<h3>আরেকটি গুরুত্বপূর্ণ নিয়ম — Don't Be Cute</h3>
+<p>HolyHandGrenade() র বদলে DeleteItems() বলো। whack() র বদলে kill() বলো। eatMyShorts() র বদলে abort() বলো। <span class="hi">স্পষ্টতা সবসময় entertainment value এর উপরে।</span> যা বলতে চাও তাই বলো, যা বলো তাই বোঝাও।</p>
+
+<h3>Pick One Word per Concept (প্রতি ধারণার জন্য একটি শব্দ)</h3>
+<p>একই ধারণার জন্য fetch, retrieve, get — তিনটি আলাদা শব্দ ব্যবহার করবেন না। একটি বেছে নিন আর সর্বত্র ব্যবহার করুন। কোন method নাম কোন class এ ব্যবহৃত সেটা মনে রাখা কঠিন। একইভাবে controller, manager, driver — একটি consistent lexicon (শব্দভাণ্ডার) রাখুন।</p>
+
+<h3>Don't Pun (দ্ব্যর্থতা তৈরি করো না)</h3>
+<p>একই শব্দ দুটি ভিন্ন কাজে ব্যবহার করবেন না। যদি add মানে দুটি মান যোগ করা হয়, তাহলে collection এ item ঢোকানোকে add বলবেন না — insert বা append বলুন। আমাদের লক্ষ্য হলো code যেন দ্রুত skim করা যায়, গভীর study না লাগে।</p>
+
+<h3>Solution Domain vs Problem Domain Names</h3>
+<p>Code পড়বে programmer — তাই computer science term (AccountVisitor, JobQueue) ব্যবহার করতে দ্বিধা করবেন না। কিন্তু যখন programming term নেই, তখন problem domain র নাম ব্যবহার করুন — তখন maintenance programmer domain expert কে জিজ্ঞেস করতে পারবে।</p>
+
+<h2>Context যোগ করো <span class="en">Add Meaningful Context</span></h2>
+<p>firstName, lastName, street, city, state, zipcode — সাথে দেখলে বোঝা যায় address। কিন্তু শুধু state দেখলে? সমাধান — Address class তৈরি করুন। Prefix (addrState) ও চলে, কিন্তু class ভালো।</p>
+
+<h2>যথা Context যোগ করো না <span class="en">Don't Add Gratuitous Context</span></h2>
+<p>"Gas Station Deluxe" app র প্রতিটি class এ GSD prefix দেওয়ার দরকার নেই — IDE তে G টাইপ করলেই সব class র লম্বা list আসবে! ছোট নাম সাধারণত ভালো, যতটুকু পরিষ্কার।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Intention-Revealing Names</div><div class="cd">নাম দেখেই বোঝা যাবে এটা কেন আছে আর কী করে। Comment লাগলে নাম ভালো নয়।</div></div>
+<div class="ci"><div class="cn">★ Avoid Disinformation</div><div class="cd">ভুল ইঙ্গিত দেয় এমন নাম এড়াও। List না হলে accountList বলো না।</div></div>
+<div class="ci"><div class="cn">★ Meaningful Distinctions</div><div class="cd">নাম আলাদা হলে অর্থও আলাদা হতে হবে। a1/a2 বা Info/Data noise words।</div></div>
+<div class="ci"><div class="cn">★ Pronounceable Names</div><div class="cd">নাম উচ্চারণ করতে পারতে হবে — programming হলো social activity।</div></div>
+<div class="ci"><div class="cn">★ Searchable Names</div><div class="cd">Scope যত বড়, নাম তত search-friendly হতে হবে।</div></div>
+<div class="ci"><div class="cn">★ No Encodings</div><div class="cd">Hungarian Notation, m_ prefix, I prefix — আধুনিক IDE তে সব আর দরকার নেই।</div></div>
+<div class="ci"><div class="cn">★ One Word per Concept</div><div class="cd">একই ধারণার জন্য সর্বত্র একই শব্দ ব্যবহার করো। fetch/retrieve/get — একটি বেছে নাও।</div></div>
+<div class="ci"><div class="cn">★ Clarity over Cleverness</div><div class="cd">চালাক নাম নয়, স্পষ্ট নাম। Professional দের কাছে স্পষ্টতাই রাজা।</div></div>
+</div>
+
+</div>
+</div>

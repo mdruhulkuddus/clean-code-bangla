@@ -1,0 +1,317 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)} .hi{color:var(--accent);font-weight:700}
+.cb{margin:18px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:12px;font-weight:700;letter-spacing:.5px;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:13.5px;line-height:1.7;color:#3d3530;margin:0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media(max-width:700px){.cmp{grid-template-columns:1fr}}
+.cmp .cb{margin:0}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.rb{margin:22px 0;padding:18px 22px;background:var(--warm);border-radius:8px;border-left:4px solid var(--accent-bd)}
+.rb .rt{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:14px}
+.at{width:100%;margin:18px 0;border-collapse:collapse;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.at th,.at td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.at th{background:var(--warm);color:var(--accent);font-size:14px;font-weight:700}
+.at td{background:var(--surface);font-size:15px}
+.at td:first-child{font-family:var(--fc);font-weight:600;color:var(--accent);font-size:13px}
+.nl{margin:14px 0;padding-left:0;list-style:none}
+.nl li{margin-bottom:8px;padding:9px 14px;background:var(--surface);border-radius:7px;border-left:3px solid var(--accent-bd);border:1px solid var(--border);border-left:3px solid var(--accent-bd)}
+.nl li .nm{font-weight:700;color:var(--accent);margin-right:6px;font-family:var(--fc)}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">03</div>
+<div class="clab">অধ্যায় ৩</div>
+<div class="ctbn">ফাংশন</div>
+<div class="cten">Functions</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>Programming র শুরুর দিকে আমরা routine, subroutine ব্যবহার করতাম। তারপর program, subprogram, function। এখন শুধু function একটিই আছে। Function হলো যে কোনো program র প্রথম সংগঠন স্তর। এগুলো ভালোভাবে লেখা এই অধ্যায়ের বিষয়।</p>
+<p>লেখক FitNesse (একটি open-source testing tool) থেকে একটি বড়, জটিল function দেখিয়ে শুরু করেছেন (Listing ৩-১)। সেটা এত বড় ও লোকমোকে যে ৩ মিনিটে বোঝা যায় না — duplicated code, অদ্ভুত string, নানা ধরনের data type ও API মেশানো, doubly nested if statement, flag দিয়ে নিয়ন্ত্রিত। তারপর দেখিয়েছেন কীভাবে method extraction, renaming, ও restructuring করে পরিষ্কার করা যায়:</p>
+<div class="cb"><div class="cl good">✓ Refactored (পুনর্গঠিত) version:</div><pre>public static String renderPageWithSetupsAndTeardowns(
+    PageData pageData, boolean isSuite
+) throws Exception {
+    boolean isTestPage = pageData.hasAttribute("Test");
+    if (isTestPage) {
+        WikiPage testPage = pageData.getWikiPage();
+        StringBuffer newPageContent = new StringBuffer();
+        includeSetupPages(testPage, newPageContent, isSuite);
+        newPageContent.append(pageData.getContent());
+        includeTeardownPages(testPage, newPageContent, isSuite);
+        pageData.setContent(newPageContent.toString());
+    }
+    return pageData.getHtml();
+}</pre></div>
+<p>এটাকে আরো ছোট করা যায়:</p>
+<div class="cb"><div class="cl good">✓ আরো ছোট version:</div><pre>public static String renderPageWithSetupsAndTeardowns(
+    PageData pageData, boolean isSuite) throws Exception {
+    if (isTestPage(pageData))
+        includeSetupAndTeardownPages(pageData, isSuite);
+    return pageData.getHtml();
+}</pre></div>
+<p>FitNesse না জানলেও বোঝা যায় — এই function কোনো test page এ setup ও teardown page include করে HTML render করে। এটাই clean function র শক্তি।</p>
+
+<h2>ছোট করো! <span class="en">Small!</span></h2>
+<p>Function র প্রথম নিয়ম — <span class="b">ছোট হতে হবে</span>। দ্বিতীয় নিয়ম — <span class="b">তার চেয়ে ছোট হতে হবে</span>।</p>
+<p>লেখক ৪ দশক ধরে বিভিন্ন আকারের function লিখেছেন — ৩০০০ লাইনের বিশাল function থেকে ১০০-৩০০ লাইনের function, ২০-৩০ লাইনের function। অভিজ্ঞতা থেকে শিখেছেন function খুব ছোট হওয়া উচিত। ২০ লাইনই বেশি!</p>
+<p>Kent Beck র একটি Java/Swing program (Sparkle নামে) এ প্রতিটি function ছিল মাত্র ২, ৩ বা ৪ লাইন। প্রতিটি স্পষ্টভাবে বোধগম্য। প্রতিটি একটি গল্প বলে। প্রতিটি পরেরটির দিকে নিয়ে যায়। এতো ছোট আপনার function হওয়া উচিত!</p>
+
+<h3>Block ও Indenting</h3>
+<p>if, else, while ইত্যাদির block ১ লাইনের হওয়া উচিত — সেই লাইনটি হবে একটি function call যার নাম descriptive। এতে enclosing function ছোট থাকে আর documentary value যোগ হয়। Function র indent level ১ বা ২ র বেশি হওয়া উচিত নয় — এতে পড়তে ও বুঝতে সহজ হয়।</p>
+
+<h2>একটি কাজ করো <span class="en">Do One Thing</span></h2>
+<div class="kp"><div class="kl">মূল নীতি</div><p><span class="b">FUNCTIONS SHOULD DO ONE THING. THEY SHOULD DO IT WELL. THEY SHOULD DO IT ONLY.</span></p></div>
+<p>এই পরামর্শটি ৩০ বছরের বেশি পুরোনো। কিন্তু "one thing" কী — সেটা বোঝা কঠিন। Listing ৩-৩ কি একটি কাজ করে? তিনটি কাজ বলা যায় — page test কিনা দেখো, setup/teardown include করো, HTML render করো।</p>
+<div class="rb"><div class="rt">পরীক্ষা:</div>function কে একটি সংক্ষিপ্ত TO paragraph হিসেবে বর্ণনা করুন:<br><br><em>"TO RenderPageWithSetupsAndTeardowns, আমরা দেখি page একটি test page কিনা, যদি হয় তাহলে setup ও teardown যোগ করি, ও page একটি HTML এ render করি।"</em><br><br>যদি function শুধু সেই কাজগুলোই করে যা তার নামের স্তরে — তাহলে সে একটি কাজ করছে। কারণ function লেখার মূল কারণই হলো একটি বৃহত্তর ধারণাকে পরবর্তী abstraction level র কিছু ধাপে ভাগ করা।</div>
+<p><span class="b">আরেকটি পরীক্ষা:</span> function থেকে যদি আরেকটি function বের করা যায় যার নাম implementation র পুনরুক্তি নয় (শুধু restatement নয়), তাহলে আসল function একাধিক কাজ করছে।</p>
+
+<h3>প্রতি Function একটি Abstraction Level</h3>
+<p>Function র ভেতরে সব statement একই abstraction level এ হওয়া উচিত। যেমন:</p>
+<ul class="nl">
+<li><span class="nm">•</span> <code>getHtml()</code> — <span class="b">উচ্চ</span> abstraction</li>
+<li><span class="nm">•</span> <code>String pagePathName = PathParser.render(pagePath)</code> — <span class="b">মধ্যম</span> abstraction</li>
+<li><span class="nm">•</span> <code>.append("\n")</code> — <span class="b">নিম্ন</span> abstraction</li>
+</ul>
+<p>এগুলো একই function এ মিশিয়ে ফেললে পাঠক বুঝতে পারে না কোনটা মূল ধারণা আর কোনটা খুঁটিনাটি বিবরণ। আরো খারাপ — Broken Window র মতো, একবার বিস্তারিত মিশতে শুরু করলে আরো বিস্তারিত জমতে থাকে।</p>
+
+<h3>The Stepdown Rule</h3>
+<p>Code ওপর থেকে নিচে গল্পের মতো পড়া যাওয়া উচিত। প্রতিটি function এর পরে তার পরবর্তী abstraction level র function থাকবে। এটাকে TO paragraph এর মতো ভাবুন:</p>
+<p><em>Setup ও teardown include করতে, আমরা setup include করি, তারপর test page content, তারপর teardown include করি।</em></p>
+<p><em>Setup include করতে, suite setup include করি (যদি suite হয়), তারপর regular setup।</em></p>
+<p><em>Suite setup include করতে, parent hierarchy তে "SuiteSetUp" page খুঁজি এবং সেই page এর path সহ include statement যোগ করি।</em></p>
+<p>এই নিয়ম শেখা কঠিন কিন্তু অত্যন্ত গুরুত্বপূর্ণ — এটাই function ছোট রাখার এবং "one thing" করানোর চাবিকাঠি।</p>
+
+<h2>Switch Statement সমস্যা <span class="en">Switch Statement</span></h2>
+<p>Switch statement ছোট রাখা কঠিন — এগুলো স্বভাবতই N টি কাজ করে। আমরা switch statement পুরোপুরি এড়াতে পারি না, কিন্তু নিশ্চিত করতে পারি যে প্রতিটি switch একটি low-level class এ লুকানো থাকে এবং কখনো পুনরাবৃত্তি হয় না। সমাধান — <span class="b">polymorphism (বহুরূপিতা)</span>।</p>
+<div class="cb"><div class="cl bad">✗ Switch statement এর সমস্যা:</div><pre>public Money calculatePay(Employee e) throws InvalidEmployeeType {
+    switch (e.type) {
+        case COMMISSIONED: return calculateCommissionedPay(e);
+        case HOURLY:       return calculateHourlyPay(e);
+        case SALARIED:     return calculateSalariedPay(e);
+        default: throw new InvalidEmployeeType(e.type);
+    }
+}</pre></div>
+<p>এই function এর সমস্যাগুলো:</p>
+<ul class="nl">
+<li><span class="nm">১।</span> বড় — নতুন employee type যোগ করলে আরো বড় হবে</li>
+<li><span class="nm">২।</span> একাধিক কাজ করে</li>
+<li><span class="nm">৩।</span> <span class="b">Single Responsibility Principle (SRP)</span> ভঙ্গ করে — পরিবর্তনের একাধিক কারণ আছে</li>
+<li><span class="nm">৪।</span> <span class="b">Open Closed Principle (OCP)</span> ভঙ্গ করে — নতুন type যোগ করলে পরিবর্তন করতে হবে</li>
+<li><span class="nm">৫।</span> একই structure এর আরো function থাকবে (isPayday, deliverPay)</li>
+</ul>
+<div class="cb"><div class="cl good">✓ সমাধান — Abstract Factory + Polymorphism:</div><pre>public abstract class Employee {
+    public abstract boolean isPayday();
+    public abstract Money calculatePay();
+    public abstract void deliverPay(Money pay);
+}
+-----------------
+public interface EmployeeFactory {
+    public Employee makeEmployee(EmployeeRecord r)
+        throws InvalidEmployeeType;
+}
+-----------------
+public class EmployeeFactoryImpl implements EmployeeFactory {
+    public Employee makeEmployee(EmployeeRecord r)
+        throws InvalidEmployeeType {
+        switch (r.type) {
+            case COMMISSIONED: return new CommissionedEmployee(r);
+            case HOURLY:       return new HourlyEmployee(r);
+            case SALARIED:     return new SalariedEmploye(r);
+            default: throw new InvalidEmployeeType(r.type);
+        }
+    }
+}</pre></div>
+<p>Switch statement এখন factory র ভেতরে লুকানো। calculatePay, isPayday, deliverPay — সব polymorphically dispatch হবে Employee interface দিয়ে। বাকি system কে switch দেখতে হবে না।</p>
+
+<h2>বর্ণনামূলক নাম <span class="en">Use Descriptive Names</span></h2>
+<p>testableHtml এর বদলে SetupTeardownIncluder.render — এটি অনেক ভালো নাম কারণ এটি function কী করে তা বলে। Function যত ছোট এবং focused হবে, descriptive নাম বেছে নেওয়া তত সহজ।</p>
+<p><span class="hi">লম্বা descriptive নাম > ছোট রহস্যময় নাম। লম্বা descriptive নাম > লম্বা descriptive comment।</span></p>
+<p>নাম বেছে নিতে সময় দিন। IDE তে rename সহজ — বিভিন্ন নাম চেষ্টা করুন। Consistent naming রাখুন — includeSetupAndTeardownPages, includeSetupPages, includeSuiteSetupPage — এই phraseology একটি গল্প বলে।</p>
+
+<h2>Function Argument <span class="en">Function Argument</span></h2>
+<p>Function argument এর আদর্শ সংখ্যা:</p>
+<table class="at">
+<tr><th>সংখ্যা</th><th>নাম</th><th>মূল্যায়ন</th></tr>
+<tr><td>শূন্য (niladic)</td><td>কোনো argument নেই</td><td>সবচেয়ে ভালো</td></tr>
+<tr><td>এক (monadic)</td><td>একটি argument</td><td>ভালো</td></tr>
+<tr><td>দুই (dyadic)</td><td>দুটি argument</td><td>গ্রহণযোগ্য</td></tr>
+<tr><td>তিন (triadic)</td><td>তিনটি argument</td><td>এড়ানো উচিত</td></tr>
+<tr><td>তিনের বেশি (polyadic)</td><td>বহু argument</td><td>বিশেষ কারণ ছাড়া কখনো নয়</td></tr>
+</table>
+<p>Argument বুঝতে কষ্ট হয় — তারা function নামের চেয়ে ভিন্ন abstraction level এ থাকে। Test করতেও কষ্ট হয় — সব combination cover করতে হয়। Output argument input argument এর চেয়ে বুঝতে কঠিন।</p>
+
+<h3>Common Monadic Forms (একটি argument এর সাধারণ রূপ)</h3>
+<p>একটি argument পাঠানোর সাধারণ কারণ: <span class="b">প্রশ্ন করা</span> (boolean fileExists("MyFile")), <span class="b">রূপান্তর করা</span> (InputStream fileOpen("MyFile")), অথবা <span class="b">event</span> (void passwordAttemptFailedNtimes(int attempts))। এই তিন form এ ভিন্ন কিছু এড়ানো উচিত।</p>
+
+<h3>Flag Argument — কুৎসিত!</h3>
+<p><span class="b">Boolean parameter function এ পাঠানো সত্যিই খারাপ অভ্যাস।</span> এটা চিৎকার করে বলে function একাধিক কাজ করে — true হলে এক কাজ, false হলে আরেক। render(true) পড়লে কিছু বোঝা যায় না। সমাধান:</p>
+<p>render(true) → renderForSuite() এবং renderForSingleTest() — দুটি আলাদা function</p>
+
+<h3>Dyadic ও Triad Function</h3>
+<p>দুই argument এর function বুঝতে একটু কষ্ট হয়। writeField(name) সহজে বোঝা যায়, কিন্তু writeField(outputStream, name) এ পাঠক প্রথম parameter ignore করতে শেখে — আর ignore করা মানে bug লুকানোর জায়গা তৈরি।</p>
+<p>Point(0, 0) ঠিক আছে — coordinate এর দুটি component থাকাটাই স্বাভাবিক। কিন্তু assertEquals(expected, actual) সমস্যাযুক্ত — কতবার expected আর actual এর জায়গা গুলিয়েছেন?</p>
+<p>তিনটি argument এর সমস্যা দ্বিগুণেরও বেশি। assertEquals(message, expected, actual) — কতবার message কে expected মনে করেছেন?</p>
+
+<h3>Argument Object — সমাধান</h3>
+<p>যখন function এ দুই-তিনের বেশি argument লাগে, সম্ভবত কিছু argument একটি class এ wrap করা উচিত:</p>
+<div class="cmp">
+<div class="cb"><div class="cl bad">✗ তিনটি argument:</div><pre>Circle makeCircle(
+    double x, double y,
+    double radius);</pre></div>
+<div class="cb"><div class="cl good">✓ Argument Object:</div><pre>Circle makeCircle(
+    Point center,
+    double radius);</pre></div>
+</div>
+<p>x ও y একসাথে যায় — তাদের একটি ধারণা হিসেবে নাম দেওয়া (Point) cheating নয়, বরং উচিত।</p>
+
+<h2>Side Effect থেকে সাবধান <span class="en">Have No Side Effects</span></h2>
+<p><span class="b">Side effect মানে হলো মিথ্যা বলা।</span> আপনার function প্রতিশ্রুতি দেয় একটি কাজ করবে, কিন্তু সে চুপিসারে আরো কিছু করে — নিজের class এর variable বদলায়, parameter বদলায়, বা global state বদলায়। এটি temporal coupling (সময়গত সংযোগ) এবং order dependency তৈরি করে।</p>
+<div class="cb"><div class="cl bad">✗ Side effect খুঁজুন:</div><pre>public class UserValidator {
+    private Cryptographer cryptographer;
+
+    public boolean checkPassword(String userName, String password) {
+        User user = UserGateway.findByName(userName);
+        if (user != User.NULL) {
+            String codedPhrase = user.getPhraseEncodedByPassword();
+            String phrase = cryptographer.decrypt(codedPhrase, password);
+            if ("Valid Password".equals(phrase)) {
+                Session.initialize();  // ← এটাই side effect!
+                return true;
+            }
+        }
+        return false;
+    }
+}</pre></div>
+<p>checkPassword নাম বলছে সে password check করবে। কিন্তু সে লুকিয়ে <span class="b">Session.initialize()</span> করছে! ভুল সময়ে এই function ডাকলে session data হারিয়ে যেতে পারে। নাম হওয়া উচিত checkPasswordAndInitializeSession — যদিও সেটা "Do one thing" ভঙ্গ করে।</p>
+
+<h3>Output Argument</h3>
+<p>appendFooter(s) — এটা কি s কে footer হিসেবে append করে, নাকি s এ footer append করে? Function signature না দেখে বোঝা যায় না — এটা cognitive break তৈরি করে। OO তে সমাধান সহজ: report.appendFooter() — this কেই output argument হিসেবে ব্যবহার করুন।</p>
+
+<h2>Command Query Separation <span class="en">Command Query Separation</span></h2>
+<p>Function হয় কিছু <span class="b">করবে</span> (command — object এর state পরিবর্তন), অথবা কিছু <span class="b">জানাবে</span> (query — object সম্পর্কে তথ্য return) — দুটো একসাথে নয়।</p>
+<div class="cb"><div class="cl bad">✗ Command ও Query একসাথে:</div><pre>public boolean set(String attribute, String value);
+// ব্যবহার করলে বিভ্রান্তি:
+if (set("username", "unclebob"))...
+// set কি verb (সেট করো) নাকি adjective (সেট করা আছে)?</pre></div>
+<div class="cb"><div class="cl good">✓ আলাদা করো:</div><pre>if (attributeExists("username")) {
+    setAttribute("username", "unclebob");
+}</pre></div>
+
+<h2>Error Code এর বদলে Exception <span class="en">Prefer Exceptions to Returning Error Codes</span></h2>
+<p>Error code return করলে caller কে তাৎক্ষণিকভাবে error handle করতে হয়, ফলে deeply nested structure তৈরি হয়। Exception ব্যবহার করলে happy path আলাদা থাকে:</p>
+<div class="cmp">
+<div class="cb"><div class="cl bad">✗ Error code — deeply nested:</div><pre>if (deletePage(page) == E_OK) {
+ if (registry.deleteReference(
+     page.name) == E_OK) {
+  if (configKeys.deleteKey(
+      page.name.makeKey())
+      == E_OK) {
+   logger.log("page deleted");
+  } else {
+   logger.log("configKey err");
+  }
+ } else {
+  logger.log("ref failed");
+ }
+} else {
+ logger.log("delete failed");
+ return E_ERROR;
+}</pre></div>
+<div class="cb"><div class="cl good">✓ Exception — পরিষ্কার:</div><pre>try {
+    deletePage(page);
+    registry.deleteReference(
+        page.name);
+    configKeys.deleteKey(
+        page.name.makeKey());
+} catch (Exception e) {
+    logger.log(
+        e.getMessage());
+}</pre></div>
+</div>
+
+<h3>Try/Catch Block আলাদা করো</h3>
+<p>Try/catch block কুৎসিত — normal processing এবং error processing মিশিয়ে ফেলে। তাই try এবং catch এর body আলাদা function এ রাখা উচিত:</p>
+<div class="cb"><div class="cl good">✓ পরিষ্কার separation:</div><pre>public void delete(Page page) {
+    try {
+        deletePageAndAllReferences(page);
+    } catch (Exception e) {
+        logError(e);
+    }
+}
+
+private void deletePageAndAllReferences(Page page) throws Exception {
+    deletePage(page);
+    registry.deleteReference(page.name);
+    configKeys.deleteKey(page.name.makeKey());
+}
+
+private void logError(Exception e) {
+    logger.log(e.getMessage());
+}</pre></div>
+<p>delete function শুধু error processing করে — সহজে বোঝা যায়। deletePageAndAllReferences function শুধু page মুছে ফেলার কাজ করে — error handling ignore করা যায়। সুন্দর separation!</p>
+
+<h3>Error Handling Is One Thing</h3>
+<p>Error handling নিজেই "one thing" — তাই error handling function এ try keyword প্রথম শব্দ হওয়া উচিত আর catch/finally block র পরে আর কিছু থাকা উচিত নয়।</p>
+
+<h3>Error.java Dependency Magnet</h3>
+<p>Error code সাধারণত একটি enum এ সংজ্ঞায়িত থাকে। এই class একটি dependency magnet — যথেষ্ট class একে import করে। Error enum পরিবর্তন হলে সব class recompile ও redeploy করতে হয়। তাই programmer রা নতুন error code যোগ না করে পুরোনোগুলো reuse করে — খারাপ! Exception ব্যবহার করলে নতুন exception class যোগ করা যায় recompile ছাড়াই (Open Closed Principle)।</p>
+
+<h2>নিজেকে পুনরাবৃত্তি করো না <span class="en">Don't Repeat Yourself — DRY</span></h2>
+<p><span class="b">Duplication (পুনরাবৃত্তি) হলো software র সব মন্দের মূল।</span> Listing ৩-১ এ একটি algorithm চারবার পুনরাবৃত্তি হয়েছে — SetUp, SuiteSetUp, TearDown, SuiteTearDown র জন্য। কেউ code ভুলে তোলে, algorithm পরিবর্তন করতে চারবার করতে হয়, ভুলের চার গুণ সম্ভাবনা।</p>
+<p>Database normal form, object-oriented programming, structured programming, Aspect Oriented Programming, Component Oriented Programming — সবকিছুই duplication কমানোর কৌশল। Subroutine আবিষ্কারের পর থেকে software development র সব নতুন উদ্ভাবন source code থেকে duplication দূর করার প্রচেষ্টা।</p>
+
+<h2>Function কীভাবে লিখবেন? <span class="en">How Do You Write Functions Like This?</span></h2>
+<p>Software লেখা যে কোনো লেখার মতো। প্রথম draft হয় বড়, জটিল — যথেষ্ট indenting, nested loop, লম্বা argument list, যেমনতেমন নাম, duplicated code। কিন্তু সাথে সাথে সেই code র unit test ও থাকে যা প্রতিটি line cover করে।</p>
+<p>তারপর সেই code কে massage করা হয় — function ভাঙা হয়, নাম পরিবর্তন হয়, duplication দূর হয়, method ছোট হয়, পুনর্বিন্যাস হয়। কখনো পুরো class আলাদা করা হয় — সবসময় test pass রেখে।</p>
+<div class="kp"><div class="kl">মনে রাখুন</div><p><span class="b">কেউ প্রথমবারেই clean function লেখে না। আমিও মনে করি নিজে পারি না।</span></p></div>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+<p>প্রতিটি system একটি domain-specific language দিয়ে তৈরি যা programmer রা সেই system বর্ণনা করতে ব্যবহার করেন। Function হলো সেই ভাষার verb (ক্রিয়াপদ), class হলো noun (বিশেষ্য)।</p>
+<p>Master programmer রা system কে program হিসেবে না, বরং গল্প হিসেবে ভাবেন। তারা তাদের chosen programming language ব্যবহার করে যথেষ্ট সমৃদ্ধ ও expressive ভাষা তৈরি করেন যা সেই গল্প বলতে পারে।</p>
+<p>এই অধ্যায়ের নিয়মগুলো মানলে আপনার function গুলো ছোট, সুন্দর নামের, ও সুন্দরভাবে সাজানো হবে। কিন্তু কখনো ভুলবেন না — আসল লক্ষ্য হলো system র গল্প বলা, আর আপনার লেখা function গুলো যেন একটি পরিষ্কার ও সুনির্দিষ্ট ভাষায় সুন্দরভাবে মিলেমিশে সেই গল্প বলতে সাহায্য করে।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Small Functions</div><div class="cd">Function ছোট রাখো — ২০ লাইনই বেশি! ২-৪ লাইনই আদর্শ।</div></div>
+<div class="ci"><div class="cn">★ Do One Thing</div><div class="cd">প্রতিটি function একটিমাত্র কাজ করবে, সেটা ভালোভাবে করবে, শুধু সেটাই করবে।</div></div>
+<div class="ci"><div class="cn">★ One Abstraction Level</div><div class="cd">Function র ভেতরে সব statement একই abstraction level এ থাকবে।</div></div>
+<div class="ci"><div class="cn">★ Stepdown Rule</div><div class="cd">Code ওপর থেকে নিচে গল্পের মতো পড়া যাবে — প্রতিটি function পরবর্তী abstraction level এ নিয়ে যায়।</div></div>
+<div class="ci"><div class="cn">★ Switch → Polymorphism</div><div class="cd">Switch statement Abstract Factory তে লুকিয়ে polymorphism ব্যবহার করো।</div></div>
+<div class="ci"><div class="cn">★ Few Arguments</div><div class="cd">Argument যত কম তত ভালো। ০ সেরা, ১ ভালো, ২ গ্রহণযোগ্য, ৩+ এড়াও।</div></div>
+<div class="ci"><div class="cn">★ No Flag Arguments</div><div class="cd">Boolean parameter ব্যবহার করো না — function কে দুটি আলাদা function এ ভাগ করো।</div></div>
+<div class="ci"><div class="cn">★ No Side Effects</div><div class="cd">Function যা বলে শুধু তাই করবে — লুকিয়ে অন্য কিছু নয়। Side effect মানে মিথ্যা বলা।</div></div>
+<div class="ci"><div class="cn">★ Command-Query Separation</div><div class="cd">Function হয় কিছু করবে, নাহয় কিছু জানাবে — দুটো সাথে নয়।</div></div>
+<div class="ci"><div class="cn">★ Exception > Error Code</div><div class="cd">Error code র বদলে exception ব্যবহার করো — happy path পরিষ্কার থাকে।</div></div>
+<div class="ci"><div class="cn">★ DRY (Don't Repeat Yourself)</div><div class="cd">Duplication হলো software র সব মন্দের মূল। একই কাজ দুইবার লেখো না।</div></div>
+<div class="ci"><div class="cn">★ Writing Clean Functions is Iterative</div><div class="cd">কেউ প্রথমবারেই clean function লেখে না। প্রথমে কাজ করো, তারপর refactor করো — test pass রেখে।</div></div>
+</div>
+
+</div>
+</div>

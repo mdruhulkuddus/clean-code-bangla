@@ -1,0 +1,133 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">01</div>
+<div class="clab">অধ্যায় ১</div>
+<div class="ctbn">ক্লিন কোড</div>
+<div class="cten">Clean Code</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>আপনি এই বই পড়ছেন দুটি কারণে। প্রথমত, আপনি নিজে প্রোগ্রামার। দ্বিতীয়ত, আপনি আরো ভালো প্রোগ্রামার হতে চান। ভালো। আমাদের ভালো প্রোগ্রামার দরকার।</p>
+
+<p>এই বইটি ভালো প্রোগ্রামিং সম্পর্কে। এটা আপনার code নেয়। এমনরা code লেখে পরে, নিজে পড়ে, ভেতরে ঢোকে — সব কিছু দেখে দেখেবাই। এই বই পড়লে প্রথমত আমরা ভালো code আর খারাপ code র পার্থক্য বুঝতে পারবো, ভালো code লিখতে পারবো, আর খারাপ code কে ভালো code এ রূপান্তর করতে পারবো।</p>
+
+<h2>কোড থাকবেই <span class="en">There Will Be Code</span></h2>
+<p>কেউ কেউ বলেন code নিজে বলে যথেষ্ট নয় সেটাই — আমাদের model আর requirement নিজে তৈরি করা উচিত। কেউ কেউ বলেন সুদূর ভবিষ্যতে সব code স্বয়ংক্রিয়ভাবে তৈরি হবে, প্রোগ্রামারদের আর দরকার হবে না।</p>
+<p><span class="b">বাজে কথা!</span> Code যাওয়ার নয়, কারণ code হলো requirement র বিস্তারিত রূপ। যত উচ্চ-পর্যায়ের ভাষায় তৈরি হোক, সেগুলো শেষ পর্যন্ত code-ই। Requirement কে যথা সুনির্দিষ্টভাবে বলতে হবে যে মেশিন সেটা বোঝানো যায়। আর সেটাই programming, সেটাই code।</p>
+<p>যারা মনে করেন code দিন দিন বিলুপ্ত হবে, তারা সেই কবিতাবিদদের মতো যারা আশা করেন দিন formal কবিতা লুপ্ত হবে। কোনো মেশিন তৈরি হওয়া সম্ভব নয় যা আমাদের অস্পষ্ট চাহিদা থেকে নিখুঁত প্রোগ্রাম তৈরি করবে। মানুষ তো পারে না — স্পষ্ট চাহিদা থেকে সফল সিস্টেম তৈরি করতেই!</p>
+<p>মনে রাখুন — code হলো সেই ভাষা যেখানে আমরা শেষ পর্যন্ত requirement প্রকাশ করি। আমরা requirement র কাছাকাছি ভাষা তৈরি করতে পারি, tool তৈরি করতে পারি, কিন্তু precision যেটা বাদ দিতে পারি না। তাই code সবসময় থাকবে।</p>
+
+<h2>খারাপ কোড <span class="en">Bad Code</span></h2>
+<p>ভালো code যে গুরুত্বপূর্ণ, আমরা সবাই জানি। কারণ আমরা দুর্দিনের কথা সহ্য করেছি।</p>
+<p>একটি কোম্পানির কথা ভাবুন। তারা একটি দুর্দান্ত app তৈরি করেছিল। খুব জনপ্রিয় হয়েছিল। কিন্তু তারপর release cycle দীর্ঘ হতে লাগলো, bug ঠিক হচ্ছিল না, load time বাড়তে লাগলো, crash বাড়তে লাগলো। শেষে কোম্পানি বন্ধ হয়ে গেল। কারণঃ তারা তাড়াহুড়ো করে product বাজারে নামিয়ে দিল আর code এত ভয়ঙ্কর আর্কিটেকচার তৈরি করেছিল। নতুন feature যোগ করতে গিয়ে code আরো খারাপ হতে লাগলো, যতক্ষণ না তারা সেটা আর manage করতে পারলো না। <span class="b">খারাপ code-ই কোম্পানিকে ধ্বংস করেছিল।</span></p>
+<p>আপনি কি কখনো খারাপ code নিয়ে কাজ করেননি? জানো আমরা বলি wading — খারাপ code র মধ্য দিয়ে কষ্ট করে পথ খোঁজা, পাকানো কোপাট আর লুকানো ফাঁদের মধ্য দিয়ে গিয়ে যাওয়া।</p>
+<p>তাহলে আপনি কেন খারাপ code লিখেছিলেন? তাড়াহুড়ো? ক্লান্ত? পরে ঠিক করবেন বলে ফেলে রেখেছিলেন? আমরা সবাই করেছি। আমরা সবাই দেখেছি আমাদের রাখা লোকমোকে program কাজ করছে বলে ভেবেছি "জানো করবে তো, পরে ঠিক করবো।" মনে রাখবেন LeBlanc র নিয়মঃ</p>
+
+<div class="law">"পরে ঠিক করবো" আসলে মানে "কোনোদিন ঠিক হবে না।"<span class="sub">Later equals never</span></div>
+
+<h2>লোকমোকের মোট খরচ <span class="en">The Total Cost of Owning a Mess</span></h2>
+<p>আপনি যদি দুই-তিন বছরের বেশি programming করে থাকেন, তাহলে নিশ্চয়ই কারো রাখা লোকমোকে code আপনাকে ধীর করে দিয়েছে। প্রতিটি পরিবর্তন নতুন দুই-তিনটি অন্য জায়গা ভেঙে দেয়। কোনো পরিবর্তন একটু সহজ নয়। সময়ের সাথে সাথে এই আর্কিটেকচার এত বড় হয়ে যায় যে পরিষ্কার করা সম্ভব হয় না।</p>
+<p>আর্কিটেকচার বাড়ার সাথে সাথে team র productivity (<span class="b">উৎপাদনশীলতা</span>) কমতে থাকে, শূন্যের দিকে যেতে থাকে। Management তখন আরো লোক নিয়োগ করে, কিন্তু নতুন লোকেরা system র design বোঝে না। তারা design intent মোটাবে পরিবর্তন আর design ভঙ্গুরই পরিবর্তনের পথে বোঝে না। তারা আরো আর্কিটেকচার তৈরি করে, productivity আরো কমে।</p>
+
+<h2>আকাশে পুনর্নির্মাণ <span class="en">The Grand Redesign in the Sky</span></h2>
+<p>এই সময় team বিদ্রোহ করে — তারা management কে বলে এই code নিয়ে আর কাজ করা সম্ভব নয়, সব নতুন করে লিখতে হবে। একটি "tiger team" তৈরি হয়। তারা নতুন system তৈরি শুরু করে। কিন্তু নতুন system কে পুরোনো system র সব ফিচার রাখতে হবে, সাথে পুরোনো system এ হওয়া সব পরিবর্তনের সাথে তাল মেলাতে হবে।</p>
+<p>এই দৌড় ১০ বছর লাগতে পারে। শেষ পর্যন্ত tiger team র আসল সদস্যরা চলে যায়, নতুন সদস্যরা দাবি করে যে নতুন system ও এখন লোকমোকে, আবার নতুন করে লিখতে হবে!</p>
+
+<div class="kp"><div class="kl">মূল কথা</div><p>Code পরিষ্কার রাখতে সময় ব্যয় করা শুধু cost-effective নয়, এটা professional survival র প্রশ্ন।</p></div>
+
+<h2>মনোভাব/দৃষ্টিভঙ্গি <span class="en">Attitude</span></h2>
+<p>কোড কেন খারাপ হয়? আমরা requirement পরিবর্তনের দোষ দিই, schedule র দোষ দিই, manager র দোষ দিই। কিন্তু আসল দোষ আমাদের — আমরা unprofessional।</p>
+<p>Manager আর marketer রা আমাদের কাছে তথ্য চায় সিদ্ধান্ত নেওয়ার জন্যে। তারা schedule আর requirement নিয়ে চাপ দিতে পারে — সেটা তাদের কাজ। কিন্তু <span class="b">code রক্ষা করা আমাদের।</span></p>
+<p>একটু ভাবুন — আপনি যদি doctor হতেন আর রোগী বলতো surgery র আগে হাত ধোয়া বন্ধ করতে কারণ সময় লাগছে, আপনি কি মানতেন? অবশ্যই না! কারণ doctor রোগের চেয়ে রোগ ও সংক্রমণের ঝুঁকি ভালো বোঝেন।</p>
+<p>ঠিক তেমনি, programmer দের দিক নয় সেই manager দের কথায় লোকমোকে code করা যারা ঝুঁকি ভালো বোঝেন না।</p>
+
+<h2>মৌলিক ধাঁধা <span class="en">The Primal Conundrum</span></h2>
+<p>সব developer জানে পুরোনো আর্কিটেকচার তাদের ধীর করে দেয়। তবুও সবাই deadline মেটাতে গিয়ে আর্কিটেকচার তৈরি করে। কিন্তু সত্যি কথা হলো — আর্কিটেকচার তৈরি করে আপনি deadline মেটাতে পারবেন না। আর্কিটেকচার আপনাকে তাৎক্ষণিকভাবে ধীর করে দেবে।</p>
+<div class="kp"><div class="kl">সত্যি কথা</div><p><span class="b">দ্রুত যাওয়ার একমাত্র উপায় হলো সবসময় code পরিষ্কার রাখা।</span></p></div>
+
+<h2>ক্লিন কোডের শিল্প <span class="en">The Art of Clean Code</span></h2>
+<p>Clean code লেখা কোনো বিদ্যা আর মতো। আমরা বেশিরভাগ মানুষই ভালো আর খারাপ চিনতে পারি, কিন্তু তাই বলে আমরা আঁকতে পারি না। Clean code চিনতে পারা আর লিখতে পারা এক নয়।</p>
+<p>Clean code লিখতে সর্ব কোণ কোণ কৌশলের শৃঙ্খলাবদ্ধ ব্যবহার দরকার, যা একটি "পরিচ্ছন্নতার বোধ" (code-sense) থেকে আসে। কারো কারো জন্মগত, কারো কারো চেষ্টা করে অর্জন করতে হয়। এই code-sense শুধু ভালো-খারাপ চিনতেই সাহায্য করে না, বরং খারাপ code কে ভালো করার কৌশল দেখায়।</p>
+
+<h2>ক্লিন কোড কী? <span class="en">What Is Clean Code?</span></h2>
+<p>Clean code কী — এটা জানতে গেলে কিছু বিখ্যাত ও অভিজ্ঞ programmer দের মতামত জানতে হয়:</p>
+
+<div class="eq"><div class="en-name">Bjarne Stroustrup</div><div class="en-title">C++ এর স্রষ্টা</div>
+<div class="en-text">আমি চাই আমার code elegant ও efficient হোক। Logic straightforward হবে যাতে bug লুকাতে না পারে। Dependencies কম হবে। Error handling সম্পূর্ণ হবে। Performance optimal হবে। Clean code একটি কাজ ভালোভাবে করে।</div>
+<div class="en-exp"><p>Bjarne "elegant" শব্দটি ব্যবহার করেন — মানে সুন্দর, মার্জিত, ও সহজ। Clean code পড়তে আনন্দ লাগে। তিনি আরো বলেন খারাপ code আরো বেশি আর্কিটেকচার আকর্ষণ করে — ঠিক যেমন ভাঙা জানালার বাড়িতে আরো জানালা ভাঙা হয়। এটাকে বলে Broken Window Theory।</p>
+<p>Bjarne বলেন error handling সম্পূর্ণ হতে হবে — বিস্তারিতভাবে মনোযোগ দেওয়ার শৃঙ্খলা হিসেবে। Memory leak, race condition, অসামঞ্জস্যপূর্ণ naming — সবই বিস্তারিতভাবে মনোযোগের লক্ষ্য। Clean code বিস্তারিত যত্ন নেয়। আর clean code <span class="b">একটি কাজ ভালোভাবে করে</span> — খারাপ code যখন কিছু করতে চায়, তার উদ্দেশ্য অস্পষ্ট।</p></div></div>
+
+<div class="eq"><div class="en-name">Grady Booch</div><div class="en-title">Object Oriented Analysis এর লেখক</div>
+<div class="en-text">Clean code সরল ও সরাসরি। Clean code সুন্দরভাবে লেখা গদ্যের মতো পড়া যায়। Clean code কোনো designer এর উদ্দেশ্য ঢাকে না বরং স্পষ্ট abstraction ও সোজা control flow দিয়ে ভরা থাকে।</div>
+<div class="en-exp"><p>Grady readability র কথা বলেছেন। ভালো code পড়া ভালো পত্রিকায় পড়ার মতো — সমস্যার tensions স্পষ্ট দেখা যায়, আর সমাধান দেখে "আরে হ্যাঁ! এটা তো!" মনে হয়।</p></div></div>
+
+<div class="eq"><div class="en-name">"Big" Dave Thomas</div><div class="en-title">Eclipse এর Godfather</div>
+<div class="en-text">Clean code অন্য developer-ও পড়তে ও উন্নত করতে পারে। এতে unit ও acceptance test থাকে। নামগুলো অর্থবহ। একটি কাজ করার একটিমাত্র উপায় থাকে। Dependencies কম ও স্পষ্ট। API পরিষ্কার ও সংক্ষিপ্ত।</div>
+<div class="en-exp"><p>Dave test র উপর জোর দিয়েছেন — test ছাড়া code clean নয়, যতই তা elegant হোক। তিনি "minimal" শব্দটি দুইবার ব্যবহার করেন — ছোট code বড় code র চেয়ে ভালো।</p></div></div>
+
+<div class="eq"><div class="en-name">Michael Feathers</div><div class="en-title">Legacy Code বিশেষজ্ঞ</div>
+<div class="en-text">Clean code দেখলে মনে হয় যে কেউ এটা লেখার সময় যত্ন নিয়েছে (cares)। উন্নতি করার জন্য চেষ্টা করলে দেখবেন লেখক আপনাকে সব ভেবে রেখেছেন — আপনি অবশেষে নিজের কাজে ফিরে আসবেন কারণ কিছু করার নতুন জায়গা নেই। প্রতিটা সিদ্ধান্ত ভেবেচিন্তে নেওয়া হয়েছে।</div>
+<div class="en-exp"><p>একটি শব্দে: <span class="hi">care (যত্ন)</span>। Clean code হলো সেই code যেটায় কেউ সময় নিয়ে যত্ন করেছে — সরল আর কোনোকিছু রেখেছে, বিস্তারিতভাবে মনোযোগ দিয়েছে।</p></div></div>
+
+<div class="eq"><div class="en-name">Ron Jeffries</div><div class="en-title">Extreme Programming বিশেষজ্ঞ</div>
+<div class="en-text">Ron র মতে simple code র বৈশিষ্ট্য (Beck র rules অনুযায়ী):<br><br>১। সব test pass করে<br>২। কোনো duplication (পুনরাবৃত্তি) নেই<br>৩। System র সব design idea প্রকাশ করে<br>৪। Class, method, function ইত্যাদির সংখ্যা সবনিম্ন</div>
+<div class="en-exp"><p>Ron বিশেষভাবে duplication আর expressiveness র উপর জোর দেন। Duplication মানে কোনো idea code এ ঠিকমতো প্রকাশ হয়নি। তিনি নাম বদলাতে কোনো দ্বিধা করেন না — Eclipse র মতো IDE তে rename করা সস্তা। তিনি বলেন — Reduced duplication, high expressiveness, and early building of simple abstractions — এটাই তার clean code।</p></div></div>
+
+<div class="eq"><div class="en-name">Ward Cunningham</div><div class="en-title">Wiki ও Extreme Programming এর স্রষ্টা</div>
+<div class="en-text">যখন প্রতিটি routine পড়ে মনে হয় ঠিকই তো আমি এটাই আশা করেছিলাম, তখন বুঝবেন clean code। যখন code দেখে মনে হয় ভাষাটা এই সমস্যার জন্যই তৈরি — সেটা সুন্দর code।</div>
+<div class="en-exp"><p>Ward র কথা ভীষণ — clean code পড়লে আপনি বাক হবেন না। সব কিছু সুস্পষ্ট, সহজ, আর মনোমুগ্ধকর মনে হবে। প্রতিটি module পরেরটির জন্যে মঞ্চ প্রস্তুত করবে। প্রোগ্রামটি তাই ভালোভাবে লেখা যে আপনি সেটা লক্ষ্য করবেন না — ঠিক যেমন সত্যিকারের সুন্দর design দেখতে সহজ লাগে।</p>
+<p>আর সুন্দর code সম্পর্কে Ward বলেন — দোষ ভাষার নয়, programmer র। সুন্দর code ভাষাকে সমস্যার জন্যে তৈরি মনে করায় — সেটা করা programmer র দায়িত্ব!</p></div></div>
+
+<h2>বয়স্কাউট নিয়ম <span class="en">The Boy Scout Rule</span></h2>
+<p>শুধু ভালো code লেখাই যথেষ্ট নয় — সময়ের সাথে code কে পরিষ্কার রাখতে হয়। আমরা সবাই দেখেছি সময়ের সাথে code নষ্ট হয়। তাই আমাদের সক্রিয়ভাবে এটা ঠেকাতে হবে। Boy Scouts of America র একটি সহজ নিয়ম আছে:</p>
+<div class="law">ক্যাম্পগ্রাউন্ড যেমন পেয়েছিলে, তার চেয়ে পরিষ্কার করে যেয়ো।</div>
+<p>আমরা চেষ্টা করতে পারি — প্রতিবার code check-in করার আগে একটু পরিষ্কার করি। একটি variable র নাম ভালো করি, একটু বড় function ভেঙে ছোট করি, একটু duplication সরাই, একটি composite if statement পরিষ্কার করি।</p>
+<p>কল্পনা করুন একটি project এ কাজ করতে গিয়ে দেখছেন code সময়ের সাথে উন্নতি হচ্ছে! এটা কি professional না? ক্রমাগত উন্নতি কি professionalism র একটি পরিচায়ক নয়?</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Clean Code</div><div class="cd">এমন code যা পড়তে সহজ, বুঝতে সহজ, পরিবর্তন করতে সহজ, আর যেখানে কেউ যত্ন নিয়ে কাজ করেছে বোঝা যায়।</div></div>
+<div class="ci"><div class="cn">★ Wading</div><div class="cd">খারাপ code র মধ্য দিয়ে কষ্ট করে পথ খোঁজা।</div></div>
+<div class="ci"><div class="cn">★ LeBlanc's Law</div><div class="cd">"পরে ঠিক করবো" আসলে মানে "কোনোদিন ঠিক হবে না।"</div></div>
+<div class="ci"><div class="cn">★ Broken Window Theory</div><div class="cd">একটু খারাপ code আরো খারাপ code কে আমন্ত্রণ জানায়।</div></div>
+<div class="ci"><div class="cn">★ Boy Scout Rule</div><div class="cd">Code যেমন পেয়েছো, তার চেয়ে একটু ভালো করে রেখে যাও।</div></div>
+<div class="ci"><div class="cn">★ Productivity Trap</div><div class="cd">লোকমোকে code কমতে থাকলে productivity শূন্যের দিকে যায়, নতুন লোক নিয়োগ করে সমাধান হয় না।</div></div>
+<div class="ci"><div class="cn">★ Code-Sense</div><div class="cd">পরিচ্ছন্নতার সেই বোধ যা ভালো-খারাপ code চিনতে আর খারাপ code ঠিক করার কৌশল দেখাতে সাহায্য করে।</div></div>
+</div>
+
+</div>
+</div>
