@@ -1,0 +1,231 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px;line-height:1.5}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.cb{margin:20px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:13px;font-weight:600;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.bad::before{content:'✗ '}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.good::before{content:'✓ '}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:14px;line-height:1.7;color:var(--text);margin:0}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+@media(max-width:600px){.cg{grid-template-columns:1fr}.ctbn{font-size:32px}.cnum{font-size:64px}.cover{padding:50px 24px;min-height:40vh}.ct{padding:36px 16px 60px}}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">05</div>
+<div class="clab">অধ্যায় ৫</div>
+<div class="ctbn">ফরম্যাটিং</div>
+<div class="cten">Formatting</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<div class="law">যখন কেউ কোডের ভেতরে উঁকি দেয়, আমরা চাই তারা পরিপাটি, সামঞ্জস্যপূর্ণ ও সূক্ষ্ম যন্ত্রের ছাপ দেখে মুগ্ধ হোক।</div>
+
+<h2>Formatting-এর উদ্দেশ্য <span class="en">The Purpose of Formatting</span></h2>
+<p>প্রথমেই পরিষ্কার করা দরকার: code formatting গুরুত্বপূর্ণ। এত গুরুত্বপূর্ণ যে এটাকে উপেক্ষা করা যায় না, আবার ধর্মীয়ভাবে মানাও ঠিক নয়। Code formatting হলো <span class="b">communication</span> (যোগাযোগ) সম্পর্কে, আর communication হলো professional developer-এর প্রথম কাজ।</p>
+<p>আপনি হয়তো ভাবছেন "কাজ করানো"ই প্রথম কাজ। কিন্তু আজ যে functionality তৈরি করছেন, সেটা পরবর্তী release-এ বদলে যাওয়ার ভালো সম্ভাবনা আছে। কিন্তু কোডের readability (পাঠযোগ্যতা) ভবিষ্যতের সব পরিবর্তনকে প্রভাবিত করবে। মূল কোড চিনতে না পারা গেলেও আপনার coding style ও discipline টিকে থাকবে।</p>
+
+<h2>Vertical Formatting <span class="en">উল্লম্ব বিন্যাস</span></h2>
+<p>একটি source file কত বড় হওয়া উচিত? বিভিন্ন Java project বিশ্লেষণে দেখা যায়, FitNesse প্রকল্পে (প্রায় ৫০,০০০ লাইন) বেশিরভাগ file ২০০ লাইনের কম, সর্বোচ্চ ৫০০ লাইন। এটা কঠিন নিয়ম নয়, তবে অত্যন্ত কার্যকর। ছোট file সাধারণত বড় file-এর চেয়ে সহজে বোঝা যায়।</p>
+
+<h3>The Newspaper Metaphor (সংবাদপত্রের রূপক)</h3>
+<p>একটি ভালো সংবাদপত্রের মতো কোড সাজাতে হবে। উপরে headline — যেটা পড়ে সংক্ষেপে বোঝা যায় কী আছে। প্রথম paragraph-এ সারাংশ। নিচে যত যাবেন, বিস্তারিত বাড়বে।</p>
+<p>Source file-ও তেমনই হওয়া উচিত। নাম দেখেই বুঝতে হবে সঠিক module কিনা। উপরে high-level concept ও algorithm থাকবে। নিচে যত যাবেন, detail বাড়বে, সবশেষে lowest level function ও বিবরণ।</p>
+
+<h3>Vertical Openness Between Concepts (ধারণার মাঝে উল্লম্ব ফাঁকা)</h3>
+<p>প্রতিটি লাইন একটি expression বা clause, আর লাইনগুলো একটি সম্পূর্ণ চিন্তা প্রকাশ করে। চিন্তাগুলোকে blank line দিয়ে আলাদা করতে হয়:</p>
+<div class="cb"><div class="cl good">Blank Line দিয়ে Concept আলাদা</div><pre>package fitnesse.wikitext.widgets;
+
+import java.util.regex.*;
+
+public class BoldWidget extends ParentWidget {
+    public static final String REGEXP = "'''.+?'''";
+    private static final Pattern pattern = Pattern.compile("'''(.+?)'''",
+        Pattern.MULTILINE + Pattern.DOTALL
+    );
+
+    public BoldWidget(ParentWidget parent, String text) throws Exception {
+        super(parent);
+        Matcher match = pattern.matcher(text);
+        match.find();
+        addChildWidgets(match.group(1));
+    }
+
+    public String render() throws Exception {
+        StringBuffer html = new StringBuffer("&lt;b&gt;");
+        html.append(childHtml()).append("&lt;/b&gt;");
+        return html.toString();
+    }
+}</pre></div>
+<p>Package declaration, import, ও প্রতিটি function-এর মাঝে blank line। এই সাধারণ নিয়ম কোডের visual layout-কে ভীষণ প্রভাবিত করে। Blank line না থাকলে কোড একটা অপঠনযোগ্য mass-এ পরিণত হয়।</p>
+
+<h3>Vertical Density (উল্লম্ব ঘনত্ব)</h3>
+<p>Openness যদি concept আলাদা করে, তাহলে density নিকট সম্পর্ক বোঝায়। নিকটভাবে সম্পর্কিত লাইন কাছাকাছি থাকবে। অপ্রয়োজনীয় comment মাঝে ঢুকিয়ে সম্পর্ক ভাঙা যাবে না:</p>
+<div class="cg">
+<div class="cb"><div class="cl bad">Comment সম্পর্ক ভেঙে দিচ্ছে</div><pre>public class ReporterConfig {
+    /**
+     * The class name of the
+     * reporter listener
+     */
+    private String m_className;
+
+    /**
+     * The properties of the
+     * reporter listener
+     */
+    private List&lt;Property&gt; m_properties
+        = new ArrayList&lt;Property&gt;();
+}</pre></div>
+<div class="cb"><div class="cl good">ঘনত্ব বজায় — কাছাকাছি</div><pre>public class ReporterConfig {
+    private String m_className;
+    private List&lt;Property&gt; m_properties
+        = new ArrayList&lt;Property&gt;();
+}</pre></div>
+</div>
+
+<h3>Vertical Distance (উল্লম্ব দূরত্ব)</h3>
+<p>আপনি কি কখনো কোনো class-এ function থেকে function-এ, উপরে-নিচে scroll করতে করতে হারিয়ে গেছেন? এটা হতাশাজনক, কারণ আপনি system বুঝতে চাইছেন কিন্তু সময় ব্যয় করছেন টুকরো খুঁজতে। নিকটভাবে সম্পর্কিত concept গুলো vertically কাছাকাছি রাখতে হবে।</p>
+
+<h3>Variable Declarations</h3>
+<p>Variable তার ব্যবহারের যতটা সম্ভব কাছে declare করতে হবে। আমাদের function যেহেতু ছোট, তাই local variable function-এর শুরুতে থাকবে। Loop control variable সাধারণত loop statement-এর মধ্যেই declare হবে।</p>
+
+<h3>Instance Variables</h3>
+<p>Class-এর শুরুতে declare করতে হবে। Java-তে এটাই convention। গুরুত্বপূর্ণ বিষয় হলো, সব instance variable একটি সুপরিচিত জায়গায় থাকবে, যাতে সবাই সহজেই কোথায় দেখতে হবে জানে।</p>
+
+<h3>Dependent Functions</h3>
+<p>যদি একটি function অন্য একটিকে call করে, তারা vertically কাছাকাছি থাকবে, এবং caller callee-এর উপরে থাকবে। এটা program-এ স্বাভাবিক প্রবাহ দেয়:</p>
+<div class="cb"><div class="cl good">Caller উপরে, Callee নিচে</div><pre>public Response makeResponse(FitNesseContext context, Request request)
+        throws Exception {
+    String pageName = getPageNameOrDefault(request, "FrontPage");
+    loadPage(pageName, context);
+    if (page == null)
+        return notFoundResponse(context, request);
+    else
+        return makePageResponse(context);
+}
+
+private String getPageNameOrDefault(Request request, String defaultPageName) {
+    String pageName = request.getResource();
+    if (StringUtil.isBlank(pageName))
+        pageName = defaultPageName;
+    return pageName;
+}
+
+protected void loadPage(String resource, FitNesseContext context)
+        throws Exception {
+    WikiPagePath path = PathParser.parse(resource);
+    crawler = context.root.getPageCrawler();
+    crawler.setDeadEndStrategy(new VirtualEnabledPageCrawler());
+    page = crawler.getPage(context.root, path);
+    if (page != null)
+        pageData = page.getData();
+}</pre></div>
+
+<h3>Conceptual Affinity (ধারণাগত সম্পর্ক)</h3>
+<p>কিছু কোড কাছাকাছি রাখা উচিত কারণ তারা একই ধরনের কাজ করে। যেমন কয়েকটি function যারা common naming scheme ভাগ করে এবং basic task-এর variation করে:</p>
+<div class="cb"><div class="cl good">সম্পর্কিত Function কাছাকাছি</div><pre>static public void assertTrue(String message, boolean condition) {
+    if (!condition) fail(message);
+}
+static public void assertTrue(boolean condition) {
+    assertTrue(null, condition);
+}
+static public void assertFalse(String message, boolean condition) {
+    assertTrue(message, !condition);
+}
+static public void assertFalse(boolean condition) {
+    assertFalse(null, condition);
+}</pre></div>
+
+<h3>Vertical Ordering (উল্লম্ব ক্রম)</h3>
+<p>Function call dependency নিচের দিকে point করবে। অর্থাৎ, যে function call করে সে উপরে, যাকে call করা হয় সে নিচে। Newspaper article-এর মতো: সবচেয়ে গুরুত্বপূর্ণ concept প্রথমে, সবচেয়ে কম polluting detail শেষে।</p>
+
+<h2>Horizontal Formatting <span class="en">অনুভূমিক বিন্যাস</span></h2>
+<p>একটি লাইন কত লম্বা হওয়া উচিত? বিভিন্ন project বিশ্লেষণে দেখা যায় programmer-রা ছোট লাইন পছন্দ করেন। পুরোনো ৮০ character-এর Hollerith limit কিছুটা arbitrary, ১০০ বা ১২০ পর্যন্ত ঠিক আছে। কিন্তু তার বেশি সাবধানতা দরকার।</p>
+
+<h3>Horizontal Openness and Density (অনুভূমিক ফাঁকা ও ঘনত্ব)</h3>
+<p>White space দিয়ে সম্পর্কিত জিনিস কাছে রাখতে হবে ও অসম্পর্কিত জিনিস আলাদা করতে হবে:</p>
+<div class="cb"><div class="cl good">Space ব্যবহারের নিয়ম</div><pre>private void measureLine(String line) {
+    lineCount++;
+    int lineSize = line.length();
+    totalChars += lineSize;
+    lineWidthHistogram.addLine(lineSize, lineCount);
+    recordWidestLine(lineSize);
+}</pre></div>
+<p>Assignment operator-এর দুপাশে space — কারণ দুটো আলাদা element। কিন্তু function name ও opening parenthesis-এর মধ্যে space নেই — কারণ function ও তার argument নিকটভাবে সম্পর্কিত।</p>
+<p>Operator precedence বোঝাতেও white space ব্যবহার করা যায়:</p>
+<div class="cb"><div class="cl neu">Precedence দেখানো</div><pre>return (-b + Math.sqrt(determinant)) / (2*a);</pre></div>
+<p>Factor-এর মধ্যে space নেই (উচ্চ precedence), term-এর মধ্যে space আছে (নিম্ন precedence)।</p>
+
+<h3>Horizontal Alignment (অনুভূমিক সারিবদ্ধকরণ)</h3>
+<p>Variable name ও rvalue গুলোকে column-এ সাজানো — এটা করবেন না। এটা ভুল জিনিস highlight করে। আপনি variable name পড়তে গিয়ে type miss করেন। আধুনিক reformatting tool-ও alignment সরিয়ে দেয়। যদি list এত লম্বা যে alignment দরকার, তাহলে আসল সমস্যা হলো list-এর দৈর্ঘ্য — class-কে ভাঙতে হবে।</p>
+
+<h3>Indentation (ইন্ডেন্টেশন)</h3>
+<p>Source file একটি hierarchy: file level, class level, method level, block level। প্রতিটি level-এ কোড ডান দিকে সরে যায়। Programmer-রা indentation-এর উপর ব্যাপকভাবে নির্ভর করেন — এটা দিয়ে তারা scope বোঝেন, প্রাসঙ্গিক scope skip করেন। Indentation ছাড়া program পড়া মানুষের পক্ষে প্রায় অসম্ভব।</p>
+
+<h3>Breaking Indentation</h3>
+<p>ছোট if statement বা while loop-এর indentation ভাঙার প্রলোভন হয়। কিন্তু প্রায় সবসময়ই indentation বজায় রাখাটাই ভালো:</p>
+<div class="cg">
+<div class="cb"><div class="cl bad">Indentation ভাঙা</div><pre>public CommentWidget(ParentWidget parent,
+  String text){super(parent, text);}
+public String render() throws Exception
+  {return ""; }</pre></div>
+<div class="cb"><div class="cl good">Indentation বজায়</div><pre>public CommentWidget(ParentWidget parent,
+        String text) {
+    super(parent, text);
+}
+
+public String render() throws Exception {
+    return "";
+}</pre></div>
+</div>
+
+<h3>Dummy Scopes</h3>
+<p>while বা for loop-এর body যদি dummy (শূন্য) হয়, সেই semicolon-কে নতুন লাইনে indented করে রাখতে হবে, না হলে চোখে পড়বে না:</p>
+<div class="cb"><div class="cl good">Dummy Scope</div><pre>while (dis.read(buf, 0, readBufferSize) != -1)
+    ;</pre></div>
+
+<h2>Team Rules <span class="en">দলের নিয়ম</span></h2>
+<p>প্রত্যেক programmer-এর পছন্দের formatting নিয়ম থাকে। কিন্তু <span class="b">দলে কাজ করলে দলের নিয়ম চূড়ান্ত।</span></p>
+<p>দলের সবাই মিলে একটি formatting style ঠিক করবেন, তারপর সবাই সেটা মানবেন।</p>
+<p>FitNesse প্রকল্পে দলের সবাই মিলে প্রায় ১০ মিনিটে coding style ঠিক করে নিয়েছিলেন — brace কোথায় যাবে, indent size কত হবে, class-এ method-এ variable-এর naming convention কী। তারপর IDE-এর code formatter-এ সেই নিয়ম set করে সবাই কাজ শুরু করলেন।</p>
+<div class="law">ভালো software system মানে কিছু সুপঠ্য document-এর সমাহার, যা পড়তে ভালো লাগে। একই style ও সামঞ্জস্য পূর্ণ হওয়া দরকার। এলোমেলো style-এ লেখা code base-কে দেখে মনে হয় একগাদা লোক যে যার মতো করে লিখেছে।</div>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Formatting = Communication</div><div class="cd">Code formatting হলো communication (যোগাযোগ) — এটা professional developer-এর প্রথম কর্তব্য।</div></div>
+<div class="ci"><div class="cn">★ Newspaper Metaphor</div><div class="cd">Source file-কে newspaper-এর মতো সাজাও — উপরে high-level concept, নিচে detail।</div></div>
+<div class="ci"><div class="cn">★ Vertical Openness ও Density</div><div class="cd">সম্পর্কিত concept কাছাকাছি রাখো, সম্পর্কহীন concept ফাঁকা লাইন দিয়ে আলাদা করো।</div></div>
+<div class="ci"><div class="cn">★ Vertical Distance</div><div class="cd">সম্পর্কিত function কাছাকাছি রাখো। Caller উপরে, callee নিচে। Variable declaration ব্যবহারের কাছে।</div></div>
+<div class="ci"><div class="cn">★ Horizontal Formatting</div><div class="cd">লাইন ১২০ character-এর বেশি নয়। White space দিয়ে সম্পর্ক ও পৃথকতা বোঝাও। Indentation গুরুত্বপূর্ণ।</div></div>
+<div class="ci"><div class="cn">★ Team Rules</div><div class="cd">দলে কাজ করলে দলের নিয়ম মানো, ব্যক্তিগত পছন্দ নয়। IDE formatter-এ নিয়ম set করো।</div></div>
+</div>
+
+</div>
+</div>

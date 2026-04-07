@@ -1,0 +1,217 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px;line-height:1.5}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.cb{margin:20px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:13px;font-weight:600;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.bad::before{content:'✗ '}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.good::before{content:'✓ '}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:14px;line-height:1.7;color:var(--text);margin:0}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+@media(max-width:600px){.cg{grid-template-columns:1fr}.ctbn{font-size:32px}.cnum{font-size:64px}.cover{padding:50px 24px;min-height:40vh}.ct{padding:36px 16px 60px}}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">06</div>
+<div class="clab">অধ্যায় ৬</div>
+<div class="ctbn">অবজেক্ট ও ডেটা স্ট্রাকচার</div>
+<div class="cten">Objects and Data Structures</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>আমরা variable-কে private রাখি কারণ চাই কেউ যেন তাদের উপর নির্ভর না করে। যেকোনো সময় type বা implementation বদলানোর স্বাধীনতা রাখতে চাই। তাহলে কেন এত programmer স্বয়ংক্রিয়ভাবে getter ও setter যোগ করেন, private variable-কে কার্যত public করে ফেলেন?</p>
+
+<h2>Data Abstraction <span class="en">ডেটা বিমূর্তকরণ</span></h2>
+<p>নিচের দুটি উদাহরণের পার্থক্য দেখুন — দুটোই Cartesian plane-এ একটি point প্রকাশ করে:</p>
+<div class="cg">
+<div class="cb"><div class="cl bad">Concrete Point — implementation উন্মুক্ত</div><pre>public class Point {
+    public double x;
+    public double y;
+}</pre></div>
+<div class="cb"><div class="cl good">Abstract Point — implementation লুকানো</div><pre>public interface Point {
+    double getX();
+    double getY();
+    void setCartesian(double x, double y);
+    double getR();
+    double getTheta();
+    void setPolar(double r, double theta);
+}</pre></div>
+</div>
+<p>দ্বিতীয়টির সৌন্দর্য হলো, আপনি বুঝতে পারবেন না implementation rectangular নাকি polar coordinate-এ। হয়তো দুটোর কোনোটাই নয়! তবু interface স্পষ্টভাবে data structure প্রকাশ করে। তবে method গুলো একটি access policy enforce করে — coordinate পৃথকভাবে পড়া যায়, কিন্তু set করতে হয় একসাথে।</p>
+<p>Implementation লুকানো মানে শুধু function-এর স্তর বসানো নয়। এটাই <span class="hi">abstraction</span> (বিমূর্তকরণ)! একটি class তার variable-এ getter/setter দিয়ে বাইরে ছেড়ে দেওয়া নয়, বরং abstract interface দেওয়া যা ব্যবহারকারীকে data-এর সারমর্ম নিয়ে কাজ করতে দেয়, implementation না জেনেই।</p>
+<p>আরেকটি উদাহরণ:</p>
+<div class="cg">
+<div class="cb"><div class="cl bad">Concrete — implementation প্রকাশিত</div><pre>public interface Vehicle {
+    double getFuelTankCapacityInGallons();
+    double getGallonsOfGasoline();
+}</pre></div>
+<div class="cb"><div class="cl good">Abstract — implementation লুকানো</div><pre>public interface Vehicle {
+    double getPercentFuelRemaining();
+}</pre></div>
+</div>
+<p>দ্বিতীয়টি উত্তম। Data-এর বিস্তারিত প্রকাশ না করে abstract term-এ প্রকাশ করতে হবে। শুধু interface বা getter/setter দিলেই abstraction হয় না, ভেতরে ভাবতে হবে data-কে সবচেয়ে ভালোভাবে কীভাবে represent করা যায়।</p>
+
+<h2>Data/Object Anti-Symmetry <span class="en">ডেটা/অবজেক্ট বিপরীত-প্রতিসাম্য</span></h2>
+<p>Object ও Data Structure-এর মধ্যে মৌলিক পার্থক্য:</p>
+<p><span class="b">Object:</span> data লুকায় abstraction-এর পেছনে, function প্রকাশ করে যা data-এর উপর কাজ করে।</p>
+<p><span class="b">Data Structure:</span> data প্রকাশ করে, কোনো অর্থবহ function রাখে না।</p>
+<p>দুটো সম্পূর্ণ বিপরীত, এবং তাদের সুবিধা-অসুবিধাও প্রতিসাম্য।</p>
+<p>Procedural approach-এ shape-এর উদাহরণ:</p>
+<div class="cb"><div class="cl neu">Procedural Approach — Data Structures</div><pre>public class Square {
+    public Point topLeft;
+    public double side;
+}
+public class Rectangle {
+    public Point topLeft;
+    public double height;
+    public double width;
+}
+public class Circle {
+    public Point center;
+    public double radius;
+}
+public class Geometry {
+    public final double PI = 3.141592653589793;
+    public double area(Object shape) throws NoSuchShapeException {
+        if (shape instanceof Square) {
+            Square s = (Square)shape;
+            return s.side * s.side;
+        } else if (shape instanceof Rectangle) {
+            Rectangle r = (Rectangle)shape;
+            return r.height * r.width;
+        } else if (shape instanceof Circle) {
+            Circle c = (Circle)shape;
+            return PI * c.radius * c.radius;
+        }
+        throw new NoSuchShapeException();
+    }
+}</pre></div>
+<p>OO programmer-রা এটা দেখে বিরক্ত হতে পারেন। কিন্তু ভাবুন — যদি Geometry-তে perimeter() function যোগ করি, shape class গুলো কিন্তু বদলাবে না! তবে নতুন shape যোগ করলে Geometry-এর সব function বদলাতে হবে।</p>
+<p>এবার OO approach:</p>
+<div class="cb"><div class="cl neu">OO Approach — Polymorphic</div><pre>public class Square implements Shape {
+    private Point topLeft;
+    private double side;
+    public double area() { return side * side; }
+}
+public class Rectangle implements Shape {
+    private Point topLeft;
+    private double height;
+    private double width;
+    public double area() { return height * width; }
+}
+public class Circle implements Shape {
+    private Point center;
+    private double radius;
+    public final double PI = 3.141592653589793;
+    public double area() { return PI * radius * radius; }
+}</pre></div>
+<p>এখানে area() polymorphic। নতুন shape যোগ করলে বিদ্যমান কোনো function বদলায় না। কিন্তু নতুন function যোগ করলে সব shape class বদলাতে হবে!</p>
+
+<div class="kp"><div class="kl">মূল সত্য</div><p><span class="b">Procedural code-এ</span> নতুন function যোগ করা সহজ, বিদ্যমান data structure বদলাতে হয় না। কিন্তু নতুন data structure যোগ করা কঠিন — সব function বদলাতে হয়।<br><span class="b">OO code-এ</span> নতুন class যোগ করা সহজ, বিদ্যমান function বদলাতে হয় না। কিন্তু নতুন function যোগ করা কঠিন — সব class বদলাতে হয়।</p></div>
+
+<p>অর্থাৎ, OO-তে যা কঠিন তা procedural-এ সহজ, ও procedural-এ যা কঠিন তা OO-তে সহজ! পরিণত programmer জানেন যে "সব কিছু object" ধারণাটি একটি মিথ। অনেক সময় data structure ও procedure-ই সবচেয়ে উপযুক্ত।</p>
+
+<h2>The Law of Demeter <span class="en">ডিমিটারের নিয়ম</span></h2>
+<p>Law of Demeter একটি সুপরিচিত নীতি যা বলে — একটি module তার সাথীদের অভ্যন্তরীণ কাজকর্ম সম্পর্কে জানবে না। Object তার internal structure accessor-এর মাধ্যমে প্রকাশ করবে না।</p>
+<div class="law">"বন্ধুদের সাথে কথা বলো, অপরিচিতদের সাথে নয়।"<span class="sub">Talk to friends, not to strangers.</span></div>
+<p>আরেকটু স্পষ্টভাবে: class C-এর method f শুধু এদের method call করতে পারবে:</p>
+<p>• C নিজে<br>• f যে object তৈরি করে<br>• f-এর argument হিসেবে আসা object<br>• C-এর instance variable-এ থাকা object</p>
+<p>Allowed function-এর return value-এর উপর method call করা যাবে না।</p>
+
+<h3>Train Wrecks</h3>
+<p>নিচের মতো chain call-কে train wreck বলে, দেখতে একের পর ওয়াগনের মতো:</p>
+<div class="cb"><div class="cl bad">Train Wreck</div><pre>final String outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath();</pre></div>
+<p>এটাকে ভাঙা ভালো:</p>
+<div class="cb"><div class="cl neu">ভাঙা হলে</div><pre>Options opts = ctxt.getOptions();
+File scratchDir = opts.getScratchDir();
+final String outputDir = scratchDir.getAbsolutePath();</pre></div>
+<p>কিন্তু এটা Demeter-এর লঙ্ঘন কিনা নির্ভর করে ctxt, Options, ScratchDir object নাকি data structure তার উপর। Object হলে internal structure লুকানো উচিত — তাই এটা লঙ্ঘন। Data structure হলে তার স্বাভাবিকভাবেই internal structure প্রকাশ করে — তাই Demeter প্রযোজ্য নয়।</p>
+
+<h3>Hybrids (সংকর)</h3>
+<p>অনেক সময় এমন structure তৈরি হয় যা অর্ধেক object, অর্ধেক data structure — যেখানে অর্থবহ function-ও আছে, আবার public variable বা accessor/mutator-ও আছে যা private variable-কে কার্যত public করে দেয়।</p>
+<p>এই hybrid গুলোতে নতুন function যোগ করাও কঠিন, নতুন data structure যোগ করাও কঠিন — <span class="b">দুই জগতের সবচেয়ে খারাপ।</span> এড়িয়ে চলুন।</p>
+
+<h3>Hiding Structure (কাঠামো লুকানো)</h3>
+<p>ctxt যদি সত্যিকারের object হয়, তাহলে তার internal structure দিয়ে navigate করা উচিত হবে না। তাহলে scratch directory-এর absolute path কীভাবে পাবো? দেখা যাক, path দিয়ে আসলে কী করতে চাইছিলাম:</p>
+<div class="cb"><div class="cl bad">Path দিয়ে navigate করা</div><pre>String outFile = outputDir + "/" + className.replace('.', '/') + ".class";
+FileOutputStream fout = new FileOutputStream(outFile);
+BufferedOutputStream bos = new BufferedOutputStream(fout);</pre></div>
+<p>উদ্দেশ্য হলো একটি scratch file তৈরি করা। তাহলে ctxt object-কেই এটা করতে বলি:</p>
+<div class="cb"><div class="cl good">Object-কে কাজ বলা</div><pre>BufferedOutputStream bos = ctxt.createScratchFileStream(classFileName);</pre></div>
+<p>এটা object-এর জন্য যুক্তিসঙ্গত আচরণ! ভেতরে ctxt তার internal তথ্য ব্যবহার করতে পারে কিন্তু বাইরে থেকে কাউকে navigate করতে হচ্ছে না, Law of Demeter লঙ্ঘনও হলো না।</p>
+
+<h2>Data Transfer Objects — DTO <span class="en">ডেটা ট্রান্সফার অবজেক্ট</span></h2>
+<p>Data structure-এর সবচেয়ে সাধারণ রূপ হলো একটি class যার public variable আছে কিন্তু কোনো function নেই। একে Data Transfer Object বা DTO বলে। Database-এর সাথে যোগাযোগ বা socket message parse করতে DTO অত্যন্ত কার্যকর।</p>
+<p>এর একটি সাধারণ রূপ হলো "bean" — যেখানে private variable থাকে getter ও setter সহ:</p>
+<div class="cb"><div class="cl neu">Bean / DTO</div><pre>public class Address {
+    private String street;
+    private String streetExtra;
+    private String city;
+    private String state;
+    private String zip;
+
+    public Address(String street, String streetExtra,
+                   String city, String state, String zip) {
+        this.street = street;
+        this.streetExtra = streetExtra;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+    }
+
+    public String getStreet()      { return street; }
+    public String getStreetExtra()  { return streetExtra; }
+    public String getCity()         { return city; }
+    public String getState()        { return state; }
+    public String getZip()          { return zip; }
+}</pre></div>
+<p>Bean-এর quasi-encapsulation কিছু OO purist-কে সন্তুষ্ট করে, তবে সাধারণত কোনো বাড়তি সুবিধা দেয় না।</p>
+
+<h3>Active Record</h3>
+<p>Active Record হলো DTO-এর বিশেষ রূপ — data structure যার public (বা bean-accessed) variable আছে, সাথে save ও find-এর মতো navigational method। সাধারণত database table-এর সরাসরি অনুবাদ।</p>
+<p>অনেক developer এই data structure-কে object হিসেবে treat করে business rule method যোগ করেন, যা একটি hybrid তৈরি করে। সমাধান হলো Active Record-কে data structure হিসেবেই রাখুন এবং business rule-এর জন্য আলাদা object তৈরি করুন।</p>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+<p>Object আচরণ প্রকাশ করে, data লুকায় — নতুন ধরনের object যোগ করা সহজ হয়, বিদ্যমান আচরণ বদলায় না। কিন্তু বিদ্যমান object-এ নতুন আচরণ যোগ করা কঠিন। Data structure data প্রকাশ করে, কোনো অর্থবহ আচরণ রাখে না — নতুন আচরণ যোগ করা সহজ, কিন্তু বিদ্যমান function-এ নতুন data structure যোগ করা কঠিন।</p>
+<p>যেকোনো system-এ কখনো নতুন data type যোগ করার flexibility দরকার — সেখানে object ও OO উপযুক্ত। কখনো নতুন function যোগ করার flexibility দরকার — সেখানে procedural code ও data structure উপযুক্ত। ভালো software developer এই বিষয়টি পক্ষপাতহীনভাবে বোঝেন এবং সঠিক approach বেছে নেন।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Object vs Data Structure</div><div class="cd">Object আচরণ (behavior) প্রকাশ করে ও data লুকায়; Data Structure data প্রকাশ করে ও অর্থবহ আচরণ রাখে না।</div></div>
+<div class="ci"><div class="cn">★ Data Abstraction</div><div class="cd">শুধু getter/setter দেওয়া নয় — abstract interface দেওয়া যাতে ব্যবহারকারী implementation না জানলেও কাজ করতে পারে।</div></div>
+<div class="ci"><div class="cn">★ Anti-Symmetry</div><div class="cd">Procedural code-এ নতুন function সহজ, নতুন data type কঠিন; OO code-এ উল্টো। দুটোই প্রয়োজন — পরিস্থিতি বুঝে বেছে নাও।</div></div>
+<div class="ci"><div class="cn">★ Law of Demeter</div><div class="cd">"বন্ধুদের সাথে কথা বলো, অপরিচিতদের সাথে নয়" — object-এর internal structure দিয়ে navigate করো না।</div></div>
+<div class="ci"><div class="cn">★ Train Wreck এড়াও</div><div class="cd">Chain method call (a.getB().getC().getD()) এড়িয়ে চলো — object-কে কাজ বলো, তার ভেতর ঘুরে বেড়িও না।</div></div>
+<div class="ci"><div class="cn">★ Hybrid এড়াও</div><div class="cd">অর্ধেক object, অর্ধেক data structure — এটা উভয় জগতের সবচেয়ে খারাপ। DTO-কে DTO রাখো, object-কে object।</div></div>
+</div>
+
+</div>
+</div>

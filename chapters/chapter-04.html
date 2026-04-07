@@ -1,0 +1,278 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px;line-height:1.5}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.cb{margin:20px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:13px;font-weight:600;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.bad::before{content:'✗ '}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.good::before{content:'✓ '}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:14px;line-height:1.7;color:var(--text);margin:0}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.warn{margin:24px 0;padding:18px 22px;background:var(--bad-lt);border-radius:8px;border:1px solid #f0ccc8;color:var(--bad);font-weight:600}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+@media(max-width:600px){.cg{grid-template-columns:1fr}.ctbn{font-size:32px}.cnum{font-size:64px}.cover{padding:50px 24px;min-height:40vh}.ct{padding:36px 16px 60px}}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">04</div>
+<div class="clab">অধ্যায় ৪</div>
+<div class="ctbn">মন্তব্য</div>
+<div class="cten">Comments</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<div class="eq"><div class="en-name">Brian W. Kernighan ও P. J. Plaugher</div>
+<div class="en-text">"খারাপ কোডে মন্তব্য লেখার বদলে কোডটাই নতুন করে লেখো।"</div></div>
+
+<p>ভালো জায়গায় বসানো একটি comment যতটা সাহায্যকারী হতে পারে, অপ্রয়োজনীয় comment ততটাই বিশৃঙ্খলা তৈরি করে। আর পুরোনো, ভুল তথ্য বহনকারী comment? সেটা সবচেয়ে ক্ষতিকর।</p>
+
+<p>Comment কোনো পবিত্র জিনিস নয়। বরং এগুলো হলো — সর্বোচ্চ — একটি <span class="b">"প্রয়োজনীয় মন্দ"</span>। যদি আমাদের programming language এতটা শক্তিশালী হতো, বা আমরা ভাষাকে এতটা দক্ষতার সাথে ব্যবহার করতে পারতাম যে আমাদের উদ্দেশ্য স্পষ্টভাবে প্রকাশ পায়, তাহলে comment-এর দরকারই হতো না।</p>
+
+<p>Comment-এর সঠিক ব্যবহার হলো — কোডে নিজেকে প্রকাশ করতে না পারার ক্ষতিপূরণ। লক্ষ্য করুন, আমি <span class="b">"ব্যর্থতা"</span> শব্দটি ব্যবহার করেছি, এবং ইচ্ছাকৃতভাবেই করেছি। প্রতিবার যখন আপনি কোডের মাধ্যমে নিজেকে প্রকাশ করতে পারেন, সেটা উদযাপন করুন। প্রতিবার যখন comment লিখতে হয়, সেটাকে নিজের প্রকাশক্ষমতার ব্যর্থতা হিসেবে দেখুন।</p>
+
+<p>Comment কেন সমস্যাজনক? কারণ এগুলো মিথ্যা বলে। সবসময় নয়, ইচ্ছাকৃতভাবেও নয়, তবে অনেক সময়ই। একটি comment যত পুরোনো হয়, আর যে কোড বর্ণনা করছে তার থেকে যত দূরে সরে যায়, সেটি ভুল হওয়ার সম্ভাবনা ততই বাড়ে। কারণটা সহজ — <span class="b">programmer-রা বাস্তবিকভাবে comment গুলো maintain করতে পারে না।</span></p>
+
+<p>কোড বদলায়, বিবর্তিত হয়। কোডের অংশ এদিক সেদিক সরে। টুকরো টুকরো হয়ে সরে যায়। কিন্তু comment সবসময় তাদের সাথে চলে না, চলতেও পারে না। অনেক সময়ই comment কোড থেকে বিচ্ছিন্ন হয়ে যায়, এবং ক্রমশ ভুল হতে থাকে। কারণটা সহজ — programmer-রা বাস্তবিকভাবে comment গুলো maintain করতে পারে না।</p>
+
+<h2>Comment খারাপ কোডের ক্ষতিপূরণ করে না <span class="en">Comments Do Not Make Up for Bad Code</span></h2>
+<p>Comment লেখার সবচেয়ে সাধারণ কারণ হলো খারাপ কোড। কেউ কোনো module লিখলো, বুঝতে পারলো সেটা অগোছালো। তখন সে ভাবলো, "হ্যাঁ, ভালো হবে যদি comment দিয়ে দিই।" <span class="b">না! বরং কোডটাকে পরিষ্কার করো!</span></p>
+<p>পরিষ্কার আর প্রকাশক্ষম কোড, যেখানে অল্প comment আছে, অনেক বেশি ভালো — সেই জটিল আর অগোছালো কোডের চেয়ে যেখানে প্রচুর comment দিয়ে আরও ঘোলাটে করা হয়েছে।</p>
+
+<h2>কোড দিয়ে নিজেকে ব্যাখ্যা করো <span class="en">Explain Yourself in Code</span></h2>
+<p>অনেকে মনে করেন কোড ব্যাখ্যা করার ভালো মাধ্যম নয়, যা ভুল। কিন্তু অনেক programmer-ই মনে করেন কোড দিয়ে সব বোঝানো যায় না, যা সম্পূর্ণ ভুল। কোনটা ভালো দেখুন:</p>
+<div class="cg">
+<div class="cb"><div class="cl bad">Comment দিয়ে ব্যাখ্যা</div><pre>// Check to see if the employee
+// is eligible for full benefits
+if ((employee.flags &amp; HOURLY_FLAG) &amp;&amp;
+    (employee.age &gt; 65))</pre></div>
+<div class="cb"><div class="cl good">কোড দিয়ে ব্যাখ্যা</div><pre>if (employee.isEligibleForFullBenefits())</pre></div>
+</div>
+<p>বেশিরভাগ ক্ষেত্রেই শুধু একটু ভেবে দেখলেই কোডের মাধ্যমেই উদ্দেশ্য ব্যাখ্যা করা যায়। অনেক সময়ই শুধু একটি function তৈরি করলেই হয় যা সেই comment-এর কাজ করে।</p>
+
+<h2>ভালো মন্তব্য <span class="en">Good Comments</span></h2>
+<p>কিছু comment অপ্রয়োজনীয় নয়। তবে মনে রাখতে হবে, সত্যিকার ভালো comment হলো সেটা যা আপনি লেখার উপায় খুঁজে পাননি — অর্থাৎ যেটা কোড দিয়ে বলা সম্ভব নয়।</p>
+
+<h3>Legal Comments (আইনগত মন্তব্য)</h3>
+<p>অনেক সময় corporate coding standard অনুযায়ী আইনগত কারণে comment দিতে হয়। যেমন copyright ও authorship statement, প্রতিটি source file-এর শুরুতে দেওয়া যুক্তিসঙ্গত:</p>
+<div class="cb"><div class="cl neu">Legal Comment</div><pre>// Copyright (C) 2003,2004,2005 by Object Mentor, Inc. All rights reserved.
+// Released under the terms of the GNU General Public License version 2 or later.</pre></div>
+<p>তবে এই ধরনের comment-এ সম্পূর্ণ terms ও conditions না দিয়ে শুধু standard license বা external document-এর reference দেওয়া ভালো।</p>
+
+<h3>Informative Comments (তথ্যমূলক মন্তব্য)</h3>
+<p>অনেক সময় কোনো comment দিয়ে basic information জানানো যেতে পারে। যেমন কোনো abstract method-এর return value ব্যাখ্যা করা:</p>
+<div class="cb"><div class="cl neu">Informative Comment</div><pre>// Returns an instance of the Responder being tested.
+protected abstract Responder responderInstance();</pre></div>
+<p>তবে অনেক সময় function-এর নাম দিয়েই তথ্য জানানো সম্ভব। যেমন function-এর নাম <span class="hi">responderBeingTested</span> রাখলে comment-এর দরকার হতো না।</p>
+
+<h3>Explanation of Intent (উদ্দেশ্যের ব্যাখ্যা)</h3>
+<p>অনেক সময় comment শুধু implementation-এর তথ্য জানায় না, বরং সিদ্ধান্তের পেছনে intent (উদ্দেশ্য) ব্যাখ্যা করে। নিচের ক্ষেত্রে author সিদ্ধান্ত নিয়েছেন তাঁর class-এর object অন্য কোনো object-এর চেয়ে "বড়" হিসেবে sort হবে:</p>
+<div class="cb"><div class="cl neu">Intent Comment</div><pre>public int compareTo(Object o)
+{
+    if(o instanceof WikiPagePath)
+    {
+        WikiPagePath p = (WikiPagePath) o;
+        String compressedName = StringUtil.join(names, "");
+        String compressedArgumentName = StringUtil.join(p.names, "");
+        return compressedName.compareTo(compressedArgumentName);
+    }
+    return 1; // we are greater because we are the right type.
+}</pre></div>
+
+<h3>Clarification (স্পষ্টীকরণ)</h3>
+<p>যখন কোনো obscure argument বা return value-এর অর্থ সাধারণভাবে বোঝানো কঠিন, তখন clarifying comment সাহায্যকারী হতে পারে, বিশেষত যখন সেই কোড পরিবর্তন করার অধিকার আপনার নেই (যেমন standard library):</p>
+<div class="cb"><div class="cl neu">Clarifying Comments</div><pre>assertTrue(a.compareTo(a) == 0);  // a == a
+assertTrue(a.compareTo(b) != 0);  // a != b
+assertTrue(a.compareTo(b) == -1); // a &lt; b
+assertTrue(b.compareTo(a) == 1);  // b &gt; a</pre></div>
+<p>তবে মনে রাখবেন, clarifying comment সঠিক হওয়ার ঝুঁকি আছে।</p>
+
+<h3>Warning of Consequences (পরিণামের সতর্কতা)</h3>
+<p>অন্য programmer-দের কোনো পরিণামের বিষয়ে সতর্ক করতে comment কাজে আসে:</p>
+<div class="cb"><div class="cl neu">Warning Comment</div><pre>//SimpleDateFormat is not thread safe,
+//so we need to create each instance independently.
+SimpleDateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+df.setTimeZone(TimeZone.getTimeZone("GMT"));
+return df;</pre></div>
+
+<h3>TODO Comments</h3>
+<p>TODO comment রাখা হলো "এখনই করতে পারছি না কিন্তু ভবিষ্যতে করা দরকার" এই মনোভাবের প্রকাশ। এগুলো যুক্তিসঙ্গত হতে পারে, যেমন কোনো deprecated feature সরানোর reminder, বা ভবিষ্যতে কিছু করতে হবে তার স্মৃতিচিহ্ন। তবে TODO কোনো খারাপ কোড রেখে দেওয়ার অজুহাত নয়। নিয়মিত scan করে অপ্রয়োজনীয় TODO সরিয়ে ফেলুন।</p>
+
+<h3>Amplification (গুরুত্ব বৃদ্ধি)</h3>
+<p>কোনো বিষয় যা দেখতে গুরুত্বহীন মনে হতে পারে, তার গুরুত্ব তুলে ধরতে comment ব্যবহার করা যায়:</p>
+<div class="cb"><div class="cl neu">Amplification Comment</div><pre>String listItemContent = match.group(3).trim();
+// the trim is real important. It removes the starting
+// spaces that could cause the item to be recognized
+// as another list.
+new ListItemWidget(this, listItemContent, this.level + 1);
+return buildList(text.substring(match.end()));</pre></div>
+
+<h3>Javadocs in Public APIs</h3>
+<p>আপনি যদি public API লিখেন, তাহলে ভালো javadoc লেখা অত্যন্ত গুরুত্বপূর্ণ। Standard Java library-এর javadoc এর দারুণ উদাহরণ। তবে মনে রাখতে হবে, javadoc-ও অন্য comment-এর মতোই misleading ও dishonest হতে পারে।</p>
+
+<h2>খারাপ মন্তব্য <span class="en">Bad Comments</span></h2>
+<p>বেশিরভাগ comment এই category-তে পড়ে। সাধারণত এগুলো খারাপ কোডের ঢাল, অজুহাত, বা programmer-এর নিজের মনের সাথে আলাপ ছাড়া কিছু নয়।</p>
+
+<h3>Mumbling (বিড়বিড়ানো)</h3>
+<p>শুধু "দিতে হবে বলে" comment দেওয়া একটি hack। যদি comment লিখতেই হয়, সেখানে যথেষ্ট সময় দেওয়া উচিত। নিচের উদাহরণ দেখুন:</p>
+<div class="cb"><div class="cl bad">Mumbling Comment</div><pre>public void loadProperties()
+{
+    try
+    {
+        String propertiesPath = propertiesLocation + "/" + PROPERTIES_FILE;
+        FileInputStream propertiesStream = new FileInputStream(propertiesPath);
+        loadedProperties.load(propertiesStream);
+    }
+    catch(IOException e)
+    {
+        // No properties files means all defaults are loaded
+    }
+}</pre></div>
+<p>catch block-এর comment-টি কী বোঝায়? properties file না পেলে default load হয়? কিন্তু কে load করে? কখন করে? comment পড়ে আরও বিভ্রান্তি তৈরি হয়। যে comment বুঝতে অন্য module-ও দেখতে হয়, সেই comment কোনো কাজে আসে না।</p>
+
+<h3>Redundant Comments (অপ্রয়োজনীয় পুনরাবৃত্তি)</h3>
+<p>এমন comment যা কোডের চেয়ে বেশি তথ্যপূর্ণ নয়, যা পড়তে কোডের চেয়ে বেশি সময় লাগে, সেটা redundant:</p>
+<div class="cb"><div class="cl bad">Redundant Comment</div><pre>// Utility method that returns when this.closed is true. Throws an exception
+// if the timeout is reached.
+public synchronized void waitForClose(final long timeoutMillis) throws Exception
+{
+    if(!closed)
+    {
+        wait(timeoutMillis);
+        if(!closed)
+            throw new Exception("MockResponseSender could not be closed");
+    }
+}</pre></div>
+<p>এই comment কোডের চেয়ে precise না। এটা যেন used-car salesman-এর প্রতিশ্রুতি — যেমন hood-এর নিচে দেখার দরকার নেই!</p>
+
+<h3>Misleading Comments (বিভ্রান্তিকর মন্তব্য)</h3>
+<p>উপরের ক্ষেত্রেই দেখুন একটি সূক্ষ্ম ভুল আছে। Comment বলছে method "return করে যখন this.closed true হয়"। কিন্তু আসলে method return করে না — যদি this.closed সঠিক সময়ের মধ্যে true না হলে timeout পর্যন্ত wait করে exception throw করে।</p>
+<p>এই সূক্ষ্ম ভুল তথ্য অন্য programmer-কে debugging-এ অনেক সময় নষ্ট করাতে পারে।</p>
+
+<h3>Mandated Comments (বাধ্যতামূলক মন্তব্য)</h3>
+<p>"প্রতিটি function-এ javadoc থাকতেই হবে" বা "প্রতিটি variable-এ comment থাকতেই হবে" — এই ধরনের নিয়ম অযৌক্তিক। এগুলো কোডকে শুধু বিশৃঙ্খল করে:</p>
+<div class="cb"><div class="cl bad">Mandated Comments</div><pre>/**
+ *
+ * @param title The title of the CD
+ * @param author The author of the CD
+ * @param tracks The number of tracks on the CD
+ * @param durationInMinutes The duration of the CD in minutes
+ */
+public void addCD(String title, String author,
+                  int tracks, int durationInMinutes) {
+    CD cd = new CD();
+    cd.title = title;
+    cd.author = author;
+    cd.tracks = tracks;
+    cd.duration = duration;
+    cdList.add(cd);
+}</pre></div>
+
+<h3>Journal Comments (দিনলিপি মন্তব্য)</h3>
+<p>কিছু programmer module-এর শুরুতে প্রতিটি পরিবর্তনের log রাখতেন। একসময় এটা যুক্তিসঙ্গত ছিল, কিন্তু এখন source code control system আছে। এগুলো শুধু module-কে অপরিষ্কার করে। সম্পূর্ণ সরিয়ে ফেলুন।</p>
+
+<h3>Noise Comments (শব্দদূষণ মন্তব্য)</h3>
+<p>এমন comment যা শুধু সুস্পষ্ট বিষয় পুনরায় বলে, কোনো নতুন তথ্য দেয় না:</p>
+<div class="cb"><div class="cl bad">Noise Comments</div><pre>/** Default constructor. */
+protected AnnualDateRule() {
+}
+
+/** The day of the month. */
+private int dayOfMonth;</pre></div>
+<p>এই ধরনের comment এত "noisy" যে এক সময় আমরা এগুলো ignore করতে শিখে যাই। ফলে যদি তাদের মধ্যে কখনো সত্যিকার ভালো তথ্য থাকে, সেটাও চোখে পড়ে না।</p>
+
+<h3>Comment-এর বদলে Function বা Variable ব্যবহার করো</h3>
+<div class="cg">
+<div class="cb"><div class="cl bad">Comment দিয়ে ব্যাখ্যা</div><pre>// does the module from the global
+// list &lt;mod&gt; depend on the
+// subsystem we are part of?
+if (smodule.getDependSubsystems()
+  .contains(subSysMod.getSubSystem()))</pre></div>
+<div class="cb"><div class="cl good">Comment ছাড়া পরিষ্কার কোড</div><pre>ArrayList moduleDependees =
+  smodule.getDependSubsystems();
+String ourSubSystem =
+  subSysMod.getSubSystem();
+if (moduleDependees
+  .contains(ourSubSystem))</pre></div>
+</div>
+
+<h3>Position Markers (অবস্থান চিহ্নিতকারী)</h3>
+<p><span class="hi">// Actions //////////////////////////////////</span> — এই ধরনের banner খুবই কম ব্যবহার করুন। অতিরিক্ত ব্যবহারে এগুলো background noise হয়ে যায় এবং ignore করা হয়।</p>
+
+<h3>Closing Brace Comments (বন্ধনী বন্ধ করার মন্তব্য)</h3>
+<p>দীর্ঘ function-এ closing brace-এ <span class="hi">} //while</span> বা <span class="hi">} //try</span> লেখা — এটা করার বদলে function ছোট করুন।</p>
+
+<h3>Attributions and Bylines</h3>
+<p><span class="hi">/* Added by Rick */</span> — Source code control system মনে রাখে কে কখন কী যোগ করেছে। কোডে এই ধরনের byline দেওয়ার দরকার নেই। এগুলো বছরের পর বছর থেকে যায়, ক্রমশ অপ্রাসঙ্গিক হয়ে পড়ে।</p>
+
+<h3>Commented-Out Code (মন্তব্য করা কোড)</h3>
+<div class="warn">⚠️ গুরুত্বপূর্ণ: কোড comment-out করে রাখা অত্যন্ত খারাপ অভ্যাস। এটা করবেন না!</div>
+<p>অন্যরা commented-out code দেখে মুছতে সাহস পায় না — ভাবে "নিশ্চয়ই কোনো কারণে রাখা হয়েছে"। ফলে এগুলো বোতলের তলানির মতো জমতে থাকে। আমাদের source code control system আছে — কোড মুছে ফেলুন। হারাবে না, প্রতিশ্রুতি!</p>
+
+<h3>HTML Comments</h3>
+<p>Source code comment-এ HTML ব্যবহার করা জঘন্য। Editor/IDE-তে যেখানে comment সহজে পড়ার কথা, সেখানে HTML tag comment-কে দুর্বোধ্য করে তোলে। HTML যোগ করা tool-এর দায়িত্ব, programmer-এর নয়।</p>
+
+<h3>Nonlocal Information (অ-স্থানীয় তথ্য)</h3>
+<p>Comment যদি লিখতেই হয়, সেটা যেন কাছের কোড সম্পর্কে হয়। দূরবর্তী কোনো system-এর তথ্য local comment-এ দেওয়া ঠিক নয় — কারণ সেই দূরবর্তী কোড বদলালে এই comment কেউ আপডেট করবে না।</p>
+
+<h3>Too Much Information (অতিরিক্ত তথ্য)</h3>
+<p>Comment-এ ইতিহাস, প্রাসঙ্গিক বিস্তারিত আলোচনা বা বিবরণ দেবেন না। পড়তে যতটুকু দরকার, ততটুকু রাখুন।</p>
+
+<h3>Inobvious Connection (অস্পষ্ট সম্পর্ক)</h3>
+<p>Comment ও কোডের মধ্যে সম্পর্ক সুস্পষ্ট হওয়া উচিত। যদি comment নিজেই ব্যাখ্যা দরকার করে, তাহলে সেটা ব্যর্থ:</p>
+<div class="cb"><div class="cl bad">Inobvious Connection</div><pre>/*
+ * start with an array that is big enough to hold all the pixels
+ * (plus filter bytes), and an extra 200 bytes for header info
+ */
+this.pngBytes = new byte[((this.width + 1) * this.height * 3) + 200];</pre></div>
+<p>"filter bytes" কী? +1-এর সাথে সম্পর্ক কী? 200 কেন? Comment নিজেই ব্যাখ্যা করতে পারছে না!</p>
+
+<h3>Function Headers</h3>
+<p>ছোট function-এর জন্য বেশি বর্ণনা লাগে না। একটি ভালো নামের ছোট function, যেটা শুধু একটি কাজই করে, সেটা comment header-এর চেয়ে অনেক ভালো।</p>
+
+<h3>Nonpublic Code-এ Javadocs</h3>
+<p>Public API-তে javadoc দরকারী। কিন্তু internal code-এ javadoc page তৈরি করা সাধারণত অপ্রয়োজনীয়, শুধু অতিরিক্ত formality বা cruft তৈরি করে যা distraction সৃষ্টি করে।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Comment = ব্যর্থতার স্বীকৃতি</div><div class="cd">Comment হলো কোডে আমাদের ব্যর্থতার স্বীকৃতি — কোড নিজেই যথেষ্ট পরিষ্কার হলে comment লাগে না।</div></div>
+<div class="ci"><div class="cn">★ পুরোনো Comment সবচেয়ে ক্ষতিকর</div><div class="cd">পুরোনো ও ভুল comment কোনো comment না থাকার চেয়ে বেশি ক্ষতিকর — কারণ এগুলো মিথ্যা তথ্য ছড়ায়।</div></div>
+<div class="ci"><div class="cn">★ ভালো Comment-এর ধরন</div><div class="cd">Legal, TODO, intent ব্যাখ্যা, warning, clarification — কিন্তু বেশিরভাগ comment-ই অপ্রয়োজনীয়।</div></div>
+<div class="ci"><div class="cn">★ কোড দিয়ে বলো</div><div class="cd">Comment লেখার আগে ভাবো — কোড দিয়েই কি একই কথা বলা যায়? Function বা variable-এর নাম দিয়ে comment-এর প্রয়োজন দূর করো।</div></div>
+<div class="ci"><div class="cn">★ Commented-out Code রাখো না</div><div class="cd">Source control সব মনে রাখে — কোড comment-out করে রাখা অত্যন্ত খারাপ অভ্যাস। মুছে ফেলো।</div></div>
+<div class="ci"><div class="cn">★ Redundant ও Misleading</div><div class="cd">কোডের চেয়ে কম তথ্য দেয় বা ভুল তথ্য দেয় — এমন comment সবচেয়ে বিপজ্জনক।</div></div>
+</div>
+
+</div>
+</div>
