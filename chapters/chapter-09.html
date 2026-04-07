@@ -1,0 +1,326 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-label.neutral{background:var(--muted);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.listing-title{font-size:14px;font-family:var(--fc);color:var(--muted);margin-bottom:4px;font-weight:500}
+.first-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px}
+.first-table th{background:var(--accent);color:#fff;padding:12px 16px;text-align:left;font-weight:700;font-size:14px;letter-spacing:1px}
+.first-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+.first-table tr:nth-child(even){background:var(--warm)}
+.first-table td:first-child{font-weight:800;color:var(--accent);font-size:20px;text-align:center;width:50px}
+.first-table td:nth-child(2){font-weight:700;font-family:var(--fc);font-size:14px;width:140px}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">09</div>
+<div class="clab">অধ্যায় ৯</div>
+<div class="ctbn">ইউনিট টেস্ট</div>
+<div class="cten">Unit Tests</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>গত এক দশকে আমাদের পেশা অনেক এগিয়েছে। ১৯৯৭ সালে Test Driven Development (TDD) কেউ শোনেনি। তখন unit test মানে ছিল "কোড কাজ করে কিনা দেখার জন্য লেখা ছোট্ট throwaway code।" class আর method লিখে, কিছু ad hoc কোড লিখে পরীক্ষা করা হতো — সাধারণত একটা simple driver program যেটা দিয়ে manually interact করা যেতো।</p>
+
+<p>লেখক একটা ব্যক্তিগত গল্প বলেন — ১৯৯০-এর দশকে একটা embedded real-time system-এ C++ timer program লিখেছিলেন। Testing করতে keyboard-এ একটা rhythm type করে ৫ সেকেন্ড পর সেই rhythm replay হচ্ছে কিনা দেখতেন! Test শেষে সেই test code ফেলে দিতেন।</p>
+
+<p>আজকের দিনে সেই কাজটাই করা হতো automated test suite দিয়ে — timing function mock করে, boolean flag ব্যবহার করে, সব test source code-এর সাথে check in করে। আমরা অনেক এগিয়েছি, কিন্তু ভালো test লেখার সূক্ষ্ম বিষয়গুলো অনেকে এখনো মিস করেন।</p>
+
+<h2>TDD-র তিনটি নিয়ম <span class="en">The Three Laws of TDD</span></h2>
+
+<p>TDD বলে production code লেখার আগে unit test লেখো। কিন্তু এটা শুধু শুরু। তিনটি সুনির্দিষ্ট নিয়ম আছে:</p>
+
+<div class="law">প্রথম নিয়ম: একটা failing unit test না লেখা পর্যন্ত production code লেখা যাবে না।<span class="sub">First Law of TDD</span></div>
+
+<div class="law">দ্বিতীয় নিয়ম: Unit test এর বেশি লেখা যাবে না যতটুকু fail করার জন্য যথেষ্ট (compile না হওয়াও failing)।<span class="sub">Second Law of TDD</span></div>
+
+<div class="law">তৃতীয় নিয়ম: বর্তমান failing test পাস করানোর জন্য যতটুকু production code দরকার তার বেশি লেখা যাবে না।<span class="sub">Third Law of TDD</span></div>
+
+<p>এই তিনটি নিয়ম তোমাকে প্রায় ৩০ সেকেন্ডের একটা cycle-এ আটকে রাখে। Test আর production code একসাথে লেখা হয়, test সবসময় কয়েক সেকেন্ড এগিয়ে থাকে। এভাবে কাজ করলে প্রতিদিন ডজন ডজন test লেখা হবে, যেগুলো প্রায় সব production code cover করবে।</p>
+
+<h2>Test পরিষ্কার রাখো <span class="en">Keeping Tests Clean</span></h2>
+
+<p>লেখক একটা টিমের কথা বলেন যেখানে সবাই ঠিক করেছিল test code production code-এর মানের হতে হবে না। "Quick and dirty" ছিল তাদের মন্ত্র — variable-র নাম ভালো না হলেও চলবে, test function ছোট না হলেও চলবে।</p>
+
+<p>ফলাফল? Test code এত জটিল হয়ে গেল যে নতুন test যোগ করতে production code লেখার চেয়ে বেশি সময় লাগতো। Production code পরিবর্তন করলে পুরোনো test fail করতো, আর test code-এর mess এর কারণে সেগুলো ঠিক করা কঠিন ছিল।</p>
+
+<p>শেষ পর্যন্ত পুরো test suite বাদ দিতে হলো। Test suite ছাড়া তারা কোনো পরিবর্তন করতে ভয় পেতেন — কারণ জানার উপায় ছিল না পরিবর্তন অন্য কিছু ভেঙেছে কিনা। Defect rate বাড়তে থাকলো, production code পচতে শুরু করলো।</p>
+
+<div class="kp"><div class="kl">শিক্ষা</div><p><span class="b">Test code production code-এর সমান গুরুত্বপূর্ণ।</span> এটা "দ্বিতীয় শ্রেণীর নাগরিক" নয়। এটাতেও চিন্তা, design, আর যত্ন দরকার। Test code production code-এর মতোই পরিষ্কার রাখতে হবে।</p></div>
+
+<h2>Test দেয় -ilities <span class="en">Tests Enable the -ilities</span></h2>
+
+<p>Test পরিষ্কার না রাখলে এক সময় test হারাবে। আর test ছাড়া production code flexible, maintainable, আর reusable রাখা অসম্ভব।</p>
+
+<p>কারণ সহজ: test থাকলে কোড পরিবর্তন করতে ভয় লাগে না। Test coverage যত বেশি, ভয় তত কম। Architecture যত খারাপই হোক, test থাকলে সেটা improve করার সাহস পাওয়া যায়।</p>
+
+<p>তাই automated unit test suite যেটা production code cover করে — সেটাই design ও architecture পরিষ্কার রাখার চাবি। <span class="b">Test পরিবর্তন সম্ভব করে, আর পরিবর্তনই সবকিছু সম্ভব করে।</span></p>
+
+<h2>Clean Tests <span class="en">Clean Tests</span></h2>
+
+<p>পরিষ্কার test কী? তিনটি জিনিস: <span class="hi">Readability (পাঠযোগ্যতা), readability, আর readability!</span> Test-এ কম expression-এ বেশি কথা বলতে হবে।</p>
+
+<p>নিচের test গুলো দেখো — অনেক duplicate code, অপ্রয়োজনীয় detail, বুঝতে কষ্ট হয়:</p>
+
+<div class="listing-title">Listing 9-1: SerializedPageResponderTest.java (refactor এর আগে)</div>
+<span class="code-label bad">✗ খারাপ</span>
+<pre class="bad">public void testGetPageHieratchyAsXml() throws Exception {
+    crawler.addPage(root, PathParser.parse("PageOne"));
+    crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
+    crawler.addPage(root, PathParser.parse("PageTwo"));
+
+    request.setResource("root");
+    request.addInput("type", "pages");
+    Responder responder = new SerializedPageResponder();
+    SimpleResponse response =
+        (SimpleResponse) responder.makeResponse(
+            new FitNesseContext(root), request);
+    String xml = response.getContent();
+
+    assertEquals("text/xml", response.getContentType());
+    assertSubString("&lt;n&gt;PageOne&lt;/n&gt;", xml);
+    assertSubString("&lt;n&gt;PageTwo&lt;/n&gt;", xml);
+    assertSubString("&lt;n&gt;ChildOne&lt;/n&gt;", xml);
+}</pre>
+
+<p>PathParser call গুলো, responder তৈরির বিস্তারিত, response cast করা — এসব noise। এগুলো test-এর মূল কথা বুঝতে বাধা দেয়। এখন refactored version দেখো:</p>
+
+<div class="listing-title">Listing 9-2: SerializedPageResponderTest.java (refactored)</div>
+<span class="code-label good">✓ ভালো</span>
+<pre class="good">public void testGetPageHierarchyAsXml() throws Exception {
+    makePages("PageOne", "PageOne.ChildOne", "PageTwo");
+    submitRequest("root", "type:pages");
+
+    assertResponseIsXML();
+    assertResponseContains(
+        "&lt;n&gt;PageOne&lt;/n&gt;", "&lt;n&gt;PageTwo&lt;/n&gt;", "&lt;n&gt;ChildOne&lt;/n&gt;"
+    );
+}
+
+public void testSymbolicLinksAreNotInXmlPageHierarchy() throws Exception {
+    WikiPage page = makePage("PageOne");
+    makePages("PageOne.ChildOne", "PageTwo");
+    addLinkTo(page, "PageTwo", "SymPage");
+
+    submitRequest("root", "type:pages");
+
+    assertResponseIsXML();
+    assertResponseContains(
+        "&lt;n&gt;PageOne&lt;/n&gt;", "&lt;n&gt;PageTwo&lt;/n&gt;", "&lt;n&gt;ChildOne&lt;/n&gt;"
+    );
+    assertResponseDoesNotContain("SymPage");
+}
+
+public void testGetDataAsXml() throws Exception {
+    makePageWithContent("TestPageOne", "test page");
+    submitRequest("TestPageOne", "type:data");
+
+    assertResponseIsXML();
+    assertResponseContains("test page", "&lt;Test");
+}</pre>
+
+<div class="kp"><div class="kl">BUILD-OPERATE-CHECK Pattern</div><p>প্রতিটা test তিন ভাগে বিভক্ত: ১) <span class="b">Build</span> — test data তৈরি করো, ২) <span class="b">Operate</span> — সেই data-র উপর operation চালাও, ৩) <span class="b">Check</span> — যাচাই করো প্রত্যাশিত ফলাফল এসেছে কিনা।</p></div>
+
+<h2>Domain-Specific Testing Language <span class="en">Domain-Specific Testing Language</span></h2>
+
+<p>Listing 9-2 এর test গুলো একটা গুরুত্বপূর্ণ technique দেখায় — test-এর জন্য নিজস্ব domain-specific language তৈরি করা। System manipulate করার API সরাসরি ব্যবহার না করে, helper function ও utility তৈরি করো যেগুলো test সহজে লেখা ও পড়ার উপযোগী করে।</p>
+
+<p>এই testing API আগে থেকে design করা হয় না — test code refactor করতে করতে ধীরে ধীরে evolve হয়।</p>
+
+<h2>দ্বৈত মান <span class="en">Dual Standard</span></h2>
+
+<p>Test code-র engineering standard production code থেকে একটু আলাদা হতে পারে। এটা simple, succinct, আর expressive হতে হবে — কিন্তু production code-এর মতো efficient হতে হবে না। কারণ test environment আর production environment এর চাহিদা আলাদা।</p>
+
+<p>এই test দেখো — temperature control system-এর জন্য:</p>
+
+<div class="listing-title">Listing 9-3: EnvironmentControllerTest.java</div>
+<span class="code-label bad">✗ পড়তে কষ্ট</span>
+<pre class="bad">@Test
+public void turnOnLoTempAlarmAtThreashold() throws Exception {
+    hw.setTemp(WAY_TOO_COLD);
+    controller.tic();
+    assertTrue(hw.heaterState());
+    assertTrue(hw.blowerState());
+    assertFalse(hw.coolerState());
+    assertFalse(hw.hiTempAlarm());
+    assertTrue(hw.loTempAlarm());
+}</pre>
+
+<p>এখানে চোখকে assertTrue/assertFalse আর state-এর নামের মধ্যে লাফাতে হয়। Refactored version দেখো:</p>
+
+<div class="listing-title">Listing 9-4: EnvironmentControllerTest.java (refactored)</div>
+<span class="code-label good">✓ ভালো</span>
+<pre class="good">@Test
+public void turnOnLoTempAlarmAtThreshold() throws Exception {
+    wayTooCold();
+    assertEquals("HBchL", hw.getState());
+}</pre>
+
+<p>এখানে "HBchL" string-এ বড় হাতের অক্ষর মানে "on", ছোট হাতের মানে "off"। ক্রম হলো: heater, blower, cooler, hi-temp-alarm, lo-temp-alarm। একবার এই convention জানলে test পড়া অনেক সহজ:</p>
+
+<div class="listing-title">Listing 9-5: EnvironmentControllerTest.java (আরও test)</div>
+<pre class="neutral">@Test
+public void turnOnCoolerAndBlowerIfTooHot() throws Exception {
+    tooHot();
+    assertEquals("hBChl", hw.getState());
+}
+
+@Test
+public void turnOnHeaterAndBlowerIfTooCold() throws Exception {
+    tooCold();
+    assertEquals("HBchl", hw.getState());
+}
+
+@Test
+public void turnOnHiTempAlarmAtThreshold() throws Exception {
+    wayTooHot();
+    assertEquals("hBCHl", hw.getState());
+}
+
+@Test
+public void turnOnLoTempAlarmAtThreshold() throws Exception {
+    wayTooCold();
+    assertEquals("HBchL", hw.getState());
+}</pre>
+
+<p><code>getState()</code> function টা দেখো:</p>
+
+<div class="listing-title">Listing 9-6: MockControlHardware.java</div>
+<pre class="neutral">public String getState() {
+    String state = "";
+    state += heater ? "H" : "h";
+    state += blower ? "B" : "b";
+    state += cooler ? "C" : "c";
+    state += hiTempAlarm ? "H" : "h";
+    state += loTempAlarm ? "L" : "l";
+    return state;
+}</pre>
+
+<p>এই কোড efficient নয় — StringBuffer ব্যবহার করলে ভালো হতো। কিন্তু test environment-এ এটা ঠিক আছে। <span class="b">Dual standard মানে:</span> test environment-এ memory বা CPU efficiency নিয়ে ছাড় দেওয়া যায়, কিন্তু cleanliness (পরিচ্ছন্নতা) নিয়ে কখনো নয়।</p>
+
+<h2>প্রতি Test-এ একটি Assert <span class="en">One Assert per Test</span></h2>
+
+<p>একটা ধারণা আছে যে প্রতিটা test function-এ একটাই assert থাকা উচিত। Listing 9-5 এর test গুলো এর ভালো উদাহরণ — প্রতিটা test একটাই conclusion-এ আসে, দ্রুত বোঝা যায়।</p>
+
+<p>কিন্তু সবসময় একটা assert-এ সীমাবদ্ধ রাখা বাস্তবসম্মত নয়। Listing 9-2 তে XML output ও specific substring দুটোই check করতে হচ্ছে। test আলাদা করা যায়, কিন্তু তাতে duplicate code বাড়ে:</p>
+
+<div class="listing-title">Listing 9-7: SerializedPageResponderTest.java (Single Assert)</div>
+<pre class="neutral">public void testGetPageHierarchyAsXml() throws Exception {
+    givenPages("PageOne", "PageOne.ChildOne", "PageTwo");
+    whenRequestIsIssued("root", "type:pages");
+    thenResponseShouldBeXML();
+}
+
+public void testGetPageHierarchyHasRightTags() throws Exception {
+    givenPages("PageOne", "PageOne.ChildOne", "PageTwo");
+    whenRequestIsIssued("root", "type:pages");
+    thenResponseShouldContain(
+        "&lt;n&gt;PageOne&lt;/n&gt;", "&lt;n&gt;PageTwo&lt;/n&gt;", "&lt;n&gt;ChildOne&lt;/n&gt;"
+    );
+}</pre>
+
+<p>এখানে given-when-then convention ব্যবহার করা হয়েছে। Template Method pattern বা @Before function ব্যবহার করে duplication কমানো যায়, কিন্তু এত mechanism এত ছোট বিষয়ের জন্য বাড়াবাড়ি।</p>
+
+<div class="law">সবচেয়ে ভালো নিয়ম: প্রতি concept-এ assert সংখ্যা minimize করো, এবং প্রতিটা test function একটাই concept test করো।</div>
+
+<h2>Single Concept per Test <span class="en">Single Concept per Test</span></h2>
+
+<p>একটা test function-এ একের বেশি concept test করলে পাঠক বুঝতে পারে না কোন section কেন আছে। নিচের test তিনটা আলাদা জিনিস test করছে — এটাকে তিনটা আলাদা test-এ ভাগ করা উচিত:</p>
+
+<div class="listing-title">Listing 9-8: একাধিক concept একসাথে</div>
+<span class="code-label bad">✗ একাধিক concept</span>
+<pre class="bad">public void testAddMonths() {
+    SerialDate d1 = SerialDate.createInstance(31, 5, 2004);
+
+    SerialDate d2 = SerialDate.addMonths(1, d1);
+    assertEquals(30, d2.getDayOfMonth());
+    assertEquals(6, d2.getMonth());
+    assertEquals(2004, d2.getYYYY());
+
+    SerialDate d3 = SerialDate.addMonths(2, d1);
+    assertEquals(31, d3.getDayOfMonth());
+    assertEquals(7, d3.getMonth());
+    assertEquals(2004, d3.getYYYY());
+
+    SerialDate d4 = SerialDate.addMonths(1,
+        SerialDate.addMonths(1, d1));
+    assertEquals(30, d4.getDayOfMonth());
+    assertEquals(7, d4.getMonth());
+    assertEquals(2004, d4.getYYYY());
+}</pre>
+
+<p>এই test গুলোকে আলাদা করলে একটা সাধারণ নিয়ম বেরিয়ে আসে: মাস বাড়ালে তারিখ সেই মাসের শেষ দিনের বেশি হতে পারে না। এই নিয়ম থেকে আরও test লেখা যায় — যেমন February 28 এ এক মাস যোগ করলে March 28 হওয়া উচিত।</p>
+
+<h2>F.I.R.S.T. <span class="en">F.I.R.S.T.</span></h2>
+
+<p>Clean test পাঁচটি নিয়ম মেনে চলে যেগুলো F.I.R.S.T. নামে পরিচিত:</p>
+
+<table class="first-table">
+<tr><th>সংক্ষেপ</th><th>ইংরেজি</th><th>বাংলায় ব্যাখ্যা</th></tr>
+<tr><td>F</td><td>Fast</td><td><span class="b">দ্রুত</span> — Test দ্রুত চলতে হবে। ধীর হলে ঘন ঘন চালানো হবে না, সমস্যা দেরিতে ধরা পড়বে, কোড পচতে শুরু করবে।</td></tr>
+<tr><td>I</td><td>Independent</td><td><span class="b">স্বাধীন</span> — এক test অন্য test-এর উপর নির্ভরশীল হবে না। যেকোনো ক্রমে চালানো যাবে। একটা fail করলে বাকিগুলো cascade fail করবে না।</td></tr>
+<tr><td>R</td><td>Repeatable</td><td><span class="b">পুনরাবৃত্তিযোগ্য</span> — যেকোনো environment-এ চলবে — production, QA, laptop, এমনকি নেটওয়ার্ক ছাড়াও।</td></tr>
+<tr><td>S</td><td>Self-Validating</td><td><span class="b">স্ব-যাচাইকারী</span> — Test-এর output হবে boolean — pass অথবা fail। Log file পড়ে বা দুটো file compare করে ফলাফল বের করা যাবে না।</td></tr>
+<tr><td>T</td><td>Timely</td><td><span class="b">সময়োপযোগী</span> — Test production code-এর ঠিক আগে লিখতে হবে। পরে লিখলে production code test করা কঠিন হতে পারে, এবং testable ভাবে design নাও হতে পারে।</td></tr>
+</table>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+
+<p>এই অধ্যায়ে test-এর শুধু উপরিভাগ স্পর্শ করা হয়েছে। Test project-এর স্বাস্থ্যের জন্য production code-এর সমান, বা তার চেয়েও বেশি গুরুত্বপূর্ণ — কারণ test production code-এর flexibility, maintainability, আর reusability রক্ষা ও বৃদ্ধি করে।</p>
+
+<p>তাই test সবসময় পরিষ্কার রাখো। Expressive ও succinct করো। Testing API তৈরি করো যেটা domain-specific language হিসেবে কাজ করে।</p>
+
+<div class="law">Test পচলে কোডও পচবে। Test পরিষ্কার রাখো।</div>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Test code ও production code সমান গুরুত্বপূর্ণ</div><div class="cd">Test code "দ্বিতীয় শ্রেণীর নাগরিক" নয়, এটাতেও design ও care দরকার।</div></div>
+<div class="ci"><div class="cn">★ TDD-র তিনটি নিয়ম</div><div class="cd">Production code লেখার আগে failing test লেখো, test যতটুকু fail করে ততটুকুই লেখো, test পাস করাতে যতটুকু production code দরকার ততটুকুই লেখো।</div></div>
+<div class="ci"><div class="cn">★ Clean test = Readable test</div><div class="cd">Test-এর সবচেয়ে গুরুত্বপূর্ণ গুণ হলো readability (পাঠযোগ্যতা)।</div></div>
+<div class="ci"><div class="cn">★ BUILD-OPERATE-CHECK Pattern</div><div class="cd">প্রতিটা test তিন ভাগে বিভক্ত: test data তৈরি করো (Build), operation চালাও (Operate), ফলাফল যাচাই করো (Check)।</div></div>
+<div class="ci"><div class="cn">★ Domain-Specific Testing Language তৈরি করো</div><div class="cd">Test সহজে লেখা ও পড়ার জন্য helper function ও utility তৈরি করো।</div></div>
+<div class="ci"><div class="cn">★ Dual Standard</div><div class="cd">Test code-এ efficiency-তে ছাড় দেওয়া যায়, কিন্তু cleanliness-এ কখনো নয়।</div></div>
+<div class="ci"><div class="cn">★ F.I.R.S.T. নিয়ম মানো</div><div class="cd">Fast, Independent, Repeatable, Self-Validating, Timely — এই পাঁচটি নিয়ম clean test-এর ভিত্তি।</div></div>
+</div>
+
+</div>
+</div>

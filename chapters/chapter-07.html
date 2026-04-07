@@ -1,0 +1,324 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-label.neutral{background:var(--muted);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.listing-title{font-size:14px;font-family:var(--fc);color:var(--muted);margin-bottom:4px;font-weight:500}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">07</div>
+<div class="clab">অধ্যায় ৭</div>
+<div class="ctbn">এরর হ্যান্ডলিং</div>
+<div class="cten">Error Handling</div>
+<div class="caut">by Michael Feathers</div>
+</div>
+<div class="ct">
+
+<p>Clean code নিয়ে একটা বইতে error handling নিয়ে আলোচনা একটু অদ্ভুত লাগতে পারে। কিন্তু বাস্তবতা হলো, প্রোগ্রামিং করতে গেলে এরর হ্যান্ডলিং করতেই হয় — ইনপুট ভুল আসতে পারে, ডিভাইস কাজ নাও করতে পারে, নেটওয়ার্ক ফেইল করতে পারে। আমাদের দায়িত্ব হলো এসব পরিস্থিতিতেও কোড যেন ঠিকমতো কাজ করে।</p>
+
+<p>অনেক codebase আছে যেখানে error handling এতটাই ছড়িয়ে-ছিটিয়ে থাকে যে আসল business logic বোঝাই যায় না। Error handling গুরুত্বপূর্ণ, কিন্তু এটা যদি মূল logic কে ঢেকে ফেলে, তাহলে কোড ভালো হচ্ছে না।</p>
+
+<h2>Exception ব্যবহার করো, Return Code নয় <span class="en">Use Exceptions Rather Than Return Codes</span></h2>
+
+<p>আগেকার অনেক ভাষায় exception ছিল না। তখন error জানানোর জন্য error flag সেট করা হতো, বা একটা error code রিটার্ন করা হতো যেটা caller চেক করতো। এই পদ্ধতির সমস্যা হলো — কোড জটিল ও অপরিষ্কার হয়ে যায়। নিচের উদাহরণটা দেখো:</p>
+
+<div class="listing-title">Listing 7-1: DeviceController.java (error code ব্যবহার করে)</div>
+<span class="code-label bad">✗ খারাপ</span>
+<pre class="bad">public class DeviceController {
+    ...
+    public void sendShutDown() {
+        DeviceHandle handle = getHandle(DEV1);
+        // Check the state of the device
+        if (handle != DeviceHandle.INVALID) {
+            // Save the device status to the record field
+            retrieveDeviceRecord(handle);
+            // If not suspended, shut down
+            if (record.getStatus() != DEVICE_SUSPENDED) {
+                pauseDevice(handle);
+                clearDeviceWorkQueue(handle);
+                closeDevice(handle);
+            } else {
+                logger.log("Device suspended. Unable to shut down");
+            }
+        } else {
+            logger.log("Invalid handle for: " + DEV1.toString());
+        }
+    }
+    ...
+}</pre>
+
+<p>দেখো কতগুলো nested if-else! এখন একই কাজ exception দিয়ে করলে কেমন হয়:</p>
+
+<div class="listing-title">Listing 7-2: DeviceController.java (exception ব্যবহার করে)</div>
+<span class="code-label good">✓ ভালো</span>
+<pre class="good">public class DeviceController {
+    ...
+    public void sendShutDown() {
+        try {
+            tryToShutDown();
+        } catch (DeviceShutDownError e) {
+            logger.log(e);
+        }
+    }
+
+    private void tryToShutDown() throws DeviceShutDownError {
+        DeviceHandle handle = getHandle(DEV1);
+        DeviceRecord record = retrieveDeviceRecord(handle);
+        pauseDevice(handle);
+        clearDeviceWorkQueue(handle);
+        closeDevice(handle);
+    }
+
+    private DeviceHandle getHandle(DeviceID id) {
+        ...
+        throw new DeviceShutDownError("Invalid handle for: " + id.toString());
+        ...
+    }
+    ...
+}</pre>
+
+<p>লক্ষ্য করো কতো পরিষ্কার হয়ে গেছে! দুটো আলাদা বিষয় — device shutdown এর algorithm আর error handling — এখন <span class="b">আলাদা আলাদা জায়গায়</span> আছে। প্রতিটোকে আলাদাভাবে বোঝা ও পরিবর্তন করা যায়।</p>
+
+<h2>Try-Catch-Finally আগে লেখো <span class="en">Write Your Try-Catch-Finally Statement First</span></h2>
+
+<p>Exception (ব্যতিক্রম) এর একটা মজার ব্যাপার হলো এটা তোমার প্রোগ্রামে একটা scope তৈরি করে। try ব্লকের কোড যেকোনো সময় abort হতে পারে এবং catch ব্লকে গিয়ে resume হতে পারে। এটাকে অনেকটা transaction (লেনদেন) এর মতো ভাবা যায় — try তে যা-ই হোক, catch কে প্রোগ্রামকে একটা consistent অবস্থায় রাখতে হবে।</p>
+
+<p>তাই exception throw হতে পারে এমন কোড লেখার সময় <span class="b">আগে try-catch-finally structure তৈরি করো।</span> এটা TDD (Test Driven Development) এর সাথেও ভালো মেলে — আগে একটা test লেখো যেটা exception আশা করে, তারপর কোড লেখো:</p>
+
+<pre class="neutral">@Test(expected = StorageException.class)
+public void retrieveSectionShouldThrowOnInvalidFileName() {
+    sectionStore.retrieveSection("invalid - file");
+}</pre>
+
+<p>এই test পাস করাতে আমরা ধাপে ধাপে implementation তৈরি করি। প্রথমে exception catch করি, তারপর narrow করি FileNotFoundException এ:</p>
+
+<pre class="neutral">public List&lt;RecordedGrip&gt; retrieveSection(String sectionName) {
+    try {
+        FileInputStream stream = new FileInputStream(sectionName);
+        stream.close();
+    } catch (FileNotFoundException e) {
+        throw new StorageException("retrieval error", e);
+    }
+    return new ArrayList&lt;RecordedGrip&gt;();
+}</pre>
+
+<p>এখন try-catch structure তৈরি হয়ে গেছে। এর ভেতরে বাকি logic যোগ করা যাবে — এবং সেই logic লেখার সময় ধরে নেওয়া যায় কিছু ভুল হবে না, কারণ ভুল হলে catch ব্লক সামলে নেবে।</p>
+
+<h2>Unchecked Exception ব্যবহার করো <span class="en">Use Unchecked Exceptions</span></h2>
+
+<p>Java-তে checked exception মানে হলো যেসব exception method signature-এ declare করতে হয়। এটা প্রথমে ভালো আইডিয়া মনে হয়েছিল, কিন্তু বাস্তবে এটা <span class="b">Open/Closed Principle</span> ভঙ্গ করে।</p>
+
+<div class="kp"><div class="kl">Open/Closed Principle</div><p>একটা class পরিবর্তনের জন্য বন্ধ কিন্তু extension এর জন্য খোলা থাকা উচিত। Checked exception এই নীতি ভাঙে কারণ একটা নিচু লেভেলের function-এ নতুন exception যোগ করলে তার উপরের সব function-এর signature পরিবর্তন করতে হয়!</p></div>
+
+<p>ধরো, তোমার কোডে একটা function অনেক নিচের স্তরে আছে, আর catch block আছে তিন স্তর উপরে। মাঝের প্রতিটা function-এর signature-এ throws clause যোগ করতে হবে। একটা ছোট পরিবর্তনের জন্য পুরো call chain পরিবর্তন — এটা encapsulation ভাঙে।</p>
+
+<p>C#, Python, Ruby — এসব ভাষায় checked exception নেই, তবুও এসব ভাষায় শক্তিশালী সফটওয়্যার তৈরি হচ্ছে। তাই সাধারণ application development-এ <span class="hi">unchecked exception ব্যবহার করো।</span></p>
+
+<h2>Exception এর সাথে যথেষ্ট Context দাও <span class="en">Provide Context with Exceptions</span></h2>
+
+<p>প্রতিটা exception throw করার সময় যথেষ্ট তথ্য দাও যাতে error-এর source ও কারণ বোঝা যায়। Java-তে stack trace পাওয়া যায় ঠিকই, কিন্তু stack trace বলে না কেন অপারেশনটা ব্যর্থ হয়েছে। তাই <span class="b">informative error message দাও</span> — কোন অপারেশন ব্যর্থ হয়েছে এবং কী ধরনের failure হয়েছে সেটা উল্লেখ করো।</p>
+
+<h2>Caller এর প্রয়োজন অনুযায়ী Exception Class তৈরি করো <span class="en">Define Exception Classes in Terms of a Caller's Needs</span></h2>
+
+<p>Exception classify করার অনেক উপায় আছে — source অনুযায়ী, type অনুযায়ী। কিন্তু সবচেয়ে গুরুত্বপূর্ণ হলো <span class="b">কীভাবে catch করো হবে</span> সেটা মাথায় রেখে exception design করা।</p>
+
+<p>নিচের কোডটা দেখো — একটা third-party library ব্যবহার করছে এবং প্রতিটা exception আলাদাভাবে handle করছে, অথচ সব ক্ষেত্রে একই কাজ করছে:</p>
+
+<span class="code-label bad">✗ খারাপ</span>
+<pre class="bad">ACMEPort port = new ACMEPort(12);
+try {
+    port.open();
+} catch (DeviceResponseException e) {
+    reportPortError(e);
+    logger.log("Device response exception", e);
+} catch (ATM1212UnlockedException e) {
+    reportPortError(e);
+    logger.log("Unlock exception", e);
+} catch (GMXError e) {
+    reportPortError(e);
+    logger.log("Device response exception");
+} finally {
+    …
+}</pre>
+
+<p>এখানে অনেক duplication (পুনরাবৃত্তি) আছে। সমাধান হলো — API টাকে wrap করো এবং একটাই common exception type ব্যবহার করো:</p>
+
+<span class="code-label good">✓ ভালো</span>
+<pre class="good">LocalPort port = new LocalPort(12);
+try {
+    port.open();
+} catch (PortDeviceFailure e) {
+    reportError(e);
+    logger.log(e.getMessage(), e);
+} finally {
+    …
+}</pre>
+
+<p>LocalPort class টা ACMEPort এর wrapper — সব exception ধরে একটাই PortDeviceFailure exception-এ রূপান্তর করে:</p>
+
+<pre class="neutral">public class LocalPort {
+    private ACMEPort innerPort;
+
+    public LocalPort(int portNumber) {
+        innerPort = new ACMEPort(portNumber);
+    }
+
+    public void open() {
+        try {
+            innerPort.open();
+        } catch (DeviceResponseException e) {
+            throw new PortDeviceFailure(e);
+        } catch (ATM1212UnlockedException e) {
+            throw new PortDeviceFailure(e);
+        } catch (GMXError e) {
+            throw new PortDeviceFailure(e);
+        }
+    }
+    …
+}</pre>
+
+<div class="kp"><div class="kl">Third-party API Wrapping — সেরা অভ্যাস</div><p>Third-party API Wrapping (তৃতীয়-পক্ষের API মোড়ানো) একটা best practice। এর তিনটা সুবিধা: ১) তুমি ভবিষ্যতে সহজেই অন্য library-তে যেতে পারবে, ২) testing এর সময় mock করা সহজ হবে, ৩) তুমি নিজের ইচ্ছামতো API design করতে পারবে।</p></div>
+
+<h2>Normal Flow সংজ্ঞায়িত করো <span class="en">Define the Normal Flow</span></h2>
+
+<p>উপরের পদ্ধতিগুলো অনুসরণ করলে business logic আর error handling আলাদা হয়ে যায়। কিন্তু কখনো কখনো exception ব্যবহার করলে কোড অযথা জটিল হয়। দেখো এই উদাহরণ:</p>
+
+<span class="code-label bad">✗ অপ্রয়োজনীয় exception</span>
+<pre class="bad">try {
+    MealExpenses expenses = expenseReportDAO.getMeals(employee.getID());
+    m_total += expenses.getTotal();
+} catch(MealExpensesNotFound e) {
+    m_total += getMealPerDiem();
+}</pre>
+
+<p>এখানে logic হলো — খাবারের খরচ থাকলে সেটা যোগ করো, না থাকলে per diem (দৈনিক ভাতা) যোগ করো। Exception ব্যবহার না করে এটা অনেক সহজে লেখা যায়:</p>
+
+<span class="code-label good">✓ ভালো</span>
+<pre class="good">MealExpenses expenses = expenseReportDAO.getMeals(employee.getID());
+m_total += expenses.getTotal();</pre>
+
+<p>এটা সম্ভব হয় যদি expenseReportDAO সবসময় একটা MealExpense object রিটার্ন করে। খাবার খরচ না থাকলে per diem রিটার্ন করা একটা special object পাঠায়:</p>
+
+<pre class="neutral">public class PerDiemMealExpenses implements MealExpenses {
+    public int getTotal() {
+        // return the per diem default
+    }
+}</pre>
+
+<div class="kp"><div class="kl">Special Case Pattern</div><p><span class="b">Special Case Pattern (বিশেষ ক্ষেত্র প্যাটার্ন)</span> — Martin Fowler এই pattern এর নাম দিয়েছেন। এটা হলো এমন একটা class বা object তৈরি করা যেটা বিশেষ পরিস্থিতি নিজেই handle করে, ফলে client code-কে exceptional behavior নিয়ে ভাবতে হয় না।</p></div>
+
+<h2>Null রিটার্ন করো না <span class="en">Don't Return Null</span></h2>
+
+<p>Error handling এর আলোচনায় null রিটার্ন করা একটা বড় সমস্যা। অনেক codebase-এ প্রায় প্রতিটা লাইনে null check দেখা যায়:</p>
+
+<span class="code-label bad">✗ খারাপ</span>
+<pre class="bad">public void registerItem(Item item) {
+    if (item != null) {
+        ItemRegistry registry = peristentStore.getItemRegistry();
+        if (registry != null) {
+            Item existing = registry.getItem(item.getID());
+            if (existing.getBillingPeriod().hasRetailOwner()) {
+                existing.register(item);
+            }
+        }
+    }
+}</pre>
+
+<p>এই কোডে persistentStore null হলে NullPointerException হবে! Null রিটার্ন করলে আমরা নিজেরাই নিজেদের জন্য সমস্যা তৈরি করছি। এর বদলে exception throw করো অথবা Special Case object রিটার্ন করো।</p>
+
+<p>আরেকটা সহজ উদাহরণ দেখো:</p>
+
+<div class="code-grid">
+<div>
+<span class="code-label bad">✗ খারাপ — null চেক করতে হচ্ছে</span>
+<pre class="bad">List&lt;Employee&gt; employees = getEmployees();
+if (employees != null) {
+    for(Employee e : employees) {
+        totalPay += e.getPay();
+    }
+}</pre>
+</div>
+<div>
+<span class="code-label good">✓ ভালো — empty list রিটার্ন করো</span>
+<pre class="good">List&lt;Employee&gt; employees = getEmployees();
+for(Employee e : employees) {
+    totalPay += e.getPay();
+}</pre>
+</div>
+</div>
+
+<p>Java-তে Collections.emptyList() ব্যবহার করে সহজেই empty list রিটার্ন করা যায়:</p>
+
+<pre class="neutral">public List&lt;Employee&gt; getEmployees() {
+    if( .. there are no employees .. )
+        return Collections.emptyList();
+}</pre>
+
+<h2>Null পাস করো না <span class="en">Don't Pass Null</span></h2>
+
+<p>Null রিটার্ন করা খারাপ, কিন্তু method এ null আর্গুমেন্ট হিসেবে পাঠানো আরও খারাপ। এই method দেখো:</p>
+
+<pre class="neutral">public class MetricsCalculator {
+    public double xProjection(Point p1, Point p2) {
+        return (p2.x – p1.x) * 1.5;
+    }
+}</pre>
+
+<p>কেউ যদি <code>calculator.xProjection(null, new Point(12, 13))</code> কল করে? NullPointerException পাবে। তুমি null check যোগ করতে পারো, assert ব্যবহার করতে পারো — কিন্তু কোনোটাই ভালো সমাধান নয়। সবচেয়ে ভালো নীতি হলো: <span class="b">null পাস করাই নিষিদ্ধ করো।</span> তাহলে argument list-এ null দেখলেই বুঝবে এটা bug।</p>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+
+<p>Clean code পড়তে সহজ, কিন্তু সেটা robust (শক্তিশালী)ও হতে হবে। এই দুটো পরস্পরবিরোধী নয়। Error handling কে মূল logic থেকে আলাদা concern হিসেবে দেখলে, দুটোকেই আলাদাভাবে বোঝা ও উন্নত করা যায়।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Exception ব্যবহার করো, Return Code নয়</div><div class="cd">Error code রিটার্ন করলে কোড জটিল হয়ে যায়। Exception throw করলে মূল logic পরিষ্কার থাকে।</div></div>
+<div class="ci"><div class="cn">★ Try-Catch-Finally আগে লেখো</div><div class="cd">Exception হতে পারে এমন কোড লেখার সময় আগে try-catch structure তৈরি করো।</div></div>
+<div class="ci"><div class="cn">★ Unchecked Exception ব্যবহার করো</div><div class="cd">Checked exception কোডে অপ্রয়োজনীয় dependency তৈরি করে।</div></div>
+<div class="ci"><div class="cn">★ Null রিটার্ন করো না, Null পাস করো না</div><div class="cd">Null এর বদলে Special Case object বা empty collection ব্যবহার করো।</div></div>
+<div class="ci"><div class="cn">★ Third-party API Wrap করো</div><div class="cd">বাইরের library-র exception গুলো নিজের exception এ রূপান্তর করো। এতে dependency কমে, testing সহজ হয়, আর নিজের ইচ্ছামতো API design করা যায়।</div></div>
+<div class="ci"><div class="cn">★ Special Case Pattern</div><div class="cd">বিশেষ পরিস্থিতির জন্য আলাদা class/object তৈরি করো যা নিজেই সেই কেস handle করে, ফলে client code-কে exception নিয়ে ভাবতে হয় না।</div></div>
+<div class="ci"><div class="cn">★ Context সমৃদ্ধ Error Message</div><div class="cd">Exception throw করার সময় যথেষ্ট তথ্য দাও — কোন অপারেশন ব্যর্থ হয়েছে এবং কেন হয়েছে।</div></div>
+</div>
+
+</div>
+</div>
