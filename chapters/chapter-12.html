@@ -1,0 +1,239 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-label.neutral{background:var(--muted);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.listing-title{font-size:14px;font-family:var(--fc);color:var(--muted);margin-bottom:4px;font-weight:500}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">12</div>
+<div class="clab">অধ্যায় ১২</div>
+<div class="ctbn">ইমার্জেন্স</div>
+<div class="cten">Emergence</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>Kent Beck-এর <span class="b">Simple Design-এর চারটি নিয়ম</span> মেনে চললে ভালো design আপনাআপনি তৈরি হয় (emerge করে)। নিয়মগুলো গুরুত্বের ক্রমে: (১) সব টেস্ট চালাও, (২) Duplication দূর করো, (৩) Programmer-এর উদ্দেশ্য প্রকাশ করো, (৪) ক্লাস ও মেথডের সংখ্যা কমাও।</p>
+
+<h2>Emergent Design-এ পরিচ্ছন্নতা অর্জন <span class="en">Getting Clean via Emergent Design</span></h2>
+
+<p>কল্পনা করুন — চারটি সহজ নিয়ম মেনে চললেই ভালো design তৈরি হয়। এই নিয়মগুলো মানলে SRP, DIP ইত্যাদি principle-ও স্বাভাবিকভাবে প্রয়োগ হয়ে যায়। Kent Beck-এর Simple Design-এর চারটি নিয়ম:</p>
+
+<div class="eq">
+<div class="en-name">Simple Design-এর চারটি নিয়ম (গুরুত্বের ক্রমে)</div>
+<div class="en-text">১. সব টেস্ট সফলভাবে চলে (Runs all the tests)<br>২. কোনো duplication নেই (Contains no duplication)<br>৩. Programmer-এর উদ্দেশ্য প্রকাশ করে (Expresses the intent of the programmer)<br>৪. ক্লাস ও মেথডের সংখ্যা কম রাখে (Minimizes the number of classes and methods)</div>
+</div>
+
+<h2>নিয়ম ১: সব টেস্ট চলে <span class="en">Runs All the Tests</span></h2>
+
+<p>প্রথম এবং সবচেয়ে গুরুত্বপূর্ণ — সিস্টেম যেভাবে কাজ করার কথা, সেভাবেই কাজ করে কিনা সেটা verify করা যায়। যে সিস্টেম টেস্ট করা যায় না, তাকে verify করা যায় না — আর verify করা যায় না এমন সিস্টেম deploy করা উচিত নয়।</p>
+
+<p>টেস্ট লেখার চাপেই আমরা ক্লাস ছোট ও single-purpose রাখতে বাধ্য হই। SRP-মেনে চলা ক্লাস টেস্ট করা সহজ। আর যত বেশি টেস্ট লিখি, তত বেশি DIP, interface, abstraction ব্যবহার করি coupling কমাতে। ফলে design আরও ভালো হয়।</p>
+
+<div class="kp"><div class="kl">একটি সহজ নিয়ম</div><p>"টেস্ট লেখো এবং ক্রমাগত চালাও" — এই নিয়মটিই আমাদের সিস্টেমকে OO-র মূল লক্ষ্য, অর্থাৎ <span class="b">low coupling</span> এবং <span class="b">high cohesion</span>-এর দিকে ঠেলে দেয়।</p></div>
+
+<h2>নিয়ম ২-৪: Refactoring <span class="en">Refactoring</span></h2>
+
+<p>টেস্ট থাকলে কোড পরিষ্কার করার সাহস পাওয়া যায়। প্রতি কয়েক লাইন কোড যোগ করার পর থামুন, দেখুন design খারাপ হয়েছে কিনা। হয়ে থাকলে পরিষ্কার করুন, তারপর টেস্ট চালান — নিশ্চিত হন কিছু ভাঙেনি।</p>
+
+<p>Refactoring-এর সময় আমরা cohesion বাড়াই, coupling কমাই, concern আলাদা করি, function ও class ছোট করি, ভালো নাম বাছাই করি। এবং বাকি তিনটি নিয়ম প্রয়োগ করি: duplication দূর করো, expressiveness নিশ্চিত করো, ক্লাস-মেথড সংখ্যা কমাও।</p>
+
+<h2>Duplication দূর করো <span class="en">No Duplication</span></h2>
+
+<p>Duplication হলো ভালো design-এর <span class="b">প্রধান শত্রু</span>। এটা অতিরিক্ত কাজ, অতিরিক্ত ঝুঁকি, এবং অতিরিক্ত জটিলতা আনে।</p>
+
+<p>Duplication অনেক রূপে আসে। হুবহু একই কোড তো আছেই, কিন্তু implementation-এর duplication-ও থাকতে পারে। যেমন:</p>
+
+<pre class="neutral">int size() {}
+boolean isEmpty() {}</pre>
+
+<p>এদের আলাদা implementation দেওয়ার বদলে <code>isEmpty</code>-কে <code>size</code>-এর সাথে বেঁধে দেওয়া যায়:</p>
+
+<pre class="good">boolean isEmpty() {
+    return 0 == size();
+}</pre>
+
+<p>আরেকটি উদাহরণ — দুটো method-এ একই ধরনের কাজ হচ্ছে:</p>
+
+<span class="code-label bad">✗ শেষের তিন লাইন duplicate</span>
+<pre class="bad">public void scaleToOneDimension(
+        float desiredDimension, float imageDimension) {
+    if (Math.abs(desiredDimension - imageDimension) &lt; errorThreshold)
+        return;
+    float scalingFactor = desiredDimension / imageDimension;
+    scalingFactor = (float)(Math.floor(scalingFactor * 100) * 0.01f);
+
+    RenderedOp newImage = ImageUtilities.getScaledImage(
+        image, scalingFactor, scalingFactor);
+    image.dispose();
+    System.gc();
+    image = newImage;
+}
+
+public synchronized void rotate(int degrees) {
+    RenderedOp newImage = ImageUtilities.getRotatedImage(
+        image, degrees);
+    image.dispose();
+    System.gc();
+    image = newImage;
+}</pre>
+
+<p>শেষের তিন লাইন একই! এটা একটি আলাদা method-এ বের করে আনা যায়:</p>
+
+<span class="code-label good">✓ ভালো — common code আলাদা</span>
+<pre class="good">public void scaleToOneDimension(
+        float desiredDimension, float imageDimension) {
+    if (Math.abs(desiredDimension - imageDimension) &lt; errorThreshold)
+        return;
+    float scalingFactor = desiredDimension / imageDimension;
+    scalingFactor = (float)(Math.floor(scalingFactor * 100) * 0.01f);
+    replaceImage(ImageUtilities.getScaledImage(
+        image, scalingFactor, scalingFactor));
+}
+
+public synchronized void rotate(int degrees) {
+    replaceImage(ImageUtilities.getRotatedImage(image, degrees));
+}
+
+private void replaceImage(RenderedOp newImage) {
+    image.dispose();
+    System.gc();
+    image = newImage;
+}</pre>
+
+<p>এভাবে ছোট ছোট commonality বের করতে গেলে SRP violation ধরা পড়ে এবং নতুন method-কে অন্য ক্লাসে স্থানান্তরের সুযোগ পাওয়া যায়। <span class="b">"ছোট পরিসরে reuse" বড় পরিসরে reuse-এর ভিত্তি তৈরি করে।</span></p>
+
+<h2>Template Method Pattern <span class="en">Template Method Pattern</span></h2>
+
+<p>Higher-level duplication দূর করতে Template Method pattern কাজে আসে:</p>
+
+<span class="code-label bad">✗ দুটো method-এ একই structure</span>
+<pre class="bad">public class VacationPolicy {
+    public void accrueUSDivisionVacation() {
+        // ঘণ্টার হিসাবে ছুটি গণনা
+        // ...
+        // US minimum নিশ্চিত করো
+        // ...
+        // payroll-এ প্রয়োগ
+        // ...
+    }
+
+    public void accrueEUDivisionVacation() {
+        // ঘণ্টার হিসাবে ছুটি গণনা (একই!)
+        // ...
+        // EU minimum নিশ্চিত করো (ভিন্ন!)
+        // ...
+        // payroll-এ প্রয়োগ (একই!)
+        // ...
+    }
+}</pre>
+
+<p>Template Method প্রয়োগ করলে:</p>
+
+<span class="code-label good">✓ ভালো — Template Method</span>
+<pre class="good">abstract public class VacationPolicy {
+    public void accrueVacation() {
+        calculateBaseVacationHours();
+        alterForLegalMinimums();
+        applyToPayroll();
+    }
+
+    private void calculateBaseVacationHours() { /* ... */ };
+    abstract protected void alterForLegalMinimums();
+    private void applyToPayroll() { /* ... */ };
+}
+
+public class USVacationPolicy extends VacationPolicy {
+    @Override protected void alterForLegalMinimums() {
+        // US-specific logic
+    }
+}
+
+public class EUVacationPolicy extends VacationPolicy {
+    @Override protected void alterForLegalMinimums() {
+        // EU-specific logic
+    }
+}</pre>
+
+<p>Subclass শুধু algorithm-এর সেই অংশটুকু পূরণ করে যেটা ভিন্ন — বাকি সব common code base class-এ থাকে।</p>
+
+<h2>Expressive কোড <span class="en">Expressive</span></h2>
+
+<p>কোড লেখার সময় আমরা সমস্যার গভীরে থাকি বলে কোড বুঝতে পারি। কিন্তু পরবর্তীতে যিনি maintain করবেন, তাঁর এত গভীর বোঝাপড়া নাও থাকতে পারে। সফটওয়্যারের সবচেয়ে বড় খরচ হলো দীর্ঘমেয়াদী maintenance। তাই কোড পরিষ্কারভাবে লিখে উদ্দেশ্য প্রকাশ করা উচিত।</p>
+
+<p>Expressive কোড লেখার উপায়:</p>
+
+<p><span class="b">ভালো নাম বাছাই করুন:</span> ক্লাস বা function-এর নাম শুনেই যেন তার দায়িত্ব সম্পর্কে আন্দাজ পাওয়া যায়।</p>
+
+<p><span class="b">Function ও class ছোট রাখুন:</span> ছোট ক্লাস ও function সহজে নামকরণ, লেখা, ও বোঝা যায়।</p>
+
+<p><span class="b">Standard nomenclature ব্যবহার করুন:</span> Design pattern-এর নাম (যেমন COMMAND, VISITOR) ক্লাসের নামে ব্যবহার করলে অন্য developer দ্রুত বুঝতে পারে।</p>
+
+<p><span class="b">ভালো unit test লিখুন:</span> টেস্ট কোডের "documentation by example" হিসেবে কাজ করে।</p>
+
+<p><span class="b">চেষ্টা করুন:</span> কোড কাজ করলেই পরবর্তী সমস্যায় চলে যাবেন না। একটু সময় নিন কোডকে পরবর্তী পাঠকের জন্য সহজ করতে। মনে রাখুন — <span class="hi">পরবর্তী পাঠক সম্ভবত আপনি নিজেই!</span></p>
+
+<h2>ক্লাস ও মেথড সংখ্যা কমাও <span class="en">Minimal Classes and Methods</span></h2>
+
+<p>Duplication দূর করা, expressiveness — এসব নিয়ম অতিরিক্ত মানতে গেলে খুব বেশি ছোট ক্লাস ও method তৈরি হতে পারে। এই চতুর্থ নিয়ম বলে — ক্লাস ও method-এর মোট সংখ্যাও কম রাখো।</p>
+
+<p>যেমন, প্রতিটি ক্লাসের জন্য আলাদা interface তৈরি করার জেদ, বা data class ও behavior class আলাদা করার গোঁড়ামি — এগুলো অনর্থক complexity বাড়ায়। Pragmatic (বাস্তববাদী) হতে হবে।</p>
+
+<p>তবে মনে রাখতে হবে — এটা চারটি নিয়মের মধ্যে <span class="b">সবচেয়ে কম গুরুত্বপূর্ণ</span>। টেস্ট থাকা, duplication দূর করা, ও expressiveness — এগুলো সবসময় আগে।</p>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+
+<p>এই চারটি নিয়ম কি অভিজ্ঞতার বিকল্প? নিশ্চয়ই না। তবে এগুলো দশকের পর দশক অভিজ্ঞতার সংকলিত রূপ। Simple design-এর চর্চা developer-দের ভালো principle ও pattern অনুসরণ করতে উৎসাহিত করে — যেগুলো অন্যথায় শিখতে বছরের পর বছর লাগে।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Simple Design-এর চারটি নিয়ম</div><div class="cd">১) সব টেস্ট চলে, ২) Duplication নেই, ৩) Programmer-এর উদ্দেশ্য প্রকাশ করে, ৪) ক্লাস ও মেথড সংখ্যা কম — গুরুত্বের এই ক্রমে।</div></div>
+<div class="ci"><div class="cn">★ টেস্ট সবকিছুর ভিত্তি</div><div class="cd">টেস্ট লেখার চাপেই ক্লাস ছোট, single-purpose, এবং loosely coupled হয়। টেস্ট থাকলে refactoring-এর সাহস পাওয়া যায়।</div></div>
+<div class="ci"><div class="cn">★ Duplication হলো প্রধান শত্রু</div><div class="cd">হুবহু duplicate code থেকে শুরু করে implementation duplication — সব ধরনের duplication দূর করতে হবে।</div></div>
+<div class="ci"><div class="cn">★ Expressive কোড লেখো</div><div class="cd">ভালো নাম দাও, ছোট function-class রাখো, standard pattern নাম ব্যবহার করো, ভালো টেস্ট লেখো।</div></div>
+<div class="ci"><div class="cn">★ Template Method Pattern</div><div class="cd">Higher-level duplication দূর করতে Template Method ব্যবহার করো — common algorithm base class-এ রাখো, ভিন্ন অংশ subclass-এ।</div></div>
+<div class="ci"><div class="cn">★ Pragmatic হও</div><div class="cd">নিয়ম অতিরিক্ত মানতে গিয়ে অনর্থক complexity তৈরি করো না। ক্লাস-মেথড সংখ্যা কম রাখো, কিন্তু এটা সবচেয়ে কম priority।</div></div>
+</div>
+
+</div>
+</div>

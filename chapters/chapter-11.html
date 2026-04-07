@@ -1,0 +1,203 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-label.neutral{background:var(--muted);color:#fff}
+.listing-title{font-size:14px;font-family:var(--fc);color:var(--muted);margin-bottom:4px;font-weight:500}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">11</div>
+<div class="clab">অধ্যায় ১১</div>
+<div class="ctbn">সিস্টেম</div>
+<div class="cten">Systems</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>এই অধ্যায়ে বলা হয়েছে — সিস্টেম লেভেলেও clean code-এর চর্চা দরকার। Object তৈরি (construction) ও ব্যবহার (use) আলাদা রাখতে হবে। <span class="b">Dependency Injection (DI)</span>, <span class="b">AOP (Aspect-Oriented Programming)</span>, এবং POJO-ভিত্তিক ডিজাইন সিস্টেমকে flexible ও testable রাখে। Big Design Up Front (BDUF) এড়িয়ে incrementally সিস্টেম তৈরি করতে হবে।</p>
+
+<h2>শহর তৈরির উপমা <span class="en">How Would You Build a City?</span></h2>
+
+<p>আপনি কি একা একটি শহরের সব বিষয় সামলাতে পারবেন? সম্ভবত না। তবু শহরগুলো চলে — কারণ বিভিন্ন দল বিভিন্ন অংশ সামলায়: পানি ব্যবস্থা, বিদ্যুৎ, যানবাহন, আইন-শৃঙ্খলা। কেউ বড় চিত্র দেখে, কেউ খুঁটিনাটি দেখে।</p>
+
+<p>সফটওয়্যার টিমও এভাবে সংগঠিত, কিন্তু তাদের তৈরি সিস্টেমে প্রায়ই সেই <span class="b">Separation of Concerns</span> থাকে না। Clean code নিচের স্তরে (function, class) সাহায্য করে — এই অধ্যায়ে আমরা উঁচু স্তরে (system level) clean থাকার কথা বলব।</p>
+
+<h2>নির্মাণ ও ব্যবহার আলাদা করুন <span class="en">Separate Constructing a System from Using It</span></h2>
+
+<p>নির্মাণ (construction) আর ব্যবহার (use) দুটো একেবারে আলাদা প্রক্রিয়া। একটি হোটেল নির্মাণের সময় ক্রেন, সিমেন্ট, শ্রমিক থাকে — আর নির্মাণ শেষে সুন্দর কাচের দেয়াল, রঙ, অতিথি থাকে। সফটওয়্যারেও <span class="b">startup process</span> (object তৈরি ও dependency wiring) আর <span class="b">runtime logic</span> আলাদা রাখা উচিত।</p>
+
+<p>বেশিরভাগ application-এ startup code runtime logic-এর সাথে মিশে থাকে। যেমন:</p>
+
+<span class="code-label bad">✗ Lazy Initialization — সমস্যাযুক্ত</span>
+<pre class="bad">public Service getService() {
+    if (service == null)
+        service = new MyServiceImpl(...);
+    return service;
+}</pre>
+
+<p>এটা Lazy Initialization — ভালো দিক হলো যতক্ষণ object দরকার না ততক্ষণ তৈরি হয় না। কিন্তু সমস্যা হলো <code>MyServiceImpl</code>-এর ওপর hard-coded dependency তৈরি হয়ে গেছে। টেস্ট করতে গেলে এই method-এর আগেই mock object বসাতে হবে। আর এটা SRP-ও ভাঙে।</p>
+
+<h2>Main আলাদা করো <span class="en">Separation of Main</span></h2>
+
+<p>সব construction logic main function-এ (বা main থেকে ডাকা module-এ) রাখুন। বাকি system ধরে নেবে যে সব object ঠিকমতো তৈরি ও wire করা হয়েছে। Dependency arrow গুলো সব main থেকে দূরে যাবে — application-এর main সম্পর্কে কিছু জানার দরকার নেই।</p>
+
+<h2>Factory Pattern <span class="en">Factory Pattern</span></h2>
+
+<p>কখনো কখনো application-কেই ঠিক করতে হয় কখন কোন object তৈরি হবে। সেক্ষেত্রে <span class="hi">Abstract Factory pattern</span> ব্যবহার করা হয় — যাতে application object তৈরির সময় নিয়ন্ত্রণ করতে পারে, কিন্তু তৈরির বিস্তারিত জানতে না হয়।</p>
+
+<h2>Dependency Injection (DI) <span class="en">Dependency Injection</span></h2>
+
+<div class="kp"><div class="kl">Dependency Injection (DI) কী?</div><p>Dependency Injection হলো <span class="b">Inversion of Control (IoC)</span>-এর একটি প্রয়োগ। এতে একটি object নিজে তার dependency তৈরি করে না — বাইরে থেকে setter method বা constructor argument দিয়ে dependency "ইনজেক্ট" করা হয়। DI container (যেমন Spring) চাহিদামতো object তৈরি করে এবং একে অপরের সাথে wire করে দেয়।</p></div>
+
+<p>JNDI lookup হলো আংশিক DI — object নিজে directory server-এ request করে service খোঁজে। আসল DI-তে class নিজে কিছু করে না, সম্পূর্ণ passive থাকে:</p>
+
+<pre class="neutral">// JNDI — আংশিক DI
+MyService myService = (MyService)(jndiContext.lookup("NameOfMyService"));
+
+// True DI — class passive, setter/constructor দিয়ে inject হয়</pre>
+
+<p>Spring Framework এ XML configuration file ব্যবহার করে object wire করা হয়। Lazy initialization-ও DI container-এ সম্ভব — বেশিরভাগ container চাহিদামতো object তৈরি করে।</p>
+
+<h2>স্কেল করো <span class="en">Scaling Up</span></h2>
+
+<p>শহর গ্রাম থেকে বড় হয়, গ্রাম বসতি থেকে। প্রথমে সরু রাস্তা থাকে, পরে চওড়া হয়। সফটওয়্যারও একই — প্রথম দিন থেকেই "ঠিক" সিস্টেম বানানো সম্ভব না। আজকের প্রয়োজন মেটাও, তারপর refactor ও expand করো। <span class="b">এটাই iterative agility-র মূলকথা।</span></p>
+
+<div class="kp"><div class="kl">মূল কথা</div><p>সফটওয়্যার সিস্টেম ভৌত (physical) সিস্টেম থেকে আলাদা। সঠিকভাবে concern আলাদা রাখলে সফটওয়্যারের architecture ধীরে ধীরে বাড়তে পারে।</p></div>
+
+<h2>EJB2 — একটি সাবধানমূলক উদাহরণ <span class="en">EJB2 — A Cautionary Tale</span></h2>
+
+<p>EJB1 এবং EJB2 architecture concern সঠিকভাবে আলাদা করতে পারেনি, তাই organic growth বাধাগ্রস্ত হতো। একটি simple Bank entity bean-এ interface, implementation class, XML deployment descriptor — সব মিলিয়ে অনেক boilerplate code লিখতে হতো। Business logic container-এর সাথে tightly coupled ছিল, তাই unit testing কঠিন ছিল।</p>
+
+<h2>Cross-Cutting Concerns <span class="en">Cross-Cutting Concerns</span></h2>
+
+<p>Cross-Cutting Concerns হলো সেই বিষয়গুলো যা অনেক object-এর মধ্যে ছড়িয়ে পড়ে, যেমন persistence, security, transaction। এগুলো modular ভাবে চিন্তা করা যায়, কিন্তু বাস্তবে একই কোড অনেক জায়গায় ছড়িয়ে দিতে হয়।</p>
+
+<p>EJB architecture এই সমস্যা মোকাবেলায় যে পদ্ধতি ব্যবহার করেছিল, তা পরে <span class="hi">Aspect-Oriented Programming (AOP)</span> হিসেবে পরিচিত পায়। AOP-তে aspect নামক modular construct দিয়ে নির্ধারণ করা হয় সিস্টেমের কোন কোন পয়েন্টে behavior পরিবর্তন করতে হবে।</p>
+
+<h2>Pure Java AOP Frameworks <span class="en">Pure Java AOP Frameworks</span></h2>
+
+<p>Spring AOP এবং JBoss AOP-তে business logic POJO (Plain Old Java Object) হিসেবে লেখা হয়। POJO-গুলো শুধু domain logic-এ ফোকাস করে, enterprise framework-এর ওপর কোনো dependency থাকে না। Cross-cutting concerns (persistence, transaction, security) XML configuration file বা annotation দিয়ে declaratively যোগ করা হয়।</p>
+
+<p>Spring configuration-এর উদাহরণ:</p>
+
+<pre class="neutral">&lt;beans&gt;
+    &lt;bean id="appDataSource"
+        class="org.apache.commons.dbcp.BasicDataSource"
+        destroy-method="close"
+        p:driverClassName="com.mysql.jdbc.Driver"
+        p:url="jdbc:mysql://localhost:3306/mydb"
+        p:username="me"/&gt;
+
+    &lt;bean id="bankDataAccessObject"
+        class="com.example.banking.persistence.BankDataAccessObject"
+        p:dataSource-ref="appDataSource"/&gt;
+
+    &lt;bean id="bank"
+        class="com.example.banking.model.Bank"
+        p:dataAccessObject-ref="bankDataAccessObject"/&gt;
+&lt;/beans&gt;</pre>
+
+<p>EJB3 এই সমস্যার অনেকটা সমাধান করেছে — annotation ব্যবহার করে অনেক সহজভাবে entity define করা যায়:</p>
+
+<pre class="good">@Entity
+@Table(name = "BANKS")
+public class Bank implements java.io.Serializable {
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    private int id;
+
+    @Embeddable
+    public class Address {
+        protected String streetAddr1;
+        protected String streetAddr2;
+        protected String city;
+        protected String state;
+        protected String zipCode;
+    }
+
+    @Embedded
+    private Address address;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+        mappedBy="bank")
+    private Collection&lt;Account&gt; accounts = new ArrayList&lt;Account&gt;();
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public void addAccount(Account account) {
+        account.setBank(this);
+        accounts.add(account);
+    }
+    // ...
+}</pre>
+
+<p>EJB2-র তুলনায় এই কোড অনেক পরিষ্কার — annotation-এর বাইরে শুধু পরিচ্ছন্ন Java code।</p>
+
+<h2>সিস্টেম Architecture Test-Drive করুন <span class="en">Test-Drive the System Architecture</span></h2>
+
+<p>যদি আপনার application-এর domain logic POJO দিয়ে লেখা থাকে, architecture concerns থেকে decoupled থাকে, তাহলে architecture-কে test-drive করা সম্ভব। "Naively simple" কিন্তু decoupled architecture দিয়ে শুরু করুন, দ্রুত working user stories deliver করুন, তারপর প্রয়োজনমতো infrastructure যোগ করুন।</p>
+
+<div class="kp"><div class="kl">সর্বোত্তম Architecture</div><p>সর্বোত্তম system architecture হলো — modularized domain of concern, যেখানে প্রতিটি domain POJO দিয়ে implement করা, এবং বিভিন্ন domain minimally invasive Aspect দিয়ে integrate করা। এই architecture test-driven হতে পারে।</p></div>
+
+<h2>সিদ্ধান্ত গ্রহণ অপটিমাইজ করুন <span class="en">Optimize Decision Making</span></h2>
+
+<p>বড় সিস্টেমে একজনের পক্ষে সব সিদ্ধান্ত নেওয়া সম্ভব নয়। সবচেয়ে যোগ্য ব্যক্তিকে দায়িত্ব দেওয়া উচিত। আর সিদ্ধান্ত যতটা সম্ভব দেরিতে নেওয়া উচিত — এটা অলসতা নয়, এটা সবচেয়ে বেশি তথ্য নিয়ে informed decision নেওয়ার সুযোগ।</p>
+
+<h2>Domain-Specific Languages (DSL) <span class="en">Domain-Specific Languages</span></h2>
+
+<p>Domain-Specific Language (DSL) হলো ছোট scripting language বা API যা দিয়ে কোড এমনভাবে লেখা যায় যে domain expert-ও সেটা পড়ে বুঝতে পারেন। ভালো DSL domain concept ও implementation code-এর মধ্যে communication gap কমিয়ে দেয়।</p>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+
+<p>সিস্টেমও পরিষ্কার হতে হবে। ভারী architecture domain logic-কে চাপা দেয়, agility নষ্ট করে। সব abstraction level-এ intent পরিষ্কার হওয়া উচিত। POJO ব্যবহার করুন, aspect-like mechanism দিয়ে implementation concerns noninvasively যোগ করুন।</p>
+
+<div class="law">সবচেয়ে সহজ যেটা কাজ করবে সেটাই ব্যবহার করুন।</div>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ নির্মাণ ও ব্যবহার আলাদা করো</div><div class="cd">Object তৈরি (construction) ও ব্যবহার (use) আলাদা প্রক্রিয়া — startup logic আর runtime logic মিশিয়ো না।</div></div>
+<div class="ci"><div class="cn">★ Dependency Injection (DI)</div><div class="cd">Object নিজে dependency তৈরি করবে না — বাইরে থেকে inject করা হবে। এতে coupling কমে এবং testing সহজ হয়।</div></div>
+<div class="ci"><div class="cn">★ Incrementally বাড়াও</div><div class="cd">প্রথম দিন থেকেই "ঠিক" সিস্টেম বানানো সম্ভব না। আজকের প্রয়োজন মেটাও, তারপর refactor করো।</div></div>
+<div class="ci"><div class="cn">★ Cross-Cutting Concerns</div><div class="cd">Persistence, security, transaction — এগুলো AOP বা aspect-like mechanism দিয়ে modular ভাবে handle করো।</div></div>
+<div class="ci"><div class="cn">★ POJO-ভিত্তিক ডিজাইন</div><div class="cd">Business logic POJO দিয়ে লেখো — enterprise framework-এর ওপর dependency রাখো না।</div></div>
+<div class="ci"><div class="cn">★ সিদ্ধান্ত দেরিতে নাও</div><div class="cd">সবচেয়ে বেশি তথ্য নিয়ে informed decision নেওয়ার জন্য সিদ্ধান্ত যতটা সম্ভব দেরিতে নাও।</div></div>
+</div>
+
+</div>
+</div>

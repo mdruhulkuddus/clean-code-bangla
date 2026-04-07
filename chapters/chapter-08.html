@@ -1,0 +1,198 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-label.neutral{background:var(--muted);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.listing-title{font-size:14px;font-family:var(--fc);color:var(--muted);margin-bottom:4px;font-weight:500}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">08</div>
+<div class="clab">অধ্যায় ৮</div>
+<div class="ctbn">বাউন্ডারিজ</div>
+<div class="cten">Boundaries</div>
+<div class="caut">by James Grenning</div>
+</div>
+<div class="ct">
+
+<p>আমরা যে সফটওয়্যার তৈরি করি, তার পুরোটা আমরা নিজেরা নিয়ন্ত্রণ করি না। কখনো third-party package কিনি, কখনো open source ব্যবহার করি, কখনো নিজের কোম্পানির অন্য টিমের তৈরি component ব্যবহার করি। এই "বাইরের" কোডকে নিজের কোডের সাথে পরিষ্কারভাবে সংযুক্ত করাটাই boundary management।</p>
+
+<h2>Third-Party Code ব্যবহারের সমস্যা <span class="en">Using Third-Party Code</span></h2>
+
+<p>Interface provider (যে লাইব্রেরি তৈরি করে) চায় তার interface যতটা সম্ভব broad (বিস্তৃত) হোক — যেন অনেক ধরনের user ব্যবহার করতে পারে। অন্যদিকে, user চায় তার নির্দিষ্ট প্রয়োজনে focused interface। এই টানাপোড়েন boundary-তে সমস্যা তৈরি করে।</p>
+
+<p>উদাহরণ হিসেবে Java-র Map দেখো। Map-এর অনেক method আছে — <code>clear()</code>, <code>put()</code>, <code>remove()</code> ইত্যাদি। তুমি হয়তো চাও কেউ যেন Map থেকে কিছু delete না করতে পারে, কিন্তু <code>clear()</code> method সবার কাছে উন্মুক্ত!</p>
+
+<p>যদি তোমার application-এ Sensor-এর একটা Map দরকার হয়, তুমি হয়তো এভাবে লিখবে:</p>
+
+<span class="code-label bad">✗ খারাপ</span>
+<pre class="bad">Map sensors = new HashMap();
+
+// অন্য জায়গায় ব্যবহার:
+Sensor s = (Sensor)sensors.get(sensorId);</pre>
+
+<p>Generics ব্যবহার করলে একটু ভালো হয় (<code>Map&lt;Sensor&gt;</code>), কিন্তু মূল সমস্যা থেকে যায় — Map-এর পুরো interface সবার কাছে exposed। একটা ভালো সমাধান হলো Map-কে একটা class-এ wrap করা:</p>
+
+<span class="code-label good">✓ ভালো</span>
+<pre class="good">public class Sensors {
+    private Map sensors = new HashMap();
+
+    public Sensor getById(String id) {
+        return (Sensor) sensors.get(id);
+    }
+    //snip
+}</pre>
+
+<p>এই approach এর সুবিধা হলো: boundary interface (Map) লুকানো আছে। Map এর API পরিবর্তন হলে শুধু Sensors class পরিবর্তন করতে হবে, বাকি application-এ কোনো প্রভাব পড়বে না। এই interface tailored এবং constrained — প্রয়োজনের বাইরে কিছু করার সুযোগ নেই। ফলে কোড বোঝা সহজ এবং <span class="b">ভুল করা কঠিন।</span></p>
+
+<div class="kp"><div class="kl">গুরুত্বপূর্ণ পরামর্শ</div><p>প্রতিটা Map ব্যবহার এভাবে wrap করতে হবে এমন নয়। কিন্তু Map বা অন্য boundary interface পুরো system-এ pass করো না। এটাকে ব্যবহারকারী class বা তার কাছের class গুলোর মধ্যে সীমাবদ্ধ রাখো। Public API থেকে return বা argument হিসেবে boundary interface পাঠানো এড়িয়ে চলো।</p></div>
+
+<h2>Boundary খোঁজা ও অনুসন্ধান <span class="en">Exploring and Learning Boundaries</span></h2>
+
+<p>নতুন third-party library ব্যবহার করতে গেলে documentation পড়ি, কোড লিখি, debug করি — এটা সময়সাপেক্ষ। Third-party code শেখাও কঠিন, integrate করাও কঠিন — দুটো একসাথে করা দ্বিগুণ কঠিন।</p>
+
+<p>একটা ভালো পদ্ধতি হলো <span class="hi">Learning Tests</span> লেখা। Production code-এ সরাসরি পরীক্ষা না করে, ছোট ছোট test লেখো যেগুলো third-party API কে তুমি যেভাবে ব্যবহার করতে চাও সেভাবে call করে।</p>
+
+<h2>Learning log4j — একটা উদাহরণ <span class="en">Learning log4j</span></h2>
+
+<p>ধরো, তুমি Apache log4j ব্যবহার করতে চাও। প্রথমে একটা সহজ test লেখো:</p>
+
+<pre class="neutral">@Test
+public void testLogCreate() {
+    Logger logger = Logger.getLogger("MyLogger");
+    logger.info("hello");
+}</pre>
+
+<p>রান করলে error আসবে — Appender দরকার। আরেকটু পড়ে ConsoleAppender যোগ করো:</p>
+
+<pre class="neutral">@Test
+public void testLogAddAppender() {
+    Logger logger = Logger.getLogger("MyLogger");
+    ConsoleAppender appender = new ConsoleAppender();
+    logger.addAppender(appender);
+    logger.info("hello");
+}</pre>
+
+<p>আবার সমস্যা — Appender-এর output stream নেই! আরও ঘাঁটাঘাঁটি করে শেষমেশ কাজ করলো:</p>
+
+<pre class="neutral">@Test
+public void testLogAddAppender() {
+    Logger logger = Logger.getLogger("MyLogger");
+    logger.removeAllAppenders();
+    logger.addAppender(new ConsoleAppender(
+        new PatternLayout("%p %t %m%n"),
+        ConsoleAppender.SYSTEM_OUT));
+    logger.info("hello");
+}</pre>
+
+<p>এভাবে পরীক্ষা-নিরীক্ষা করে একটা সম্পূর্ণ test suite তৈরি হয়:</p>
+
+<div class="listing-title">Listing 8-1: LogTest.java</div>
+<pre class="neutral">public class LogTest {
+    private Logger logger;
+
+    @Before
+    public void initialize() {
+        logger = Logger.getLogger("logger");
+        logger.removeAllAppenders();
+        Logger.getRootLogger().removeAllAppenders();
+    }
+
+    @Test
+    public void basicLogger() {
+        BasicConfigurator.configure();
+        logger.info("basicLogger");
+    }
+
+    @Test
+    public void addAppenderWithStream() {
+        logger.addAppender(new ConsoleAppender(
+            new PatternLayout("%p %t %m%n"),
+            ConsoleAppender.SYSTEM_OUT));
+        logger.info("addAppenderWithStream");
+    }
+
+    @Test
+    public void addAppenderWithoutStream() {
+        logger.addAppender(new ConsoleAppender(
+            new PatternLayout("%p %t %m%n")));
+        logger.info("addAppenderWithoutStream");
+    }
+}</pre>
+
+<p>এখন আমরা জানি console logger কীভাবে initialize করতে হয়। এই জ্ঞান নিজের logger class-এ encapsulate করে বাকি application-কে log4j-র boundary থেকে insulate (আলাদা) করা যায়।</p>
+
+<h2>Learning Tests বিনামূল্যের চেয়েও ভালো <span class="en">Learning Tests Are Better Than Free</span></h2>
+
+<p>Learning tests-এর কোনো অতিরিক্ত খরচ নেই — API তো শিখতেই হতো। এবং এদের একটা বড় সুবিধা আছে: third-party package-এর নতুন version এলে এই test গুলো রান করলেই বোঝা যায় কোনো behavioral difference আছে কিনা।</p>
+
+<p>এই test গুলো verify করে যে third-party package আমাদের প্রত্যাশা অনুযায়ী কাজ করছে। Boundary tests ছাড়া পুরোনো version-এ আটকে থাকার প্রবণতা তৈরি হয়।</p>
+
+<h2>এখনো তৈরি হয়নি এমন Code ব্যবহার করো <span class="en">Using Code That Does Not Yet Exist</span></h2>
+
+<p>আরেক ধরনের boundary আছে — জানা ও অজানার মধ্যকার সীমানা। কখনো কখনো boundary-র অপর পাশে কী আছে সেটা এখনো জানা যায়নি।</p>
+
+<p>লেখক একটা radio communication system-এর উদাহরণ দেন। তাদের একটা "Transmitter" subsystem দরকার ছিল, কিন্তু সেটার API এখনো তৈরি হয়নি। তারা আটকে না থেকে নিজেদের interface তৈরি করে ফেললো:</p>
+
+<p>তারা চেয়েছিলেন transmitter-কে বলতে: "এই frequency-তে transmitter চালু করো এবং এই data stream থেকে analog representation পাঠাও।" তাই নিজেদের Transmitter interface তৈরি করলেন যার transmit method frequency আর data stream নেয়।</p>
+
+<div class="kp"><div class="kl">Adapter Pattern</div><p>যখন প্রকৃত API তৈরি হলো, তখন একটা <span class="b">TransmitterAdapter</span> লেখা হলো যেটা নিজেদের interface আর আসল API-র মধ্যে সেতু হিসেবে কাজ করে। API পরিবর্তন হলে শুধু Adapter পরিবর্তন করলেই হবে। এটা testing-এও সুবিধা দেয় — FakeTransmitter দিয়ে সহজেই test করা যায়।</p></div>
+
+<h2>পরিষ্কার Boundary <span class="en">Clean Boundaries</span></h2>
+
+<p>Boundary-তে মজার ব্যাপার ঘটে — পরিবর্তন হয়। ভালো software design এমনভাবে করা হয় যাতে পরিবর্তনের জন্য বিশাল বিনিয়োগ ও rework না লাগে।</p>
+
+<p>Boundary code-এ পরিষ্কার separation ও expectation-defining test দরকার। তোমার নিজের নিয়ন্ত্রণে আছে এমন কিছুর উপর নির্ভর করা ভালো, যেটার উপর নিয়ন্ত্রণ নেই তার উপর নয়।</p>
+
+<p>Third-party boundary manage করতে: কোডে যত কম জায়গায় third-party reference থাকে তত ভালো। Map-এর মতো wrap করতে পারো, অথবা Adapter ব্যবহার করতে পারো। যেভাবেই হোক — <span class="b">তোমার কোড তোমার ভাষায় কথা বলবে</span>, boundary জুড়ে consistent ব্যবহার নিশ্চিত হবে, আর third-party code পরিবর্তন হলে maintenance point কম থাকবে।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Third-party code সরাসরি ছড়িয়ে দিও না</div><div class="cd">Boundary interface (যেমন Map) সরাসরি পুরো system-এ পাস করো না, wrap করো।</div></div>
+<div class="ci"><div class="cn">★ Learning Tests লেখো</div><div class="cd">তৃতীয়-পক্ষের library শেখার জন্য ছোট ছোট test লেখো। এটা বিনামূল্যে শেখার একটা উপায়, আর নতুন version এলে behavioral difference ধরতে সাহায্য করে।</div></div>
+<div class="ci"><div class="cn">★ Adapter Pattern ব্যবহার করো</div><div class="cd">এখনো তৈরি হয়নি এমন API-র জন্য নিজের interface define করো, পরে Adapter দিয়ে সংযোগ করো।</div></div>
+<div class="ci"><div class="cn">★ Boundary তে পরিবর্তন হয়</div><div class="cd">তাই boundary code পরিষ্কারভাবে আলাদা রাখো এবং test দিয়ে protect করো।</div></div>
+<div class="ci"><div class="cn">★ Boundary Interface Wrap করো</div><div class="cd">Map-এর মতো broad interface-কে নিজের class-এ wrap করো যাতে implementation details লুকানো থাকে এবং API পরিবর্তনের প্রভাব সীমিত থাকে।</div></div>
+<div class="ci"><div class="cn">★ নিজের নিয়ন্ত্রণে থাকো</div><div class="cd">তোমার কোড তোমার ভাষায় কথা বলবে। Third-party reference যত কম জায়গায় থাকবে, maintenance তত সহজ হবে।</div></div>
+</div>
+
+</div>
+</div>

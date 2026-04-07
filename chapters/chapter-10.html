@@ -1,0 +1,360 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.eq{margin:30px 0;padding:26px;background:var(--surface);border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.en-name{font-weight:800;color:var(--heading);font-size:18px}
+.en-title{font-size:13px;color:var(--muted);font-family:var(--fc);margin-bottom:12px}
+.en-text{padding:14px 18px;background:var(--warm);border-radius:6px;margin-bottom:12px;font-weight:600;line-height:2;border-left:4px solid var(--accent-bd)}
+.en-exp p{color:var(--text2);font-size:15.5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-label.neutral{background:var(--muted);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.listing-title{font-size:14px;font-family:var(--fc);color:var(--muted);margin-bottom:4px;font-weight:500}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">10</div>
+<div class="clab">অধ্যায় ১০</div>
+<div class="ctbn">ক্লাস</div>
+<div class="cten">Classes</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>ভালো সফটওয়্যার ডিজাইনের মূল কথা হলো — ক্লাস ছোট রাখো, প্রতিটি ক্লাসের একটিমাত্র দায়িত্ব থাকবে, এবং ক্লাসগুলো যেন একে অপরের থেকে যতটা সম্ভব স্বাধীন হয়। এই অধ্যায়ে <span class="b">Single Responsibility Principle (SRP)</span>, <span class="b">Cohesion</span>, <span class="b">Open-Closed Principle (OCP)</span>, এবং <span class="b">Dependency Inversion Principle (DIP)</span> নিয়ে আলোচনা করা হয়েছে।</p>
+
+<h2>ক্লাস সংগঠন <span class="en">Class Organization</span></h2>
+
+<p>Java convention অনুযায়ী একটি ক্লাসের শুরুতে variable-এর তালিকা থাকা উচিত। প্রথমে <code>public static constant</code>, তারপর <code>private static variable</code>, এবং তারপর <code>private instance variable</code> রাখা হয়। সাধারণত <code>public variable</code> রাখার কোনো ভালো কারণ নেই।</p>
+
+<p>Variable-এর পরে public function গুলো আসবে। আর একটি public function যে private utility function ব্যবহার করে, সেটি ঠিক ওই public function-এর পরেই রাখা ভালো। এতে কোড পড়তে অনেকটা পত্রিকার মতো লাগে — ওপর থেকে নিচে পড়া যায় (এটাকে বলে <span class="hi">Stepdown Rule</span>)।</p>
+
+<h2>Encapsulation — তথ্য লুকানো <span class="en">Encapsulation</span></h2>
+
+<p><span class="b">Encapsulation</span> মানে হলো ক্লাসের ভেতরের variable ও utility function গুলো বাইরে থেকে লুকিয়ে রাখা। আমরা সবকিছু private রাখতে চাই, তবে এটা নিয়ে গোঁড়ামি করি না। যদি একটি টেস্টের জন্য কোনো variable বা function অ্যাক্সেস করা দরকার হয়, তাহলে সেটাকে <code>protected</code> বা package scope করা যায়। তবে প্রথমে privacy বজায় রাখার উপায় খুঁজতে হবে — encapsulation শিথিল করা সবসময় শেষ উপায়।</p>
+
+<h2>ক্লাস ছোট হওয়া উচিত! <span class="en">Classes Should Be Small!</span></h2>
+
+<p>ক্লাসের প্রথম নিয়ম — এটা ছোট হওয়া উচিত। দ্বিতীয় নিয়ম — এটা আরও ছোট হওয়া উচিত! Function-এ আমরা line গুনে সাইজ মাপি, কিন্তু ক্লাসের ক্ষেত্রে আমরা গুনি <span class="b">Responsibility অর্থাৎ দায়িত্বের সংখ্যা।</span></p>
+
+<p>নিচের উদাহরণ SuperDashboard ক্লাসে প্রায় ৭০টি public method আছে — এটা অনেক বড়। অনেকে একে "God class" বলবে:</p>
+
+<span class="code-label bad">✗ খারাপ — God Class</span>
+<pre class="bad">public class SuperDashboard extends JFrame implements MetaDataUser
+    public String getCustomizerLanguagePath()
+    public void setSystemConfigPath(String systemConfigPath)
+    public String getSystemConfigDocument()
+    public void setSystemConfigDocument(String systemConfigDocument)
+    public boolean getGuruState()
+    public boolean getNoviceState()
+    public boolean getOpenSourceState()
+    public void showObject(MetaObject object)
+    public void showProgress(String s)
+    // ... আরও অনেক method ...
+}</pre>
+
+<p>এখন যদি এই ক্লাসে মাত্র ৫টি method থাকে?</p>
+
+<pre class="neutral">public class SuperDashboard extends JFrame implements MetaDataUser
+    public Component getLastFocusedComponent()
+    public void setLastFocused(Component lastFocused)
+    public int getMajorVersionNumber()
+    public int getMinorVersionNumber()
+    public int getBuildNumber()
+}</pre>
+
+<p>৫টি method — মনে হতে পারে এটা যথেষ্ট ছোট। কিন্তু আসলে এই ক্লাসেও অনেক বেশি দায়িত্ব আছে! ক্লাসের নাম দিয়েই বোঝা উচিত সে কী কাজ করে। যদি ক্লাসের জন্য একটি সংক্ষিপ্ত নাম খুঁজে পাওয়া না যায়, তাহলে সম্ভবত এটা বেশি বড়। <code>Processor</code>, <code>Manager</code>, <code>Super</code> এরকম নাম দেখলে বুঝতে হবে দায়িত্বের জটপাকানো অবস্থা।</p>
+
+<p>ক্লাসের বর্ণনা ২৫ শব্দের মধ্যে লেখা উচিত — "যদি", "এবং", "অথবা", "কিন্তু" শব্দ ছাড়া। যেমন: "SuperDashboard শেষ ফোকাস হওয়া component-এর access দেয় <span class="b">এবং</span> version ও build নম্বর ট্র্যাক করে।" এই "এবং" শব্দটিই ইঙ্গিত দেয় যে ক্লাসে একাধিক দায়িত্ব আছে।</p>
+
+<h2>Single Responsibility Principle (SRP) <span class="en">Single Responsibility Principle</span></h2>
+
+<div class="kp"><div class="kl">SRP — Single Responsibility Principle</div><p>SRP বলে — একটি ক্লাস বা module-এর পরিবর্তনের কারণ <span class="b">শুধুমাত্র একটিই</span> থাকা উচিত। মানে, প্রতিটি ক্লাসের একটিমাত্র দায়িত্ব থাকবে।</p></div>
+
+<p>আগের SuperDashboard ক্লাসে দুটো কারণে পরিবর্তন আনতে হতে পারে — version information আপডেট করতে এবং Swing component ম্যানেজ করতে। তাই version-সংক্রান্ত method গুলো একটি আলাদা ক্লাসে রাখা উচিত:</p>
+
+<span class="code-label good">✓ ভালো — আলাদা দায়িত্ব</span>
+<pre class="good">public class Version {
+    public int getMajorVersionNumber()
+    public int getMinorVersionNumber()
+    public int getBuildNumber()
+}</pre>
+
+<p>SRP অনেক গুরুত্বপূর্ণ একটি OO design principle, অথচ এটি সবচেয়ে বেশি লঙ্ঘিতও হয়। কেন? কারণ বেশিরভাগ সময় আমরা কোড কাজ করালেই থেমে যাই। কোড সংগঠিত ও পরিষ্কার করার কাজটি পরে করি না।</p>
+
+<p>অনেকে মনে করেন যে অনেকগুলো ছোট ক্লাস থাকলে পুরো সিস্টেম বোঝা কঠিন হয়ে যায়। কিন্তু আসল কথা হলো — ছোট ছোট ক্লাস আর বড় ক্লাস, দুটোতেই শেখার পরিমাণ সমান। প্রশ্ন হলো: আপনি কি আপনার টুলবক্সে ছোট ছোট ড্রয়ারে সুন্দরভাবে সাজানো টুলস চান, নাকি একটা বিশাল ড্রয়ারে সব জিনিস ঢেলে রাখতে চান?</p>
+
+<h2>Cohesion — সংসক্তি <span class="en">Cohesion</span></h2>
+
+<div class="kp"><div class="kl">Cohesion কী?</div><p>Cohesion মানে হলো একটি ক্লাসের method গুলো কতটা ক্লাসের instance variable ব্যবহার করে। যত বেশি variable ব্যবহার করে, ততই cohesive। যেখানে প্রতিটি method প্রতিটি variable ব্যবহার করে — সেটা সর্বোচ্চ cohesive ক্লাস।</p></div>
+
+<p>নিচের Stack ক্লাসটি অত্যন্ত cohesive — তিনটি method-এর মধ্যে শুধু <code>size()</code> ছাড়া বাকি সবগুলো দুটো variable-ই ব্যবহার করে:</p>
+
+<span class="code-label good">✓ উচ্চ Cohesion</span>
+<pre class="good">public class Stack {
+    private int topOfStack = 0;
+    List&lt;Integer&gt; elements = new LinkedList&lt;Integer&gt;();
+
+    public int size() {
+        return topOfStack;
+    }
+
+    public void push(int element) {
+        topOfStack++;
+        elements.add(element);
+    }
+
+    public int pop() throws PoppedWhenEmpty {
+        if (topOfStack == 0)
+            throw new PoppedWhenEmpty();
+        int element = elements.get(--topOfStack);
+        elements.remove(topOfStack);
+        return element;
+    }
+}</pre>
+
+<p>যখন function ছোট করতে গেলে ক্লাসে instance variable জমা হতে থাকে এবং শুধু কিছু method সেগুলো ব্যবহার করে — তখন বুঝতে হবে ক্লাসের ভেতরে আরেকটি ক্লাস লুকিয়ে আছে। সেটা আলাদা করে বের করে আনতে হবে।</p>
+
+<h2>Cohesion বজায় রাখলে ছোট ছোট ক্লাস তৈরি হয় <span class="en">Maintaining Cohesion Results in Many Small Classes</span></h2>
+
+<p>বড় function ভাঙলে প্রায়ই ক্লাসও ভাঙতে হয়। ধরুন একটি বড় function-এর ভেতরে অনেক variable আছে। আপনি সেই function থেকে একটি অংশ আলাদা function-এ বের করতে চান, কিন্তু সেই অংশটি চারটি variable ব্যবহার করে। এই চারটি variable-কে instance variable বানালে নতুন function-এ কোনো argument পাঠাতে হবে না। কিন্তু এতে cohesion কমে যায়। যদি কিছু function নির্দিষ্ট কিছু variable শেয়ার করতে চায় — তাহলে তারা আসলে একটি আলাদা ক্লাস হতে চায়!</p>
+
+<p>এটা বোঝাতে Knuth-এর PrintPrimes প্রোগ্রামের উদাহরণ দেওয়া হয়েছে। মূল কোডটি একটি বিশাল function:</p>
+
+<span class="code-label bad">✗ একটি বিশাল function</span>
+<pre class="bad">package literatePrimes;
+
+public class PrintPrimes {
+    public static void main(String[] args) {
+        final int M = 1000;
+        final int RR = 50;
+        final int CC = 4;
+        final int WW = 10;
+        final int ORDMAX = 30;
+        int P[] = new int[M + 1];
+        int PAGENUMBER;
+        int PAGEOFFSET;
+        int ROWOFFSET;
+        int C;
+        int J;
+        int K;
+        boolean JPRIME;
+        int ORD;
+        int SQUARE;
+        int N;
+        int MULT[] = new int[ORDMAX + 1];
+
+        J = 1;
+        K = 1;
+        P[1] = 2;
+        ORD = 2;
+        SQUARE = 9;
+
+        while (K &lt; M) {
+            do {
+                J = J + 2;
+                if (J == SQUARE) {
+                    ORD = ORD + 1;
+                    SQUARE = P[ORD] * P[ORD];
+                    MULT[ORD - 1] = J;
+                }
+                N = 2;
+                JPRIME = true;
+                while (N &lt; ORD &amp;&amp; JPRIME) {
+                    while (MULT[N] &lt; J)
+                        MULT[N] = MULT[N] + P[N] + P[N];
+                    if (MULT[N] == J)
+                        JPRIME = false;
+                    N = N + 1;
+                }
+            } while (!JPRIME);
+            K = K + 1;
+            P[K] = J;
+        }
+        // ... printing logic ...
+    }
+}</pre>
+
+<p>Refactoring-এর পরে এটাকে তিনটি আলাদা ক্লাসে ভাগ করা হয়, প্রতিটির নিজস্ব দায়িত্ব:</p>
+
+<span class="code-label good">✓ তিনটি আলাদা দায়িত্ব</span>
+<pre class="good">// PrimePrinter.java — মূল প্রোগ্রাম চালানোর দায়িত্ব
+package literatePrimes;
+
+public class PrimePrinter {
+    public static void main(String[] args) {
+        final int NUMBER_OF_PRIMES = 1000;
+        int[] primes = PrimeGenerator.generate(NUMBER_OF_PRIMES);
+
+        final int ROWS_PER_PAGE = 50;
+        final int COLUMNS_PER_PAGE = 4;
+        RowColumnPagePrinter tablePrinter =
+            new RowColumnPagePrinter(ROWS_PER_PAGE,
+                COLUMNS_PER_PAGE,
+                "The First " + NUMBER_OF_PRIMES +
+                " Prime Numbers");
+        tablePrinter.print(primes);
+    }
+}</pre>
+
+<pre class="good">// PrimeGenerator.java — প্রাইম নম্বর তৈরির দায়িত্ব
+package literatePrimes;
+import java.util.ArrayList;
+
+public class PrimeGenerator {
+    private static int[] primes;
+    private static ArrayList&lt;Integer&gt; multiplesOfPrimeFactors;
+
+    protected static int[] generate(int n) {
+        primes = new int[n];
+        multiplesOfPrimeFactors = new ArrayList&lt;Integer&gt;();
+        set2AsFirstPrime();
+        checkOddNumbersForSubsequentPrimes();
+        return primes;
+    }
+
+    private static void set2AsFirstPrime() {
+        primes[0] = 2;
+        multiplesOfPrimeFactors.add(2);
+    }
+    // ... বাকি method গুলো ...
+}</pre>
+
+<p>লক্ষ্য করুন — প্রোগ্রামটা তিনটি দায়িত্বে ভাগ হয়ে গেছে: PrimePrinter execution environment সামলায়, RowColumnPagePrinter formatting-এর কাজ করে, আর PrimeGenerator prime number তৈরি করে। কোনো ক্লাসে পরিবর্তন দরকার হলে অন্য ক্লাসে হাত দেওয়া লাগবে না।</p>
+
+<h2>পরিবর্তনের জন্য সংগঠন <span class="en">Organizing for Change</span></h2>
+
+<p>প্রতিটি সিস্টেমে পরিবর্তন একটি চলমান প্রক্রিয়া। পরিবর্তন মানেই ঝুঁকি — বাকি সিস্টেম ভেঙে পড়তে পারে। Clean system-এ আমরা ক্লাস এমনভাবে সাজাই যাতে পরিবর্তনের ঝুঁকি কমে।</p>
+
+<p>নিচের Sql ক্লাসটি SQL string তৈরি করে:</p>
+
+<span class="code-label bad">✗ একটি ক্লাসে সব দায়িত্ব</span>
+<pre class="bad">public class Sql {
+    public Sql(String table, Column[] columns)
+    public String create()
+    public String insert(Object[] fields)
+    public String selectAll()
+    public String findByKey(String keyColumn, String keyValue)
+    public String select(Column column, String pattern)
+    public String select(Criteria criteria)
+    public String preparedInsert()
+    private String columnList(Column[] columns)
+    private String valuesList(Object[] fields, final Column[] columns)
+    private String selectWithCriteria(String criteria)
+    private String placeholderList(Column[] columns)
+}</pre>
+
+<p>এই ক্লাসে নতুন ধরনের SQL statement (যেমন <code>update</code>) যোগ করতে গেলে পুরো ক্লাস "ওপেন" করতে হবে। এটা SRP লঙ্ঘন করে। সমাধান — প্রতিটি SQL operation-এর জন্য আলাদা ক্লাস:</p>
+
+<span class="code-label good">✓ ভালো — প্রতিটি operation আলাদা</span>
+<pre class="good">abstract public class Sql {
+    public Sql(String table, Column[] columns)
+    abstract public String generate();
+}
+
+public class CreateSql extends Sql {
+    public CreateSql(String table, Column[] columns)
+    @Override public String generate()
+}
+
+public class SelectSql extends Sql {
+    public SelectSql(String table, Column[] columns)
+    @Override public String generate()
+}
+
+public class InsertSql extends Sql {
+    public InsertSql(String table, Column[] columns, Object[] fields)
+    @Override public String generate()
+    private String valuesList(Object[] fields, final Column[] columns)
+}
+
+// ... একইভাবে FindByKeySql, PreparedInsertSql ইত্যাদি ...</pre>
+
+<div class="kp"><div class="kl">OCP — Open-Closed Principle</div><p><span class="b">Open-Closed Principle (OCP)</span> বলে — ক্লাস extension-এর জন্য open থাকবে, কিন্তু modification-এর জন্য closed থাকবে। নতুন UpdateSql ক্লাস যোগ করলে বিদ্যমান কোনো ক্লাসে হাত দেওয়া লাগবে না।</p></div>
+
+<h2>পরিবর্তন থেকে বিচ্ছিন্নতা <span class="en">Isolating from Change</span></h2>
+
+<p>Concrete class-এ implementation detail থাকে, আর abstract class শুধু ধারণা প্রকাশ করে। একটি client class যদি সরাসরি concrete detail-এর ওপর নির্ভর করে, তাহলে সেই detail পরিবর্তন হলে client-ও ক্ষতিগ্রস্ত হবে। Interface ও abstract class ব্যবহার করলে এই সমস্যা এড়ানো যায়।</p>
+
+<p>উদাহরণ: একটি Portfolio ক্লাস যদি সরাসরি TokyoStockExchange API-র ওপর নির্ভর করে, তাহলে টেস্ট করা কঠিন — কারণ stock-এর দাম প্রতি মুহূর্তে বদলায়। সমাধান — একটি interface তৈরি করা:</p>
+
+<pre class="neutral">public interface StockExchange {
+    Money currentPrice(String symbol);
+}</pre>
+
+<p>Portfolio ক্লাস এখন এই interface-এর ওপর নির্ভর করবে, concrete class-এর ওপর নয়:</p>
+
+<pre class="neutral">public Portfolio {
+    private StockExchange exchange;
+    public Portfolio(StockExchange exchange) {
+        this.exchange = exchange;
+    }
+    // ...
+}</pre>
+
+<p>এখন টেস্টে একটি mock implementation দেওয়া যায়:</p>
+
+<pre class="good">public class PortfolioTest {
+    private FixedStockExchangeStub exchange;
+    private Portfolio portfolio;
+
+    @Before
+    protected void setUp() throws Exception {
+        exchange = new FixedStockExchangeStub();
+        exchange.fix("MSFT", 100);
+        portfolio = new Portfolio(exchange);
+    }
+
+    @Test
+    public void GivenFiveMSFTTotalShouldBe500() throws Exception {
+        portfolio.add(5, "MSFT");
+        Assert.assertEquals(500, portfolio.value());
+    }
+}</pre>
+
+<div class="kp"><div class="kl">DIP — Dependency Inversion Principle</div><p><span class="b">Dependency Inversion Principle (DIP)</span> বলে — আমাদের ক্লাস concrete detail-এর ওপর নয়, বরং abstraction-এর ওপর নির্ভর করবে। এতে coupling কমে, টেস্ট করা সহজ হয়, এবং সিস্টেম আরও flexible হয়।</p></div>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ ক্লাস ছোট রাখো</div><div class="cd">ক্লাসের সাইজ মাপা হয় দায়িত্বের (Responsibility) সংখ্যা দিয়ে, লাইন সংখ্যা দিয়ে নয়।</div></div>
+<div class="ci"><div class="cn">★ Single Responsibility Principle (SRP)</div><div class="cd">একটি ক্লাসের পরিবর্তনের কারণ শুধুমাত্র একটিই থাকা উচিত — মানে প্রতিটি ক্লাসের একটিমাত্র দায়িত্ব।</div></div>
+<div class="ci"><div class="cn">★ Cohesion</div><div class="cd">ক্লাসের method গুলো যত বেশি instance variable ব্যবহার করে, ক্লাস তত cohesive। Cohesion কমলে ক্লাস ভাঙার সময় হয়েছে।</div></div>
+<div class="ci"><div class="cn">★ Open-Closed Principle (OCP)</div><div class="cd">ক্লাস extension-এর জন্য open থাকবে, কিন্তু modification-এর জন্য closed থাকবে।</div></div>
+<div class="ci"><div class="cn">★ Dependency Inversion Principle (DIP)</div><div class="cd">Concrete detail-এর ওপর নয়, abstraction-এর ওপর নির্ভর করো। এতে coupling কমে এবং testing সহজ হয়।</div></div>
+<div class="ci"><div class="cn">★ Encapsulation</div><div class="cd">ক্লাসের ভেতরের detail লুকিয়ে রাখো। Privacy শিথিল করা সবসময় শেষ উপায়।</div></div>
+</div>
+
+</div>
+</div>
