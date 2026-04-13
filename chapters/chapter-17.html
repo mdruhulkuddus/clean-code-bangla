@@ -1,0 +1,118 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:20px;font-weight:700;color:var(--heading);margin:30px 0 10px}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.smell{margin:12px 0;padding:14px 18px;background:var(--surface);border-radius:8px;border:1px solid var(--border);border-left:4px solid var(--accent)}
+.smell .sid{font-family:var(--fc);font-size:13px;color:var(--accent);font-weight:600}
+.smell .stitle{font-weight:700;color:var(--heading);font-size:16px}
+.smell .sdesc{color:var(--text2);font-size:15px;line-height:1.8;margin-top:4px}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">17</div>
+<div class="clab">অধ্যায় ১৭</div>
+<div class="ctbn">কোডের গন্ধ ও হিউরিস্টিকস</div>
+<div class="cten">Smells and Heuristics</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p><span class="b">Code Smell</span> মানে হলো কোডে এমন কিছু যা দেখলেই বুঝবেন কিছু একটা ঠিক নেই — সরাসরি Bug না হলেও ভবিষ্যতে সমস্যা তৈরি করবে। <span class="b">Heuristic</span> মানে হলো অভিজ্ঞতালব্ধ নিয়ম যা কোড লেখার সময় মেনে চলা উচিত। এই অধ্যায়টি একটি সম্পূর্ণ Reference Guide — প্রতিটি Smell ও Heuristic-এর একটি সংক্ষিপ্ত বিবরণ এখানে দেওয়া হলো।</p>
+
+<h2>কমেন্ট সম্পর্কিত সমস্যা <span class="en">Comments (C1–C5)</span></h2>
+<div class="smell"><div class="sid">C1</div><div class="stitle">অনুচিত তথ্য (Inappropriate Information)</div><div class="sdesc">কমেন্টে change history, author নাম, SPR নম্বর ইত্যাদি রাখবেন না। এগুলো Source Control-এর কাজ। কমেন্ট শুধুমাত্র কোড ও Design সম্পর্কে Technical Note-এর জন্য।</div></div>
+<div class="smell"><div class="sid">C2</div><div class="stitle">সেকেলে কমেন্ট (Obsolete Comment)</div><div class="sdesc">পুরোনো ও ভুল কমেন্ট দ্রুত আপডেট বা মুছে ফেলুন। এগুলো কোড থেকে দূরে সরে গিয়ে বিভ্রান্তি তৈরি করে।</div></div>
+<div class="smell"><div class="sid">C3</div><div class="stitle">অপ্রয়োজনীয় কমেন্ট (Redundant Comment)</div><div class="sdesc">কোড নিজেই যা বলে দিচ্ছে, সেটা কমেন্টে আবার লেখা অর্থহীন। যেমন <code>i++; // increment i</code></div></div>
+<div class="smell"><div class="sid">C4</div><div class="stitle">খারাপভাবে লেখা কমেন্ট (Poorly Written Comment)</div><div class="sdesc">কমেন্ট লিখলে ভালো করে লিখুন। সংক্ষিপ্ত, সুনির্দিষ্ট ও সঠিক ব্যাকরণে।</div></div>
+<div class="smell"><div class="sid">C5</div><div class="stitle">কমেন্ট-আউট কোড (Commented-Out Code)</div><div class="sdesc">এটি একটি ভয়াবহ অভ্যাস। কেউ মুছতে সাহস করে না কারণ ভাবে অন্য কেউ হয়তো দরকার। সাহস করে মুছে ফেলুন — Source Control-এ সব আছে।</div></div>
+
+<h2>পরিবেশ সংক্রান্ত <span class="en">Environment (E1–E2)</span></h2>
+<div class="smell"><div class="sid">E1</div><div class="stitle">Build-এ একাধিক ধাপ (Build Requires More Than One Step)</div><div class="sdesc">প্রজেক্ট Build করতে একটি মাত্র কমান্ড লাগবে। অনেক জায়গা থেকে ফাইল খুঁজতে হলে সমস্যা।</div></div>
+<div class="smell"><div class="sid">E2</div><div class="stitle">Test-এ একাধিক ধাপ (Tests Require More Than One Step)</div><div class="sdesc">সব Unit Test একটি মাত্র কমান্ড বা IDE-তে একটি বাটন ক্লিকে চলবে।</div></div>
+
+<h2>ফাংশন সম্পর্কিত <span class="en">Functions (F1–F4)</span></h2>
+<div class="smell"><div class="sid">F1</div><div class="stitle">বেশি Argument (Too Many Arguments)</div><div class="sdesc">ফাংশনে যত কম Argument তত ভালো। শূন্য সবচেয়ে ভালো, তারপর এক, দুই, তিন। তিনের বেশি এড়িয়ে চলুন।</div></div>
+<div class="smell"><div class="sid">F2</div><div class="stitle">Output Argument</div><div class="sdesc">Argument সাধারণত Input হিসেবে পড়া হয়। ফাংশন কিছু পরিবর্তন করতে চাইলে নিজের Object-এর State পরিবর্তন করুন।</div></div>
+<div class="smell"><div class="sid">F3</div><div class="stitle">Flag Argument</div><div class="sdesc">Boolean Argument মানে ফাংশন একাধিক কাজ করে। এটি বিভ্রান্তিকর, বাদ দিন।</div></div>
+<div class="smell"><div class="sid">F4</div><div class="stitle">Dead Function</div><div class="sdesc">যেসব মেথড কেউ কল করে না সেগুলো মুছে ফেলুন। ভয় পাবেন না — Source Control আছে।</div></div>
+
+<h2>সাধারণ নিয়ম <span class="en">General (G1–G36)</span></h2>
+<div class="smell"><div class="sid">G1</div><div class="stitle">একটি ফাইলে একাধিক ভাষা</div><div class="sdesc">একটি Source File-এ যতটা সম্ভব কম ভাষা রাখুন।</div></div>
+<div class="smell"><div class="sid">G2</div><div class="stitle">সুস্পষ্ট আচরণ বাস্তবায়িত নয় (Obvious Behavior Is Unimplemented)</div><div class="sdesc">Principle of Least Surprise অনুসরণ করুন।</div></div>
+<div class="smell"><div class="sid">G3</div><div class="stitle">সীমান্তে ভুল আচরণ (Incorrect Behavior at the Boundaries)</div><div class="sdesc">প্রতিটি Boundary Condition-এর জন্য Test লিখুন। শুধু Intuition-এর উপর নির্ভর করবেন না।</div></div>
+<div class="smell"><div class="sid">G4</div><div class="stitle">নিরাপত্তা ব্যবস্থা Override করা</div><div class="sdesc">Compiler Warning বন্ধ করা, Failing Test বন্ধ করা — এগুলো চেরনোবিলের Safety Override-এর মতোই বিপজ্জনক।</div></div>
+<div class="smell"><div class="sid">G5</div><div class="stitle">Duplication</div><div class="sdesc">এটি এই বইয়ের সবচেয়ে গুরুত্বপূর্ণ নিয়মগুলোর একটি। DRY Principle (Don't Repeat Yourself) মেনে চলুন। তিন রূপ: হুবহু একই কোড, বারবার একই switch/case, এবং একই রকম Algorithm কিন্তু ভিন্ন কোড।</div></div>
+<div class="smell"><div class="sid">G6</div><div class="stitle">ভুল Abstraction Level-এ কোড</div><div class="sdesc">Base Class-এ শুধু উচ্চ-স্তরের ধারণা রাখুন, নিম্ন-স্তরের বাস্তবায়ন Derivative-এ।</div></div>
+<div class="smell"><div class="sid">G7</div><div class="stitle">Base Class Derivative-এর উপর নির্ভরশীল</div><div class="sdesc">Base Class-এর Derivative সম্পর্কে কিছু জানা উচিত নয়।</div></div>
+<div class="smell"><div class="sid">G8</div><div class="stitle">অতিরিক্ত তথ্য প্রকাশ (Too Much Information)</div><div class="sdesc">Interface ছোট রাখুন। কম মেথড, কম Variable, কম Coupling।</div></div>
+<div class="smell"><div class="sid">G9</div><div class="stitle">Dead Code</div><div class="sdesc">যে কোড কখনো Execute হয় না তা মুছে ফেলুন।</div></div>
+<div class="smell"><div class="sid">G10</div><div class="stitle">লম্বদূরত্ব (Vertical Separation)</div><div class="sdesc">Variable তার প্রথম ব্যবহারের ঠিক আগে Declare করুন। Private Function তার প্রথম ব্যবহারের ঠিক নিচে Define করুন।</div></div>
+<div class="smell"><div class="sid">G11</div><div class="stitle">সঙ্গতি (Inconsistency)</div><div class="sdesc">একবার কোনো নিয়ম মেনে চললে সবসময় মানুন।</div></div>
+<div class="smell"><div class="sid">G14</div><div class="stitle">Feature Envy</div><div class="sdesc">কোনো মেথড যদি অন্য ক্লাসের Variable ও Function বেশি ব্যবহার করে, তাহলে সেটি সেই ক্লাসে থাকা উচিত।</div></div>
+<div class="smell"><div class="sid">G15</div><div class="stitle">Selector Argument</div><div class="sdesc"><code>calculateWeeklyPay(false)</code> দেখে কেউ বুঝবে না false কী করে। আলাদা আলাদা ফাংশন লিখুন: <code>straightPay()</code> ও <code>overTimePay()</code>।</div></div>
+<div class="smell"><div class="sid">G16</div><div class="stitle">ঢাকা উদ্দেশ্য (Obscured Intent)</div><div class="sdesc">Magic Number, Hungarian Notation, সংক্ষিপ্ত Variable নাম — সব কোডের উদ্দেশ্য লুকিয়ে ফেলে।</div></div>
+<div class="smell"><div class="sid">G19</div><div class="stitle">ব্যাখ্যামূলক Variable ব্যবহার করুন</div><div class="sdesc">জটিল হিসাবকে Intermediate Variable-এ ভাগ করুন অর্থবহ নাম দিয়ে।</div></div>
+<div class="smell"><div class="sid">G20</div><div class="stitle">Function-এর নাম তার কাজ বলবে</div><div class="sdesc"><code>date.add(5)</code> থেকে বোঝা যায় না ৫ দিন যোগ হচ্ছে নাকি ৫ ঘণ্টা। <code>plusDays(5)</code> অনেক স্পষ্ট।</div></div>
+<div class="smell"><div class="sid">G23</div><div class="stitle">Polymorphism-কে Switch/Case-এর চেয়ে বেশি পছন্দ করুন</div><div class="sdesc">ONE SWITCH Rule: একটি নির্দিষ্ট ধরনের Selection-এর জন্য একটিমাত্র switch statement থাকবে।</div></div>
+<div class="smell"><div class="sid">G25</div><div class="stitle">Magic Number-এর বদলে Named Constant</div><div class="sdesc"><code>86400</code> এর বদলে <code>SECONDS_PER_DAY</code> ব্যবহার করুন।</div></div>
+<div class="smell"><div class="sid">G28</div><div class="stitle">Conditional-কে Encapsulate করুন</div><div class="sdesc"><code>if (timer.hasExpired() &amp;&amp; !timer.isRecurrent())</code> এর বদলে <code>if (shouldBeDeleted(timer))</code> লিখুন।</div></div>
+<div class="smell"><div class="sid">G29</div><div class="stitle">Negative Conditional এড়িয়ে চলুন</div><div class="sdesc"><code>if (buffer.shouldCompact())</code> লিখুন, <code>if (!buffer.shouldNotCompact())</code> লিখবেন না।</div></div>
+<div class="smell"><div class="sid">G30</div><div class="stitle">ফাংশন একটি কাজ করবে</div><div class="sdesc">একটি ফাংশনে Loop, Check, ও Action সব মিশিয়ে ফেলবেন না। আলাদা আলাদা ফাংশনে ভাগ করুন।</div></div>
+<div class="smell"><div class="sid">G36</div><div class="stitle">Transitive Navigation এড়িয়ে চলুন</div><div class="sdesc">Law of Demeter মেনে চলুন। <code>a.getB().getC().doSomething()</code> লিখবেন না। শুধু নিজের সরাসরি সহযোগীকে কল করুন।</div></div>
+
+<h2>নামকরণ <span class="en">Names (N1–N7)</span></h2>
+<div class="smell"><div class="sid">N1</div><div class="stitle">বর্ণনামূলক নাম বেছে নিন</div><div class="sdesc">নাম হলো Software-এর Readability-র ৯০%। ভালো নাম কোডের গল্প বর্ণনায় পরিণত করে।</div></div>
+<div class="smell"><div class="sid">N2</div><div class="stitle">সঠিক Abstraction Level-এর নাম</div><div class="sdesc">Modem interface-এ <code>dial(String phoneNumber)</code> না লিখে <code>connect(String connectionLocator)</code> লিখুন।</div></div>
+<div class="smell"><div class="sid">N5</div><div class="stitle">বড় Scope-তে বড় নাম</div><div class="sdesc">৫ লাইনের Loop-এ <code>i</code> ঠিক আছে। কিন্তু বড় Scope-তে দীর্ঘ, সুনির্দিষ্ট নাম ব্যবহার করুন।</div></div>
+<div class="smell"><div class="sid">N7</div><div class="stitle">নাম Side-effect প্রকাশ করবে</div><div class="sdesc"><code>getOos()</code> শুধু Get করে না, তৈরিও করে। তাই নাম হবে <code>createOrReturnOos()</code>।</div></div>
+
+<h2>টেস্টিং <span class="en">Tests (T1–T9)</span></h2>
+<div class="smell"><div class="sid">T1</div><div class="stitle">অপর্যাপ্ত টেস্ট</div><div class="sdesc">"যথেষ্ট মনে হচ্ছে" এটি ভুল মাপকাঠি। যা ভাঙতে পারে তার সবকিছু টেস্ট করুন।</div></div>
+<div class="smell"><div class="sid">T2</div><div class="stitle">Coverage Tool ব্যবহার করুন!</div><div class="sdesc">Coverage Tool টেস্টিং-এর ফাঁকা দেখায়। সবুজ মানে Covered, লাল মানে Uncovered।</div></div>
+<div class="smell"><div class="sid">T5</div><div class="stitle">Boundary Condition টেস্ট করুন</div><div class="sdesc">Algorithm-এর মধ্যভাগ সাধারণত ঠিক থাকে, সমস্যা হয় সীমান্তে।</div></div>
+<div class="smell"><div class="sid">T6</div><div class="stitle">Bug-এর কাছে পুঙ্খানুপুঙ্খ টেস্ট করুন</div><div class="sdesc">Bug একা আসে না, দলে বেঁধে আসে। একটি Bug পেলে সেই ফাংশনটি সম্পূর্ণ টেস্ট করুন।</div></div>
+<div class="smell"><div class="sid">T9</div><div class="stitle">টেস্ট দ্রুত চলবে</div><div class="sdesc">ধীর টেস্ট চালানো হয় না। কাটে পড়লে প্রথমেই ধীর টেস্ট বাদ যায়।</div></div>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Clean Code কোনো নিয়মের তালিকা মেনে চলা নয়</div><div class="cd">এই Heuristic-গুলো একটি মূল্যবোধ ব্যবস্থা নির্দেশ করে। পেশাদারিত্ব ও দক্ষতা আসে সেই মূল্যবোধ থেকে যা শৃঙ্খলাকে চালিত করে।</div></div>
+<div class="ci"><div class="cn">★ DRY — সবচেয়ে গুরুত্বপূর্ণ নিয়ম</div><div class="cd">Duplication দেখলে Abstraction তৈরি করুন — Subroutine, Class, Template Method, বা Strategy Pattern ব্যবহার করুন।</div></div>
+<div class="ci"><div class="cn">★ নাম হলো Readability-র ৯০%</div><div class="cd">বর্ণনামূলক, সঠিক Abstraction Level-এর, দ্ব্যর্থহীন নাম ব্যবহার করুন।</div></div>
+<div class="ci"><div class="cn">★ টেস্ট সবকিছুর ভিত্তি</div><div class="cd">Coverage Tool ব্যবহার করুন, Boundary Condition টেস্ট করুন, Bug-এর কাছে পুঙ্খানুপুঙ্খ টেস্ট করুন।</div></div>
+</div>
+
+</div>
+</div>

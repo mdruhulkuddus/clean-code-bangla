@@ -1,0 +1,135 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-bg:#1a2332;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)}
+.hi{color:var(--accent);font-weight:700}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.law .sub{display:block;font-size:13px;font-family:var(--fc);color:var(--muted);margin-top:5px;font-weight:400}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+pre{margin:20px 0;padding:18px 22px;border-radius:8px;font-family:var(--fc);font-size:14px;line-height:1.7;overflow-x:auto;white-space:pre}
+pre.bad{background:var(--bad-lt);border:1px solid #f0c4c0;border-left:4px solid var(--bad)}
+pre.good{background:var(--good-lt);border:1px solid #c4e5d4;border-left:4px solid var(--good)}
+pre.neutral{background:var(--code-bg);border:1px solid var(--border);border-left:4px solid var(--muted)}
+.code-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;margin-bottom:8px;font-family:var(--fc)}
+.code-label.bad{background:var(--bad);color:#fff}
+.code-label.good{background:var(--good);color:#fff}
+.code-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.code-grid pre{margin:0}
+@media(max-width:700px){.code-grid{grid-template-columns:1fr}}
+.dl-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px}
+.dl-table th{background:var(--accent);color:#fff;padding:12px 16px;text-align:left;font-weight:700;font-size:14px}
+.dl-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+.dl-table tr:nth-child(even){background:var(--warm)}
+.dl-table td:first-child{font-weight:700;width:160px}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">A</div>
+<div class="clab">পরিশিষ্ট-ক</div>
+<div class="ctbn">কনকারেন্সি II</div>
+<div class="cten">Concurrency II</div>
+<div class="caut">by Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>Concurrency মানে হলো একই সময়ে একাধিক কাজ চালানো। এই পরিশিষ্টে Concurrent Programming-এর গভীর বিষয়গুলো আলোচনা করা হয়েছে — Thread Management, Execution Path, Deadlock, ও Testing Strategy।</p>
+
+<h2>Client/Server এবং Threading <span class="en">Client/Server Threading Example</span></h2>
+<p>একটি সাধারণ Client/Server অ্যাপ্লিকেশনের পারফরম্যান্স বাড়াতে Threading কীভাবে ব্যবহার করা যায় সেটি দেখানো হয়েছে।</p>
+
+<p><span class="b">সমস্যা:</span> Single-threaded Server ধীর — <code>process(socket)</code> শেষ না হওয়া পর্যন্ত পরবর্তী Client অপেক্ষা করে। যদি এটি I/O-bound হয় (Socket, Database ইত্যাদি), তাহলে Threading দিয়ে Throughput বাড়ানো যায়।</p>
+
+<p><span class="b">সতর্কতা:</span> সরাসরি Thread তৈরি করলে কাজ করে, কিন্তু Naive — Thread-এর সংখ্যা সীমাহীন হতে পারে। তাছাড়া process মেথডে অনেক দায়িত্ব মিশে আছে: Socket Management, Client Processing, Threading Policy, Shutdown Policy।</p>
+
+<p><span class="b">ভালো সমাধান:</span> দায়িত্ব আলাদা করুন (Single Responsibility Principle)। Thread Management আলাদা ক্লাসে রাখলে পরিবর্তন সহজ হয়। একটি <code>ClientScheduler</code> interface তৈরি করুন, তারপর Thread-per-request বা Executor-based implementation দিন:</p>
+
+<div class="code-grid">
+<div>
+<span class="code-label bad">✗ Thread-per-request (সরল)</span>
+<pre class="bad">// ThreadPerRequestScheduler
+Thread thread = new Thread(runnable);
+thread.start();</pre>
+</div>
+<div>
+<span class="code-label good">✓ Executor-based (ভালো)</span>
+<pre class="good">// ExecutorClientScheduler
+executor = Executors.newFixedThreadPool(
+    availableThreads);
+executor.execute(runnable);</pre>
+</div>
+</div>
+
+<div class="kp"><div class="kl">টিপস</div><p>সব Concurrency কোড অল্প কিছু ক্লাসে কেন্দ্রীভূত রাখুন। Thread Management যে ক্লাস করবে, সেটি শুধু Thread Management করবে — অন্য কিছু নয়।</p></div>
+
+<h2>Execution Path ও Thread সমস্যা <span class="en">Execution Paths and Thread Problems</span></h2>
+<p>একটি সামান্য এক-লাইনের Java মেথড দিয়ে বোঝানো হয়েছে কীভাবে Thread সমস্যা হতে পারে:</p>
+
+<pre class="neutral">public class IdGenerator {
+    int lastIdUsed;
+    public int incrementValue() {
+        return ++lastIdUsed;
+    }
+}</pre>
+
+<p>যদি <code>lastIdUsed = 93</code> থাকে এবং দুটি Thread একটি কল করে, তাহলে তৃতীয় ফলাফলটি সমস্যা — <span class="b">দুটি Thread একই মান পেয়েছে!</span> কারণ <code>++</code> operator Atomic নয় — এটি Byte-code-এ ৮টি instruction-এ ভেঙে যায়। দুটি Thread-এ ৮টি করে instruction থাকলে মোট সম্ভাব্য পথের সংখ্যা <span class="b">12,870!</span></p>
+
+<div class="law">সমাধান: synchronized কীওয়ার্ড ব্যবহার করলে সম্ভাব্য পথ মাত্র ২টি হয়ে যায়।</div>
+
+<p>যা মনে রাখতে হবে: <code>++</code> (Pre/Post-increment) Atomic নয়। ৩২-bit <code>int</code> এর Assignment Atomic, কিন্তু ৬৪-bit <code>long</code> এর নয়। Shared Object কোথায় আছে, কোন কোন Concurrent Read/Update করে, ও কীভাবে Guard করবেন — এই তিনটি জানা জরুরি।</p>
+
+<h2>লাইব্রেরি পরিচিতি <span class="en">Knowing Your Library</span></h2>
+<p><span class="b">Executor Framework:</span> Java ৫-র <code>java.util.concurrent</code> প্যাকেজে Executor Framework আছে। নিজে Thread Pool তৈরি না করে এটি ব্যবহার করুন। Runnable ও Callable দুটোই সাপোর্ট করে। Future ব্যবহার করে একাধিক স্বতন্ত্র কাজ সমান্তরালে চালাতে পারবেন।</p>
+
+<p><span class="b">Nonblocking Solutions:</span> <code>AtomicInteger</code>, <code>AtomicBoolean</code>, <code>AtomicReference</code> ব্যবহার করলে <code>synchronized</code> এর চেয়ে প্রায় সবসময় ভালো Performance পাবেন। এগুলো Compare and Swap (CAS) অপারেশন ব্যবহার করে — যেটি Optimistic Locking-এর মতো।</p>
+
+<h2>Deadlock প্রতিরোধ <span class="en">Preventing Deadlock</span></h2>
+<p>Deadlock মানে হলো দুই বা ততোধিক Thread পরস্পরের Resource-এর জন্য অপেক্ষা করে, ও কেউ এগোতে পারে না। Deadlock হতে চারটি শর্ত একসাথে লাগে:</p>
+
+<table class="dl-table">
+<tr><th>শর্ত</th><th>ভাঙার উপায়</th></tr>
+<tr><td>Mutual Exclusion</td><td>AtomicInteger-এর মতো Concurrent Resource ব্যবহার করুন</td></tr>
+<tr><td>Lock &amp; Wait</td><td>সব Resource না পেলে সব ছেড়ে দিন, আবার চেষ্টা করুন</td></tr>
+<tr><td>No Preemption</td><td>Resource ব্যস্ত হলে মালিককে ছেড়ে দিতে বলুন</td></tr>
+<tr><td>Circular Wait</td><td>সবাই একই ক্রমে Resource নেবে (সবচেয়ে সাধারণ সমাধান)</td></tr>
+</table>
+
+<div class="kp"><div class="kl">টিপস</div><p>যেকোনো একটি শর্ত ভাঙলেই Deadlock হবে না। সাধারণত <span class="b">Circular Wait ভাঙা</span> সবচেয়ে সহজ — সব Thread একই ক্রমে Resource নেবে।</p></div>
+
+<h2>Multithreaded কোড টেস্টিং <span class="en">Testing Multithreaded Code</span></h2>
+<p>Concurrent Bug ধরা অত্যন্ত কঠিন। একটি সাধারণ <code>nextId++</code> সমস্যা ধরতে ১০ লক্ষের বেশি Iteration লাগতে পারে। কিছু কৌশল:</p>
+
+<p><span class="b">১. Monte Carlo Testing:</span> বিভিন্ন Random Tuning Value দিয়ে বারবার Test চালান। Continuous Integration Server-এ চালিয়ে রাখুন। একবার Fail করলে — Bug আছে।</p>
+<p><span class="b">২. Multi-platform Testing:</span> সব Target Platform-এ বারবার Test চালান। ভিন্ন OS, ভিন্ন JVM-এ ভিন্ন ফলাফল আসতে পারে।</p>
+<p><span class="b">৩. Varying Load Testing:</span> Production-এর মতো Load দিয়ে টেস্ট করুন।</p>
+<p><span class="b">৪. Tool ব্যবহার করুন:</span> IBM-এর ConTest-এর মতো Tool ব্যবহার করলে Threading Bug অনেক দ্রুত ধরা পড়ে। ConTest ব্যবহারের পর সাফল্যের হার ১ কোটি Iteration-এ ১ বার থেকে মাত্র ৩০ Iteration-এ ১ বার হয়ে গেছে।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Thread Management কোড আলাদা রাখুন</div><div class="cd">Single Responsibility Principle — Thread Management যে ক্লাস করবে, সেটি শুধু Thread Management করবে।</div></div>
+<div class="ci"><div class="cn">★ synchronized যতটা সম্ভব কম ব্যবহার করুন</div><div class="cd">শুধু Critical Section-এ। java.util.concurrent প্যাকেজ ব্যবহার করুন — নিজে Thread Pool তৈরি করবেন না।</div></div>
+<div class="ci"><div class="cn">★ Nonblocking Solution পছন্দ করুন</div><div class="cd">AtomicInteger, AtomicBoolean — এগুলো synchronized-এর চেয়ে প্রায় সবসময় ভালো Performance দেয়।</div></div>
+<div class="ci"><div class="cn">★ Deadlock এড়াতে চারটি শর্তের যেকোনো একটি ভাঙুন</div><div class="cd">সাধারণত Circular Wait ভাঙা সবচেয়ে সহজ — সব Thread একই ক্রমে Resource নেবে।</div></div>
+<div class="ci"><div class="cn">★ Threading Bug ধরতে বিশেষ Tool ও Strategy ব্যবহার করুন</div><div class="cd">Monte Carlo Testing, Multi-platform Testing, ConTest-এর মতো Tool — এগুলো Threading Bug দ্রুত ধরতে সাহায্য করে।</div></div>
+</div>
+
+</div>
+</div>

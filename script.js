@@ -17,6 +17,7 @@ const chapters = [
   { id: 15, bn: "JUnit ইন্টার্নালস", en: "JUnit Internals" },
   { id: 16, bn: "SerialDate রিফ্যাক্টরিং", en: "Refactoring SerialDate" },
   { id: 17, bn: "স্মেলস ও হিউরিস্টিকস", en: "Smells and Heuristics" },
+  { id: 18, bn: "এপেন্ডিক্স", en: "Appendix" },
 ];
 
 let currentChapter = 1;
@@ -61,7 +62,9 @@ async function loadChapter(id) {
   `;
 
   try {
-    const res = await fetch(`chapters/chapter-${pad}.html`);
+    // Special handling for Appendix (id 18)
+    const chapterFile = id === 18 ? 'chapters/appendix.html' : `chapters/chapter-${pad}.html`;
+    const res = await fetch(chapterFile);
     if (!res.ok) throw new Error("Not found");
     const html = await res.text();
     chapterContent.innerHTML = `
