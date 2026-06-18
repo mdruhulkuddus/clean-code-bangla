@@ -210,6 +210,8 @@ a:hover { color: var(--fg); }
 
 .sidebar-nav { padding: 4px 0; }
 
+.sidebar-group { border-bottom: 1px solid transparent; }
+
 .sidebar-item {
   display: flex;
   align-items: flex-start;
@@ -236,6 +238,62 @@ a:hover { color: var(--fg); }
   font-weight: 500;
 }
 
+.sidebar-titles { flex: 1; min-width: 0; }
+
+.sidebar-caret {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--fg-muted);
+  transition: transform 0.2s ease;
+}
+.sidebar-group.open .sidebar-caret { transform: rotate(180deg); }
+
+/* Language dropdown */
+.sidebar-submenu {
+  display: none;
+  flex-direction: column;
+  padding: 2px 0 6px;
+  background: var(--accent-hover);
+}
+.sidebar-group.open .sidebar-submenu { display: flex; }
+
+.sidebar-sub {
+  text-align: left;
+  padding: 8px 20px 8px 48px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--fg-muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  transition: background 0.15s, color 0.15s;
+  border-right: 2px solid transparent;
+}
+.sidebar-sub:hover { color: var(--fg); }
+.sidebar-sub.active {
+  color: var(--fg);
+  font-weight: 600;
+  border-right-color: var(--sidebar-active-border);
+}
+.sidebar-sub.disabled,
+.sidebar-sub:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.sub-soon { font-size: 0.7rem; opacity: 0.7; }
+
+/* Chapter language badge */
+.chapter-lang-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  border-radius: 999px;
+  background: var(--sidebar-active-bg);
+  color: var(--fg-muted);
+}
+
 .sidebar-num {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -244,13 +302,13 @@ a:hover { color: var(--fg); }
   flex-shrink: 0;
   min-width: 18px;
 }
-.sidebar-title-bn {
-  font-family: var(--font-bn);
+.sidebar-title-en {
+  font-family: var(--font-en);
   font-size: 0.85rem;
   line-height: 1.4;
 }
-.sidebar-title-en {
-  font-family: var(--font-en);
+.sidebar-title-bn {
+  font-family: var(--font-bn);
   font-size: 0.72rem;
   color: var(--fg-muted);
   margin-top: 2px;

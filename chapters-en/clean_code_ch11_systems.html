@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.11: Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 11</span>
+  <h1>Systems</h1>
+  <p class="author">Dr. Kevin Dean Wampler</p>
+  <p class="subtitle">Clean code keeps the lower levels clean; this chapter keeps the system level clean — by separating construction from use, isolating cross-cutting concerns, and letting architecture grow incrementally.</p>
+  <div class="badges">
+    <span class="badge">Construct vs Use</span>
+    <span class="badge">Dependency Injection</span>
+    <span class="badge">Cross-Cutting Concerns</span>
+    <span class="badge">POJOs &amp; Aspects</span>
+    <span class="badge">Grow Incrementally</span>
+    <span class="badge">DSLs</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#city">How Would You Build a City?</a></li>
+    <li><a href="#separate">Separate Construction from Use</a></li>
+    <li><a href="#main">Separation of Main</a></li>
+    <li><a href="#factories">Factories</a></li>
+    <li><a href="#di">Dependency Injection</a></li>
+    <li><a href="#scaling">Scaling Up</a></li>
+    <li><a href="#crosscutting">Cross-Cutting Concerns</a></li>
+    <li><a href="#proxies">Java Proxies</a></li>
+    <li><a href="#aop">Pure Java AOP &amp; EJB3</a></li>
+    <li><a href="#testdrive">Test-Drive the Architecture</a></li>
+    <li><a href="#decisions">Optimize Decision Making</a></li>
+    <li><a href="#standards">Use Standards Wisely</a></li>
+    <li><a href="#dsl">Systems Need DSLs</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Like a city, a system works through <strong>separation of concerns</strong> and <strong>levels of abstraction</strong>. Separate <strong>constructing</strong> the system (wiring objects in <code>main</code>, factories, or a <strong>Dependency Injection</strong> container) from <strong>using</strong> it. Architecture can grow <strong>incrementally</strong> — there's no getting it "right the first time," and Big Design Up Front is harmful. Keep domain logic in <strong>POJOs</strong> and weave in cross-cutting concerns (persistence, security, transactions) non-invasively with <strong>aspects</strong>. Defer decisions to the last responsible moment, use standards only when they add value, and reach for <strong>domain-specific languages</strong> to express intent. Always use the simplest thing that can possibly work.</p>
+  </div>
+</section>
+
+<section id="city">
+  <h2 class="sec"><span class="n">11.1</span>How Would You Build a City?</h2>
+  <blockquote>"Complexity kills. It sucks the life out of developers, it makes products difficult to plan, build, and test." — Ray Ozzie, CTO, Microsoft</blockquote>
+  <p>No one person could manage all the details of a city — yet cities work, because teams own particular parts (water, power, traffic) and the city has evolved appropriate <strong>levels of abstraction and modularity</strong>. People and the components they manage work effectively without understanding the whole. Software teams are organized this way too, but their systems often lack the same separation of concerns. Clean code achieves this at low levels; this chapter aims for it at the <strong>system level</strong>.</p>
+</section>
+
+<section id="separate">
+  <h2 class="sec"><span class="n">11.2</span>Separate Constructing a System from Using It</h2>
+  <p>Construction is a very different process from use — like a hotel under construction (crane, hard hats) versus the finished, glass-walled building in operation. Software should separate the <strong>startup process</strong> (constructing objects and wiring dependencies) from the <strong>runtime logic</strong> that takes over afterward. Most applications don't: startup code is ad hoc and tangled into runtime logic.</p>
+  <div class="bad-practice">
+    <span class="card-label">Lazy Initialization mixed into runtime</span>
+<pre><code><span class="kw">public</span> Service <span class="fn">getService</span>() {
+  <span class="kw">if</span> (service == <span class="kw">null</span>)
+    service = <span class="kw">new</span> MyServiceImpl(...); <span class="cm">// Good enough default for most cases?</span>
+  <span class="kw">return</span> service;
+}</code></pre>
+    <p>The LAZY INITIALIZATION idiom has merits (no construction cost until needed, never returns null), but it hard-codes a dependency on <code>MyServiceImpl</code> and its constructor's needs — you can't compile without resolving them. It complicates testing (you must inject a TEST DOUBLE), mixes two responsibilities (a small <strong>SRP</strong> break), and assumes one type is right for <em>all</em> contexts. One occurrence is fine; scattered across an app, the global setup strategy becomes duplicated and unmodular.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">Key Insight</span>
+    <p>Don't let convenient little idioms cause modularity breakdown. Modularize the startup process <strong>separately</strong> from runtime logic, with a global, consistent strategy for resolving major dependencies.</p>
+  </div>
+</section>
+
+<section id="main">
+  <h2 class="sec"><span class="n">11.3</span>Separation of Main</h2>
+  <div class="principle">
+    <span class="card-label">Build in main, use everywhere else</span>
+    <p>Move all construction into <code>main</code> (or modules it calls), then design the rest of the system assuming everything is already built and wired. <code>main</code> builds the objects and passes them to the application. All <strong>dependency arrows point away from <code>main</code></strong> — the application has no knowledge of <code>main</code> or the construction process; it simply expects everything to be ready.</p>
+  </div>
+</section>
+
+<section id="factories">
+  <h2 class="sec"><span class="n">11.4</span>Factories</h2>
+  <p>Sometimes the application must control <em>when</em> an object is created — e.g. an order system creating <code>LineItem</code> instances to add to an <code>Order</code>. Use the <strong>Abstract Factory</strong> pattern: give the application control of timing while keeping construction details out of it.</p>
+  <div class="insight">
+    <span class="card-label">Direction of dependencies</span>
+    <p>Dependencies still point from <code>main</code> toward the application. The app is decoupled from how a <code>LineItem</code> is built (that lives in <code>LineItemFactoryImplementation</code> on the <code>main</code> side), yet stays in full control of when items are built and can pass app-specific constructor arguments.</p>
+  </div>
+</section>
+
+<section id="di">
+  <h2 class="sec"><span class="n">11.5</span>Dependency Injection</h2>
+  <div class="principle">
+    <span class="card-label">DI = Inversion of Control for dependencies</span>
+    <p><strong>Dependency Injection (DI)</strong> applies <strong>Inversion of Control (IoC)</strong> to dependency management. IoC moves secondary responsibilities to objects dedicated to that purpose, supporting <strong>SRP</strong>. An object should not instantiate its own dependencies; it passes that responsibility to an authoritative mechanism — usually <code>main</code> or a special-purpose <strong>container</strong>.</p>
+  </div>
+  <p>A JNDI lookup is a <em>partial</em> DI — the object still actively resolves its dependency:</p>
+  <pre><code>MyService myService = (MyService)(jndiContext.lookup(<span class="str">"NameOfMyService"</span>));</code></pre>
+  <p><strong>True DI</strong> goes further: the class is completely passive, providing setter methods or constructor arguments that the DI container uses to inject dependencies (specified in config or a construction module). The <strong>Spring Framework</strong> is the best-known Java DI container: define wiring in XML, then ask for objects by name.</p>
+  <div class="insight">
+    <span class="card-label">Lazy init still has a place</span>
+    <p>Most DI containers won't construct an object until needed, and many provide factory/proxy mechanisms for lazy evaluation — so the virtues of lazy initialization survive (but remember it's just an optimization, possibly premature).</p>
+  </div>
+</section>
+
+<section id="scaling">
+  <h2 class="sec"><span class="n">11.6</span>Scaling Up</h2>
+  <blockquote>It is a myth that we can get systems "right the first time."</blockquote>
+  <p>Cities grow from settlements; roads are narrowed then widened. We can't justify a six-lane highway through a tiny town. Likewise, implement only today's stories, then refactor and expand tomorrow — the essence of iterative, incremental agility. Unlike physical systems, <strong>software architecture can grow incrementally</strong> if we maintain proper separation of concerns.</p>
+  <p>The counterexample: <strong>EJB2</strong> failed to separate concerns, imposing barriers to organic growth. A Bank entity bean tightly coupled business logic to the container:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 11-2 — EJB2 Entity Bean (excerpt)</span>
+<pre><code><span class="kw">package</span> com.example.banking;
+<span class="kw">import</span> java.util.Collections;
+<span class="kw">import</span> javax.ejb.*;
+<span class="kw">public abstract class</span> Bank <span class="kw">implements</span> javax.ejb.EntityBean {
+  <span class="cm">// Business logic...</span>
+  <span class="kw">public abstract</span> String <span class="fn">getStreetAddr1</span>();
+  <span class="kw">public abstract</span> String <span class="fn">getCity</span>();
+  <span class="kw">public abstract void</span> <span class="fn">setStreetAddr1</span>(String street1);
+  <span class="kw">public abstract void</span> <span class="fn">setCity</span>(String city);
+  <span class="kw">public abstract</span> Collection <span class="fn">getAccounts</span>();
+  <span class="kw">public abstract void</span> <span class="fn">setAccounts</span>(Collection accounts);
+  <span class="kw">public void</span> <span class="fn">addAccount</span>(AccountDTO accountDTO) {
+    InitialContext context = <span class="kw">new</span> InitialContext();
+    AccountHomeLocal accountHome = context.lookup(<span class="str">"AccountHomeLocal"</span>);
+    AccountLocal account = accountHome.create(accountDTO);
+    Collection accounts = getAccounts();
+    accounts.add(account);
+  }
+  <span class="cm">// EJB container logic</span>
+  <span class="kw">public abstract void</span> <span class="fn">setId</span>(Integer id);
+  <span class="kw">public abstract</span> Integer <span class="fn">getId</span>();
+  <span class="kw">public</span> Integer <span class="fn">ejbCreate</span>(Integer id) { ... }
+  <span class="kw">public void</span> <span class="fn">ejbPostCreate</span>(Integer id) { ... }
+  <span class="cm">// The rest had to be implemented but were usually empty:</span>
+  <span class="kw">public void</span> <span class="fn">setEntityContext</span>(EntityContext ctx) {}
+  <span class="kw">public void</span> <span class="fn">unsetEntityContext</span>() {}
+  <span class="kw">public void</span> <span class="fn">ejbActivate</span>() {}
+  <span class="kw">public void</span> <span class="fn">ejbPassivate</span>() {}
+  <span class="kw">public void</span> <span class="fn">ejbLoad</span>() {}
+  <span class="kw">public void</span> <span class="fn">ejbStore</span>() {}
+  <span class="kw">public void</span> <span class="fn">ejbRemove</span>() {}
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 11-5 — EJB3 Bank (POJO + annotations)</span>
+<pre><code><span class="kw">package</span> com.example.banking.model;
+<span class="kw">import</span> javax.persistence.*;
+<span class="kw">import</span> java.util.ArrayList;
+<span class="kw">import</span> java.util.Collection;
+<span class="ann">@Entity</span>
+<span class="ann">@Table</span>(name = <span class="str">"BANKS"</span>)
+<span class="kw">public class</span> Bank <span class="kw">implements</span> java.io.Serializable {
+  <span class="ann">@Id</span> <span class="ann">@GeneratedValue</span>(strategy=GenerationType.AUTO)
+  <span class="kw">private int</span> id;
+  <span class="ann">@Embeddable</span> <span class="cm">// An object "inlined" in Bank's DB row</span>
+  <span class="kw">public class</span> Address {
+    <span class="kw">protected</span> String streetAddr1;
+    <span class="kw">protected</span> String streetAddr2;
+    <span class="kw">protected</span> String city;
+    <span class="kw">protected</span> String state;
+    <span class="kw">protected</span> String zipCode;
+  }
+  <span class="ann">@Embedded</span>
+  <span class="kw">private</span> Address address;
+  <span class="ann">@OneToMany</span>(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+    mappedBy=<span class="str">"bank"</span>)
+  <span class="kw">private</span> Collection&lt;Account&gt; accounts = <span class="kw">new</span> ArrayList&lt;Account&gt;();
+  <span class="kw">public int</span> <span class="fn">getId</span>() { <span class="kw">return</span> id; }
+  <span class="kw">public void</span> <span class="fn">setId</span>(<span class="kw">int</span> id) { <span class="kw">this</span>.id = id; }
+  <span class="kw">public void</span> <span class="fn">addAccount</span>(Account account) {
+    account.setBank(<span class="kw">this</span>);
+    accounts.add(account);
+  }
+  <span class="kw">public</span> Collection&lt;Account&gt; <span class="fn">getAccounts</span>() { <span class="kw">return</span> accounts; }
+  <span class="kw">public void</span> <span class="fn">setAccounts</span>(Collection&lt;Account&gt; accounts) {
+    <span class="kw">this</span>.accounts = accounts;
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">EJB2 forced you to subclass container types, implement many empty lifecycle methods, write XML deployment descriptors, and use behaviorless DTOs — making isolated unit testing hard and reuse effectively impossible. EJB3 is much cleaner: a near-pure POJO where entity details live only in <strong>annotations</strong> (which can even move to XML), so it's easy to test-drive and maintain.</p>
+</section>
+
+<section id="crosscutting">
+  <h2 class="sec"><span class="n">11.7</span>Cross-Cutting Concerns</h2>
+  <p>Concerns like <strong>persistence</strong> tend to cut across natural object boundaries — you want one consistent strategy (same DBMS, naming conventions, transactional semantics) across all objects. In principle modular, in practice the same code gets spread across many objects: a <strong>cross-cutting concern</strong>. The problem is the fine-grained intersection of two otherwise-modular domains.</p>
+  <div class="principle">
+    <span class="card-label">Aspect-Oriented Programming (AOP)</span>
+    <p>AOP restores modularity for cross-cutting concerns. Modular constructs called <strong>aspects</strong> declaratively specify which points in the system should have their behavior modified for a particular concern. Behavior changes are applied <strong>non-invasively</strong> to the target code by the AOP framework — e.g. declare which objects/attributes to persist, then delegate to the persistence framework.</p>
+  </div>
+</section>
+
+<section id="proxies">
+  <h2 class="sec"><span class="n">11.8</span>Java Proxies</h2>
+  <p>Java proxies suit simple cases (wrapping method calls), but JDK dynamic proxies work only with <strong>interfaces</strong> (to proxy classes you need byte-code libraries like CGLIB or Javassist). A JDK proxy for persistence on the Bank app:</p>
+  <pre><code><span class="cm">// BankProxyHandler.java — InvocationHandler required by the proxy API</span>
+<span class="kw">public class</span> BankProxyHandler <span class="kw">implements</span> InvocationHandler {
+  <span class="kw">private</span> Bank bank;
+  <span class="kw">public</span> <span class="fn">BankHandler</span>(Bank bank) {
+    <span class="kw">this</span>.bank = bank;
+  }
+  <span class="kw">public</span> Object <span class="fn">invoke</span>(Object proxy, Method method, Object[] args)
+      <span class="kw">throws</span> Throwable {
+    String methodName = method.getName();
+    <span class="kw">if</span> (methodName.equals(<span class="str">"getAccounts"</span>)) {
+      bank.setAccounts(getAccountsFromDatabase());
+      <span class="kw">return</span> bank.getAccounts();
+    } <span class="kw">else if</span> (methodName.equals(<span class="str">"setAccounts"</span>)) {
+      bank.setAccounts((Collection&lt;Account&gt;) args[<span class="num">0</span>]);
+      setAccountsToDatabase(bank.getAccounts());
+      <span class="kw">return null</span>;
+    } <span class="kw">else</span> {
+      ...
+    }
+  }
+  <span class="kw">protected</span> Collection&lt;Account&gt; <span class="fn">getAccountsFromDatabase</span>() { ... }
+  <span class="kw">protected void</span> <span class="fn">setAccountsToDatabase</span>(Collection&lt;Account&gt; accounts) { ... }
+}
+<span class="cm">// Somewhere else...</span>
+Bank bank = (Bank) Proxy.newProxyInstance(
+  Bank.class.getClassLoader(),
+  <span class="kw">new</span> Class[] { Bank.class },
+  <span class="kw">new</span> BankProxyHandler(<span class="kw">new</span> BankImpl()));</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">Why raw proxies hurt clean code</span>
+    <p>Even for this simple case there's a lot of complicated code. The code <strong>volume and complexity</strong> are two drawbacks of proxies — they make clean code hard. Proxies also can't specify system-wide execution "points" of interest, which a true AOP solution needs.</p>
+  </div>
+</section>
+
+<section id="aop">
+  <h2 class="sec"><span class="n">11.9</span>Pure Java AOP Frameworks &amp; EJB3</h2>
+  <p>Fortunately, frameworks like <strong>Spring AOP</strong> and <strong>JBoss AOP</strong> handle most proxy boilerplate automatically. You write business logic as <strong>POJOs</strong> — focused purely on their domain, with no enterprise-framework dependencies — making them simpler to test-drive and evolve. Cross-cutting concerns are added via declarative config:</p>
+  <pre><code><span class="kw">&lt;beans&gt;</span>
+  ...
+  <span class="kw">&lt;bean</span> id=<span class="str">"appDataSource"</span>
+    class=<span class="str">"org.apache.commons.dbcp.BasicDataSource"</span>
+    destroy-method=<span class="str">"close"</span>
+    p:driverClassName=<span class="str">"com.mysql.jdbc.Driver"</span>
+    p:url=<span class="str">"jdbc:mysql://localhost:3306/mydb"</span>
+    p:username=<span class="str">"me"</span><span class="kw">/&gt;</span>
+  <span class="kw">&lt;bean</span> id=<span class="str">"bankDataAccessObject"</span>
+    class=<span class="str">"com.example.banking.persistence.BankDataAccessObject"</span>
+    p:dataSource-ref=<span class="str">"appDataSource"</span><span class="kw">/&gt;</span>
+  <span class="kw">&lt;bean</span> id=<span class="str">"bank"</span>
+    class=<span class="str">"com.example.banking.model.Bank"</span>
+    p:dataAccessObject-ref=<span class="str">"bankDataAccessObject"</span><span class="kw">/&gt;</span>
+  ...
+<span class="kw">&lt;/beans&gt;</span></code></pre>
+  <pre><code>XmlBeanFactory bf =
+  <span class="kw">new</span> XmlBeanFactory(<span class="kw">new</span> ClassPathResource(<span class="str">"app.xml"</span>, getClass()));
+Bank bank = (Bank) bf.getBean(<span class="str">"bank"</span>);</code></pre>
+  <div class="insight">
+    <span class="card-label">The "Russian doll" of decorators</span>
+    <p>Each bean is a nested doll: a <code>Bank</code> domain object proxied by a DAO, itself proxied by a JDBC data source. The client thinks it calls <code>getAccounts()</code> on a <code>Bank</code>, but it's talking to the outermost of a set of nested <strong>Decorator</strong> objects. So few Spring-specific lines are needed that the app is almost completely <strong>decoupled from Spring</strong> — eliminating EJB2's tight-coupling problems. This is why EJB3 was overhauled to follow Spring's declarative, annotation-driven model.</p>
+  </div>
+  <h3>AspectJ Aspects</h3>
+  <p>The most full-featured tool is the <strong>AspectJ</strong> language, an extension of Java with first-class aspect support. Pure-Java approaches (Spring/JBoss AOP) cover 80–90% of useful cases; AspectJ handles the rest but requires learning new tools and language constructs (eased by its annotation form and Spring's integration).</p>
+</section>
+
+<section id="testdrive">
+  <h2 class="sec"><span class="n">11.10</span>Test-Drive the System Architecture</h2>
+  <div class="principle">
+    <span class="card-label">No Big Design Up Front</span>
+    <p>If domain logic is written as POJOs decoupled from architecture concerns, you can <strong>test-drive the architecture</strong> — evolving it from simple to sophisticated, adopting new technologies on demand. <strong>BDUF</strong> is unnecessary and even harmful: it inhibits adapting to change. Unlike building architects (who must do BDUF), software can change radically and economically when concerns are well separated.</p>
+  </div>
+  <p>Start with a "naively simple" but nicely decoupled architecture, ship working stories fast, then add infrastructure as you scale. A good API should largely <strong>disappear from view</strong> so the team focuses creative effort on user stories.</p>
+  <blockquote>An optimal system architecture consists of modularized domains of concern, each implemented with Plain Old Java Objects, integrated by minimally invasive Aspects or Aspect-like tools. This architecture can be test-driven, just like the code.</blockquote>
+</section>
+
+<section id="decisions">
+  <h2 class="sec"><span class="n">11.11</span>Optimize Decision Making</h2>
+  <div class="principle">
+    <span class="card-label">Defer to the last responsible moment</span>
+    <p>Modularity and separation of concerns enable decentralized decision making. Give responsibilities to the most qualified people — and <strong>postpone decisions until the last possible moment</strong>. That's not lazy; it lets you decide with the best possible information (customer feedback, reflection, implementation experience). A premature decision is made with suboptimal knowledge.</p>
+  </div>
+</section>
+
+<section id="standards">
+  <h2 class="sec"><span class="n">11.12</span>Use Standards Wisely, When They Add Value</h2>
+  <div class="bad-practice">
+    <span class="card-label">Standards obsession</span>
+    <p>Many teams used EJB2 simply because it was a standard, even when lighter designs would suffice — losing focus on delivering customer value. Standards help reuse, recruiting, and wiring components, but creating them can take too long, and some lose touch with adopters' real needs. Use a standard only when it adds <strong>demonstrable value</strong>.</p>
+  </div>
+</section>
+
+<section id="dsl">
+  <h2 class="sec"><span class="n">11.13</span>Systems Need Domain-Specific Languages</h2>
+  <div class="principle">
+    <span class="card-label">Close the communication gap</span>
+    <p>A <strong>DSL</strong> — a small scripting language or fluent API — lets code read like prose a domain expert might write, minimizing the gap between a domain concept and the code that implements it. Implementing domain logic in the expert's own language reduces the risk of mistranslation. DSLs raise the abstraction level above code idioms and design patterns, letting every level and domain be expressed as POJOs.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">11.14</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Separate Construction from Use</span><p>Wire dependencies in main / factories / a DI container; the app just uses them.</p></div>
+  <div class="principle"><span class="card-label">Dependency Injection (IoC)</span><p>Objects stay passive; an authoritative container injects their dependencies (SRP).</p></div>
+  <div class="principle"><span class="card-label">Grow Architecture Incrementally</span><p>No BDUF — ship today's stories, refactor and expand tomorrow.</p></div>
+  <div class="principle"><span class="card-label">POJOs + Aspects</span><p>Keep domain logic pure; weave cross-cutting concerns non-invasively.</p></div>
+  <div class="principle"><span class="card-label">Defer Decisions; Use Standards/DSLs Wisely</span><p>Decide late with the best info; reach for DSLs to reveal intent.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">11.15</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Construction tangled into runtime</span><p>Scattered lazy-init idioms with hard-coded dependencies and no global strategy.</p></div>
+  <div class="bad-practice"><span class="card-label">Objects resolving their own dependencies</span><p>Breaks SRP and makes testing/wiring rigid; invert control instead.</p></div>
+  <div class="bad-practice"><span class="card-label">Invasive architecture / Big Design Up Front</span><p>Container coupling (EJB2) and BDUF overwhelm domain logic and block change.</p></div>
+  <div class="bad-practice"><span class="card-label">Adopting standards for their own sake</span><p>Using a heavyweight standard when a simpler design would deliver more value.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">11.16</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Construct &amp; wire in main / DI container</td><td class="dont">Mix startup logic into runtime code</td></tr>
+      <tr><td class="do">Inject dependencies (IoC)</td><td class="dont">Let objects instantiate their own deps</td></tr>
+      <tr><td class="do">Grow architecture incrementally</td><td class="dont">Do Big Design Up Front</td></tr>
+      <tr><td class="do">Keep domain logic in POJOs</td><td class="dont">Couple business logic to a container</td></tr>
+      <tr><td class="do">Weave cross-cutting concerns via aspects</td><td class="dont">Scatter persistence/security code everywhere</td></tr>
+      <tr><td class="do">Defer decisions; use standards/DSLs when valuable</td><td class="dont">Decide early or chase hyped standards</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Keep domain logic as clean POJOs and let construction, wiring, and cross-cutting concerns live elsewhere — then use the simplest thing that can possibly work.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

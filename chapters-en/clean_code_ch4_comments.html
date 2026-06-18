@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.4: Comments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 04</span>
+  <h1>Comments</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Comments are at best a necessary evil — a confession that we failed to express ourselves in code. The goal is to need as few as possible, and to know which few are worth keeping.</p>
+  <div class="badges">
+    <span class="badge">Necessary Evil</span>
+    <span class="badge">Explain in Code</span>
+    <span class="badge">Good Comments</span>
+    <span class="badge">Bad Comments</span>
+    <span class="badge">Comments Lie</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#evil">A Necessary Evil</a></li>
+    <li><a href="#nomakeup">Don't Comment Bad Code</a></li>
+    <li><a href="#explain">Explain Yourself in Code</a></li>
+    <li><a href="#good">Good Comments</a></li>
+    <li><a href="#bad">Bad Comments</a></li>
+    <li><a href="#funcvar">Use a Function, Not a Comment</a></li>
+    <li><a href="#commentedout">Commented-Out Code</a></li>
+    <li><a href="#example">Full Example: GeneratePrimes</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Comments don't make up for bad code — if you're tempted to explain a mess, clean the mess instead. <strong>Comments lie:</strong> code changes but comments drift away from it, growing inaccurate and misleading over time. The only truly good comment is the one you found a way <em>not</em> to write by expressing yourself in code. A handful are genuinely useful — legal, intent, warnings, clarification, amplification, <code>TODO</code>s, public-API Javadocs — but most are redundant, mandated, noisy, or journal clutter that source control already handles. <strong>Truth lives in one place: the code.</strong></p>
+  </div>
+</section>
+
+<section id="evil">
+  <h2 class="sec"><span class="n">4.1</span>Comments Are a Necessary Evil</h2>
+  <blockquote>"Don't comment bad code — rewrite it." — Brian W. Kernighan and P. J. Plauger</blockquote>
+  <p>The proper use of a comment is to <strong>compensate for our failure to express ourselves in code</strong>. Martin means "failure" literally: every comment is a small defeat for your expressive ability. When you find yourself reaching for one, think about whether you can turn the tables and say it in code instead.</p>
+  <div class="bad-practice">
+    <span class="card-label">Why comments rot</span>
+    <p>Code moves, splits, and recombines, but comments can't always follow. They become orphaned blurbs of ever-decreasing accuracy. An example: a <code>HTTP_DATE_REGEXP</code> constant whose explanatory comment <code>// Example: "Tue, 02 Apr 2003 22:18:49 GMT"</code> ended up separated by several later-added instance variables.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">Key Insight</span>
+    <p>Inaccurate comments are <strong>far worse than no comments at all</strong> — they delude, mislead, and set expectations that will never be met. Truth can be found in only one place: the code.</p>
+  </div>
+</section>
+
+<section id="nomakeup">
+  <h2 class="sec"><span class="n">4.2</span>Comments Do Not Make Up for Bad Code</h2>
+  <div class="bad-practice">
+    <span class="card-label">The wrong instinct</span>
+    <p>You write a confusing, disorganized module and think, "Ooh, I'd better comment that!" <strong>No — you'd better clean it.</strong> Clear, expressive code with few comments beats cluttered code with many. Spend the time cleaning the mess, not documenting it.</p>
+  </div>
+</section>
+
+<section id="explain">
+  <h2 class="sec"><span class="n">4.3</span>Explain Yourself in Code</h2>
+  <p>In many cases a comment can be replaced simply by creating a function that says the same thing:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="cm">// Check to see if the employee is eligible for full benefits</span>
+<span class="kw">if</span> ((employee.flags &amp; HOURLY_FLAG) &amp;&amp;
+    (employee.age &gt; <span class="num">65</span>))</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">if</span> (employee.isEligibleForFullBenefits())</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">It takes only a few seconds of thought to capture most intent in code rather than a comment.</p>
+</section>
+
+<section id="good">
+  <h2 class="sec"><span class="n">4.4</span>Good Comments</h2>
+  <p>Some comments earn the bits they consume — but remember, the only <em>truly</em> good comment is the one you didn't have to write.</p>
+
+  <h3>Legal Comments</h3>
+  <p>Copyright and license headers are reasonable. Keep them short and refer to an external license where possible rather than embedding a legal tome.</p>
+  <pre><code><span class="cm">// Copyright (C) 2003,2004,2005 by Object Mentor, Inc. All rights reserved.</span>
+<span class="cm">// Released under the terms of the GNU General Public License version 2 or later.</span></code></pre>
+
+  <h3>Informative Comments</h3>
+  <p>Basic information can help, though renaming is usually better. This comment tells us the regex matches a formatted time/date:</p>
+  <pre><code><span class="cm">// format matched kk:mm:ss EEE, MMM dd, yyyy</span>
+Pattern timeMatcher = Pattern.compile(
+  <span class="str">"\d*:\d*:\d* \w*, \w* \d*, \d*"</span>);</code></pre>
+
+  <h3>Explanation of Intent</h3>
+  <p>A comment can document the <em>reasoning</em> behind a decision — you may disagree with the solution, but at least you understand what the author was trying to do (e.g. sorting objects of one's own class above all others, or a deliberate attempt to provoke a race condition by spawning 25,000 threads in a test).</p>
+
+  <h3>Clarification</h3>
+  <p>Translating an obscure standard-library argument or return value can help when you can't alter the code itself — but it's <strong>risky</strong>, because a clarifying comment can easily be wrong. Verify accuracy before writing one.</p>
+  <pre><code>assertTrue(a.compareTo(a) == <span class="num">0</span>);   <span class="cm">// a == a</span>
+assertTrue(a.compareTo(b) != <span class="num">0</span>);   <span class="cm">// a != b</span>
+assertTrue(a.compareTo(b) == -<span class="num">1</span>);  <span class="cm">// a &lt; b</span></code></pre>
+
+  <h3>Warning of Consequences</h3>
+  <p>Warning other programmers can be justified — e.g. why a test is disabled (<code>// Don't run unless you have some time to kill.</code>) or why a <code>SimpleDateFormat</code> instance is created fresh each time (it isn't thread-safe), preventing an over-eager optimizer from using a static initializer.</p>
+
+  <h3>TODO Comments</h3>
+  <p><code>//TODO</code> notes mark work the programmer can't do right now. IDEs locate them easily, but they are <strong>not an excuse to leave bad code</strong>. Scan and prune them regularly.</p>
+  <pre><code><span class="cm">//TODO-MdM these are not needed</span>
+<span class="cm">// We expect this to go away when we do the checkout model</span>
+<span class="kw">protected</span> VersionInfo <span class="fn">makeVersion</span>() <span class="kw">throws</span> Exception {
+  <span class="kw">return null</span>;
+}</code></pre>
+
+  <h3>Amplification &amp; Public-API Javadocs</h3>
+  <p>A comment can <strong>amplify</strong> the importance of something easily overlooked (e.g. "the trim is real important — it removes the starting spaces…"). And a well-described <strong>public API</strong> deserves good Javadocs — the standard Java library is the case in point — but they can mislead just like any comment, so apply the rest of this chapter's advice to them too.</p>
+</section>
+
+<section id="bad">
+  <h2 class="sec"><span class="n">4.5</span>Bad Comments</h2>
+  <p>Most comments fall here — crutches, excuses, or the programmer talking to himself.</p>
+
+  <div class="bad-practice">
+    <span class="card-label">Mumbling</span>
+    <p>Plopping in a comment because you feel you should is a hack. An empty <code>catch</code> with <code>// No properties files means all defaults are loaded</code> raises more questions than it answers — and forces you to read other modules to decode it. A comment that sends you elsewhere has failed.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Redundant Comments</span>
+    <p>A header that takes longer to read than the code it describes (and is less precise) serves no purpose — like a used-car salesman insisting you needn't look under the hood. The Tomcat <code>ContainerBase</code> class is buried under dozens of these.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Misleading Comments</span>
+    <p>A comment saying a method "returns when <code>this.closed</code> is true" when it actually waits for a blind timeout and then throws — subtly wrong, leading a caller into a slow debugging session.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Mandated Comments</span>
+    <p>A rule that <em>every</em> function needs a Javadoc and every variable a comment produces clutter, lies, and confusion — like a CD's Javadoc that re-lists each obvious parameter.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Journal Comments</span>
+    <p>A running change-log at the top of a module made sense before source control. Now it's pure clutter — delete it; the VCS remembers every edit.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Noise Comments</span>
+    <p><code>/** Default constructor. */</code> or <code>/** The day of the month. */ private int dayOfMonth;</code> restate the obvious. We learn to ignore them — and then they start to lie as the code drifts.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Position Markers &amp; Closing-Brace Comments</span>
+    <p>Banners like <code>// Actions //////////////</code> become background noise if overused. <code>} //while</code> / <code>} //catch</code> markers signal your functions are too long — shorten them instead.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Attributions, HTML, Nonlocal &amp; Too-Much Info</span>
+    <p><code>/* Added by Rick */</code> belongs in source control. HTML inside comments is an abomination in the editor. Don't put systemwide facts (like a default port the function can't control) in a local comment, nor irrelevant historical essays (the full RFC 2045 base64 spec).</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Inobvious Connection &amp; Nonpublic Javadocs</span>
+    <p>If a comment needs its own explanation ("what's a filter byte? does it relate to the +1 or the *3?"), it has failed. And generating Javadocs for non-public internal code adds only cruft and formality.</p>
+  </div>
+</section>
+
+<section id="funcvar">
+  <h2 class="sec"><span class="n">4.6</span>Don't Use a Comment When a Function or Variable Will Do</h2>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="cm">// does the module from the global list &lt;mod&gt; depend on the</span>
+<span class="cm">// subsystem we are part of?</span>
+<span class="kw">if</span> (smodule.getDependSubsystems().contains(subSysMod.getSubSystem()))</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code>ArrayList moduleDependees = smodule.getDependSubsystems();
+String ourSubSystem = subSysMod.getSubSystem();
+<span class="kw">if</span> (moduleDependees.contains(ourSubSystem))</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Naming intermediate values makes the intent self-evident and lets the comment disappear.</p>
+</section>
+
+<section id="commentedout">
+  <h2 class="sec"><span class="n">4.7</span>Commented-Out Code</h2>
+  <div class="bad-practice">
+    <span class="card-label">Don't do this!</span>
+    <p>Few practices are as odious. Others won't dare delete commented-out lines — they assume they're important — so the dead code gathers "like dregs at the bottom of a bad bottle of wine." Source control remembers it. <strong>Just delete it. You won't lose it. Promise.</strong></p>
+<pre><code>this.bytePos = writeBytes(pngIdBytes, <span class="num">0</span>);
+<span class="cm">//hdrPos = bytePos;</span>
+writeHeader();
+writeResolution();
+<span class="cm">//dataPos = bytePos;</span>
+<span class="kw">if</span> (writeImageData()) {
+  writeEnd();
+  this.pngBytes = resizeByteArray(this.pngBytes, this.maxPos);
+}</code></pre>
+  </div>
+</section>
+
+<section id="example">
+  <h2 class="sec"><span class="n">4.8</span>Full Example: GeneratePrimes → PrimeGenerator</h2>
+  <p>This module was written as an example of bad commenting style, then refactored. Spot how many comment problems live in the "before."</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before — Listing 4-7 (GeneratePrimes.java)</span>
+<pre><code><span class="cm">/**
+ * This class Generates prime numbers up to a user specified
+ * maximum. The algorithm used is the Sieve of Eratosthenes.
+ * &lt;p&gt;
+ * Eratosthenes of Cyrene, b. c. 276 BC, Cyrene, Libya --
+ * d. c. 194, Alexandria. The first man to calculate the
+ * circumference of the Earth. Also known for working on
+ * calendars with leap years and ran the library at Alexandria.
+ * &lt;p&gt;
+ * The algorithm is quite simple. Given an array of integers
+ * starting at 2. Cross out all multiples of 2. Find the next
+ * uncrossed integer, and cross out all of its multiples.
+ * Repeat untilyou have passed the square root of the maximum
+ * value.
+ *
+ * @author Alphonse
+ * @version 13 Feb 2002 atp
+ */</span>
+<span class="kw">import</span> java.util.*;
+<span class="kw">public class</span> GeneratePrimes
+{
+  <span class="cm">/**
+   * @param maxValue is the generation limit.
+   */</span>
+  <span class="kw">public static int</span>[] <span class="fn">generatePrimes</span>(<span class="kw">int</span> maxValue)
+  {
+    <span class="kw">if</span> (maxValue &gt;= <span class="num">2</span>) <span class="cm">// the only valid case</span>
+    {
+      <span class="cm">// declarations</span>
+      <span class="kw">int</span> s = maxValue + <span class="num">1</span>; <span class="cm">// size of array</span>
+      <span class="kw">boolean</span>[] f = <span class="kw">new boolean</span>[s];
+      <span class="kw">int</span> i;
+      <span class="cm">// initialize array to true.</span>
+      <span class="kw">for</span> (i = <span class="num">0</span>; i &lt; s; i++)
+        f[i] = <span class="kw">true</span>;
+      <span class="cm">// get rid of known non-primes</span>
+      f[<span class="num">0</span>] = f[<span class="num">1</span>] = <span class="kw">false</span>;
+      <span class="cm">// sieve</span>
+      <span class="kw">int</span> j;
+      <span class="kw">for</span> (i = <span class="num">2</span>; i &lt; Math.sqrt(s) + <span class="num">1</span>; i++)
+      {
+        <span class="kw">if</span> (f[i]) <span class="cm">// if i is uncrossed, cross its multiples.</span>
+        {
+          <span class="kw">for</span> (j = <span class="num">2</span> * i; j &lt; s; j += i)
+            f[j] = <span class="kw">false</span>; <span class="cm">// multiple is not prime</span>
+        }
+      }
+      <span class="cm">// how many primes are there?</span>
+      <span class="kw">int</span> count = <span class="num">0</span>;
+      <span class="kw">for</span> (i = <span class="num">0</span>; i &lt; s; i++)
+      {
+        <span class="kw">if</span> (f[i])
+          count++; <span class="cm">// bump count.</span>
+      }
+      <span class="kw">int</span>[] primes = <span class="kw">new int</span>[count];
+      <span class="cm">// move the primes into the result</span>
+      <span class="kw">for</span> (i = <span class="num">0</span>, j = <span class="num">0</span>; i &lt; s; i++)
+      {
+        <span class="kw">if</span> (f[i]) <span class="cm">// if prime</span>
+          primes[j++] = i;
+      }
+      <span class="kw">return</span> primes; <span class="cm">// return the primes</span>
+    }
+    <span class="kw">else</span> <span class="cm">// maxValue &lt; 2</span>
+      <span class="kw">return new int</span>[<span class="num">0</span>]; <span class="cm">// return null array if bad input.</span>
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After — Listing 4-8 (PrimeGenerator.java)</span>
+<pre><code><span class="cm">/**
+ * This class Generates prime numbers up to a user specified
+ * maximum. The algorithm used is the Sieve of Eratosthenes.
+ * Given an array of integers starting at 2:
+ * Find the first uncrossed integer, and cross out all its
+ * multiples. Repeat until there are no more multiples
+ * in the array.
+ */</span>
+<span class="kw">public class</span> PrimeGenerator
+{
+  <span class="kw">private static boolean</span>[] crossedOut;
+  <span class="kw">private static int</span>[] result;
+  <span class="kw">public static int</span>[] <span class="fn">generatePrimes</span>(<span class="kw">int</span> maxValue)
+  {
+    <span class="kw">if</span> (maxValue &lt; <span class="num">2</span>)
+      <span class="kw">return new int</span>[<span class="num">0</span>];
+    <span class="kw">else</span>
+    {
+      uncrossIntegersUpTo(maxValue);
+      crossOutMultiples();
+      putUncrossedIntegersIntoResult();
+      <span class="kw">return</span> result;
+    }
+  }
+  <span class="kw">private static void</span> <span class="fn">uncrossIntegersUpTo</span>(<span class="kw">int</span> maxValue)
+  {
+    crossedOut = <span class="kw">new boolean</span>[maxValue + <span class="num">1</span>];
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt; crossedOut.length; i++)
+      crossedOut[i] = <span class="kw">false</span>;
+  }
+  <span class="kw">private static void</span> <span class="fn">crossOutMultiples</span>()
+  {
+    <span class="kw">int</span> limit = determineIterationLimit();
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= limit; i++)
+      <span class="kw">if</span> (notCrossed(i))
+        crossOutMultiplesOf(i);
+  }
+  <span class="kw">private static int</span> <span class="fn">determineIterationLimit</span>()
+  {
+    <span class="cm">// Every multiple in the array has a prime factor that
+    // is less than or equal to the root of the array size,
+    // so we don't have to cross out multiples of numbers
+    // larger than that root.</span>
+    <span class="kw">double</span> iterationLimit = Math.sqrt(crossedOut.length);
+    <span class="kw">return</span> (<span class="kw">int</span>) iterationLimit;
+  }
+  <span class="kw">private static void</span> <span class="fn">crossOutMultiplesOf</span>(<span class="kw">int</span> i)
+  {
+    <span class="kw">for</span> (<span class="kw">int</span> multiple = <span class="num">2</span>*i;
+         multiple &lt; crossedOut.length;
+         multiple += i)
+      crossedOut[multiple] = <span class="kw">true</span>;
+  }
+  <span class="kw">private static boolean</span> <span class="fn">notCrossed</span>(<span class="kw">int</span> i)
+  {
+    <span class="kw">return</span> crossedOut[i] == <span class="kw">false</span>;
+  }
+  <span class="kw">private static void</span> <span class="fn">putUncrossedIntegersIntoResult</span>()
+  {
+    result = <span class="kw">new int</span>[numberOfUncrossedIntegers()];
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>, i = <span class="num">2</span>; i &lt; crossedOut.length; i++)
+      <span class="kw">if</span> (notCrossed(i))
+        result[j++] = i;
+  }
+  <span class="kw">private static int</span> <span class="fn">numberOfUncrossedIntegers</span>()
+  {
+    <span class="kw">int</span> count = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt; crossedOut.length; i++)
+      <span class="kw">if</span> (notCrossed(i))
+        count++;
+    <span class="kw">return</span> count;
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The refactor keeps just <strong>two</strong> comments, both explanatory: a high-level algorithm summary, and the rationale for using the square root as the loop limit (which no variable name could capture). Everything else became a well-named function.</p>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">4.9</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Express in Code First</span><p>Before writing a comment, try to make the code say it — via a function or a named variable.</p></div>
+  <div class="principle"><span class="card-label">Comments Lie Over Time</span><p>Treat every comment as a maintenance liability that drifts from the code it describes.</p></div>
+  <div class="principle"><span class="card-label">Truth Is in the Code</span><p>Code is the only fully accurate source; minimize anything that competes with it.</p></div>
+  <div class="principle"><span class="card-label">Keep Only Earned Comments</span><p>Legal, intent, warning, clarification, amplification, TODO, public-API — and only when no better option exists.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">4.10</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Commenting instead of cleaning</span><p>Documenting a mess rather than fixing it.</p></div>
+  <div class="bad-practice"><span class="card-label">Redundant / noise / mandated comments</span><p>Restating the obvious or satisfying a "comment everything" rule.</p></div>
+  <div class="bad-practice"><span class="card-label">Leaving commented-out code &amp; journals</span><p>Source control already preserves history — delete them.</p></div>
+  <div class="bad-practice"><span class="card-label">Nonlocal / misleading / inobvious comments</span><p>Describing distant parts of the system, or being subtly inaccurate.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">4.11</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Replace comments with well-named functions/vars</td><td class="dont">Explain bad code instead of cleaning it</td></tr>
+      <tr><td class="do">Keep legal, intent, warning, TODO, API comments</td><td class="dont">Write redundant or noise comments</td></tr>
+      <tr><td class="do">Verify a clarifying comment is accurate</td><td class="dont">Mandate a comment on every function/variable</td></tr>
+      <tr><td class="do">Delete dead code — VCS remembers it</td><td class="dont">Leave commented-out code or change journals</td></tr>
+      <tr><td class="do">Keep comments local to the code they describe</td><td class="dont">Embed systemwide info, HTML, or RFC essays</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Every comment is a confession of failure to express yourself in code — so write the code so well that the comment becomes unnecessary.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

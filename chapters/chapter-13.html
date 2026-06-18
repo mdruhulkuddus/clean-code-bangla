@@ -1,0 +1,253 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)} .hi{color:var(--accent);font-weight:700}
+.cb{margin:18px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:12px;font-weight:700;letter-spacing:.5px;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:13.5px;line-height:1.7;color:#3d3530;margin:0}
+.bi{margin:10px 0;padding:10px 16px;background:var(--surface);border-radius:7px;border:1px solid var(--border);border-left:3px solid var(--accent-bd)}
+.bi .bl{font-weight:700;color:var(--accent);font-family:var(--fc);font-size:13px}
+.rb{margin:22px 0;padding:18px 22px;background:var(--warm);border-radius:8px;border-left:4px solid var(--accent-bd)}
+.rb .rt{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:14px}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.warn{margin:22px 0;padding:18px 22px;background:var(--bad-lt);border-radius:8px;border:1px solid rgba(192,57,43,.15);color:var(--bad);font-weight:600}
+.nl{margin:14px 0;padding-left:0;list-style:none}
+.nl li{margin-bottom:8px;padding:9px 14px;background:var(--surface);border-radius:7px;border:1px solid var(--border);border-left:3px solid var(--accent-bd)}
+.nl li .nm{font-weight:700;color:var(--accent);margin-right:6px;font-family:var(--fc)}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">13</div>
+<div class="clab">অধ্যায় ১৩</div>
+<div class="ctbn">কনকারেন্সি</div>
+<div class="cten">Concurrency</div>
+<div class="caut">Clean Code — Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>পরিষ্কার concurrent program লেখা অত্যন্ত কঠিন — সত্যিই অনেক কঠিন। একটি single thread-এ চলা কোড লেখা অনেক সহজ। এমনকি multithreaded কোডও উপর থেকে দেখতে ঠিকঠাক লাগতে পারে, কিন্তু গভীরে গেলে দেখা যায় তা ভেঙে পড়ে। সিস্টেমে চাপ পড়লে এই ধরনের কোড সমস্যা তৈরি করে।</p>
+
+<p>এই অধ্যায়ে আমরা আলোচনা করবো কেন concurrent programming দরকার, এতে কী কী সমস্যা হয়, এবং কিভাবে পরিষ্কার concurrent কোড লেখা যায়।</p>
+
+<h2>কনকারেন্সি কেন দরকার? <span class="en">Why Concurrency?</span></h2>
+
+<p><span class="b">Concurrency</span> মূলত একটি decoupling কৌশল। এটি "কী করা হবে" (what) এবং "কখন করা হবে" (when) — এই দুটো জিনিসকে আলাদা করতে সাহায্য করে।</p>
+
+<p>Single-threaded application-এ "কী" আর "কখন" এতটাই জোড়া লাগানো থাকে যে stack backtrace দেখেই পুরো application-এর অবস্থা বোঝা যায়। কিন্তু এই দুটোকে আলাদা করতে পারলে application-এর throughput এবং structure — দুটোই উন্নত করা যায়।</p>
+
+<p>দাহরণ হিসেবে ভাবুন একটি Web application-এর কথা যেটা Servlet model ব্যবহার করে। প্রতিটি servlet asynchronously চলে এবং নীতিগতভাবে প্রতিটি servlet execution নিজের ছোট জগতে থাকে।</p>
+
+<p>আরেকটি দাহরণ: একটি information aggregator যেটি বিভিন্ন ওয়েবসাইট থেকে তথ্য সংগ্রহ করে। Single-threaded হলে একটা শেষ না হওয়া পর্যন্ত পরেরটা শুরু হয় না। ওয়েবসাইটের সংখ্যা বাড়লে সময়ও বাড়তে থাকে। Multithreaded algorithm ব্যবহার করলে একই সময়ে একাধিক সাইট থেকে ডাটা আনা যায়।</p>
+
+<h2>ভুল ধারণা ও বাস্তবতা <span class="en">Myths and Misconceptions</span></h2>
+
+<p>Concurrency নিয়ে কিছু প্রচলিত ভুল ধারণা আছে:</p>
+
+<div class="bi"><span class="bl">ভুল ধারণা ১:</span> "Concurrency সবসময় performance বাড়ায়।"<br><span class="b">বাস্তবতা:</span> শুধুমাত্র যখন যথেষ্ট wait time থাকে যা thread-এ ভাগ করা যায়, তখনই performance বাড়ে।</div>
+
+<div class="bi"><span class="bl">ভুল ধারণা ২:</span> "Concurrent program লেখার সময় design পাল্টায় না।"<br><span class="b">বাস্তবতা:</span> Concurrent algorithm-এর design single-threaded design থেকে সম্পূর্ণ আলাদা হতে পারে।</div>
+
+<div class="bi"><span class="bl">ভুল ধারণা ৩:</span> "Web container ব্যবহার করলে concurrency বোঝার দরকার নেই।"<br><span class="b">বাস্তবতা:</span> Container কী করছে তা বুঝতে হবে এবং concurrent update ও deadlock থেকে সাবধান থাকতে হবে।</div>
+
+<p>কিছু বাস্তবসম্মত কথা:</p>
+<ul class="nl">
+<li><span class="nm">•</span> Concurrency-তে অতিরিক্ত overhead থাকে — performance-এও এবং extra কোড লেখাতেও।</li>
+<li><span class="nm">•</span> সঠিক concurrency জটিল, এমনকি সহজ সমস্যার ক্ষেত্রেও।</li>
+<li><span class="nm">•</span> Concurrency bug সাধারণত পুনরাবৃত্তিযোগ্য হয় না, তাই এগুলো প্রায়ই উপেক্ষা করা হয়।</li>
+<li><span class="nm">•</span> Concurrency-তে প্রায়ই design strategy-তে মৌলিক পরিবর্তন দরকার হয়।</li>
+</ul>
+
+<h2>চ্যালেঞ্জ <span class="en">Challenges</span></h2>
+
+<p>Concurrent programming কেন এত কঠিন? এই সাধারণ class-টি দেখুন:</p>
+
+<div class="cb"><div class="cl neu">সমস্যাযুক্ত কোড:</div><pre>public class X {
+    private int lastIdUsed;
+    public int getNextId() {
+        return ++lastIdUsed;
+    }
+}</pre></div>
+
+<p>ধরুন আমরা X-এর একটি instance তৈরি করলাম, lastIdUsed সেট করলাম 42, এবং দুটি thread-এ শেয়ার করলাম। দুটো thread-ই getNextId() call করলে তিনটি সম্ভাব্য ফলাফল হতে পারে:</p>
+
+<ul class="nl">
+<li><span class="nm">•</span> Thread একে পায় 43, thread দুই পায় 44, lastIdUsed হয় 44।</li>
+<li><span class="nm">•</span> Thread একে পায় 44, thread দুই পায় 43, lastIdUsed হয় 44।</li>
+<li><span class="nm">•</span> Thread একে পায় 43, thread দুই পায় 43, lastIdUsed হয় 43।</li>
+</ul>
+
+<p>তৃতীয় ফলাফলটি চমকে দেওয়ার মতো! এটি ঘটে কারণ দুটি thread একই সময়ে একটি instruction-এ কাজ করে ফেলে। Java byte-code-এ এই একটি method-এর জন্য 12,870 টি ভিন্ন execution path সম্ভব! বেশিরভাগ path সঠিক ফলাফল দেয়, কিন্তু কিছু path দেয় না।</p>
+
+<h2>কনকারেন্সি রক্ষার নীতিমালা <span class="en">Concurrency Defense Principles</span></h2>
+
+<h3>Single Responsibility Principle (SRP)</h3>
+<p>SRP বলে যে একটি method/class/component-এর পরিবর্তনের একটিমাত্র কারণ থাকা উচিত। Concurrency design এতটাই জটিল যে এটি নিজেই একটি পরিবর্তনের কারণ, তাই একে বাকি কোড থেকে আলাদা রাখা উচিত।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>আপনার concurrency-সংক্রান্ত কোড অন্য কোড থেকে আলাদা রাখুন।</div>
+
+<h3>Corollary: Data-র Scope সীমিত রাখুন</h3>
+<p>দুটি thread যদি একই shared object-এর একই field পরিবর্তন করে তাহলে তারা একে অপরের সাথে সংঘর্ষ করতে পারে। সমাধান হলো synchronized keyword ব্যবহার করে critical section রক্ষা করা। কিন্তু যত বেশি জায়গায় shared data update হয়:</p>
+<ul class="nl">
+<li><span class="nm">•</span> কোনো একটি জায়গা protect করতে ভুলে যাওয়ার সম্ভাবনা বাড়ে।</li>
+<li><span class="nm">•</span> DRY principle ভঙ্গ হয়।</li>
+<li><span class="nm">•</span> সমস্যার উৎস খুঁজে পাওয়া কঠিন হয়।</li>
+</ul>
+<div class="rb"><div class="rt">পরামর্শ:</div>Data encapsulation কে গুরুত্ব দিন; shared data-র access যথাসম্ভব সীমিত রাখুন।</div>
+
+<h3>Corollary: Data-র Copy ব্যবহার করুন</h3>
+<p>Shared data এড়ানোর সবচেয়ে ভালো উপায় হলো আদৌ share না করা। কিছু ক্ষেত্রে object copy করে read-only হিসেবে ব্যবহার করা যায়। Object copy করে বিভিন্ন thread-এ কাজ করিয়ে পরে একটি thread-এ merge করা যেতে পারে। Synchronization এড়ানো গেলে যে সময় বাঁচে তা সাধারণত extra object creation-এর খরচের চেয়ে বেশি।</p>
+
+<h3>Corollary: Thread যতটা সম্ভব স্বাধীন রাখুন</h3>
+<p>প্রতিটি thread যেন নিজের জগতে থাকে, অন্য কোনো thread-এর সাথে data share না করে — এভাবে কোড লেখার চেষ্টা করুন। যেমন HttpServlet-এর subclass-গুলো তাদের সব তথ্য doGet ও doPost method-এর parameter হিসেবে পায়, যতক্ষণ শুধু local variable ব্যবহার করা হয় ততক্ষণ synchronization সমস্যা হয় না।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>Data কে স্বাধীন subset-এ ভাগ করার চেষ্টা করুন যা স্বাধীন thread-এ চলতে পারে।</div>
+
+<h2>আপনার লাইব্রেরি জানুন <span class="en">Know Your Library</span></h2>
+<p>Java 5 concurrent development-এ অনেক উন্নতি এনেছিলো। Thread-safe collection ব্যবহার করুন, executor framework ব্যবহার করুন, এবং যেখানে সম্ভব nonblocking solution ব্যবহার করুন।</p>
+
+<p><span class="b">ConcurrentHashMap</span> প্রায় সব পরিস্থিতিতে HashMap-এর চেয়ে ভালো perform করে। এটি একই সাথে concurrent read ও write সমর্থন করে।</p>
+
+<p>আরো কিছু গুরুত্বপূর্ণ class:</p>
+<ul class="nl">
+<li><span class="nm">•</span> <span class="b">ReentrantLock</span> — এমন একটি lock যা এক method-এ নেওয়া যায় এবং অন্য method-এ ছাড়া যায়।</li>
+<li><span class="nm">•</span> <span class="b">Semaphore</span> — ক্লাসিক semaphore-এর implementation, একটি count সহ lock।</li>
+<li><span class="nm">•</span> <span class="b">CountDownLatch</span> — নির্দিষ্ট সংখ্যক event ঘটার আগ পর্যন্ত সব thread-কে আটকে রাখে।</li>
+</ul>
+<div class="rb"><div class="rt">পরামর্শ:</div>java.util.concurrent, java.util.concurrent.atomic, java.util.concurrent.locks-র class-গুলোর সাথে পরিচিত হন।</div>
+
+<h2>Execution Model জানুন <span class="en">Know Your Execution Models</span></h2>
+<p>Concurrent application-এ আচরণ ভাগ করার বিভিন্ন উপায় আছে। কিছু মৌলিক সংজ্ঞা:</p>
+<ul class="nl">
+<li><span class="nm">•</span> <span class="b">Bound Resources</span> — নির্দিষ্ট আকারের resource, যেমন database connection বা buffer।</li>
+<li><span class="nm">•</span> <span class="b">Mutual Exclusion</span> — একই সময়ে শুধু একটি thread shared data access করতে পারবে।</li>
+<li><span class="nm">•</span> <span class="b">Starvation</span> — একটি thread অতিরিক্ত সময় বা চিরকালের জন্য অপেক্ষায় থাকে।</li>
+<li><span class="nm">•</span> <span class="b">Deadlock</span> — দুই বা ততোধিক thread একে অপরের জন্য অপেক্ষা করে।</li>
+<li><span class="nm">•</span> <span class="b">Livelock</span> — Thread-গুলো কাজ করার চেষ্টা করে কিন্তু একে অপরকে "পথে" পায়।</li>
+</ul>
+
+<h3>Producer-Consumer</h3>
+<p>এক বা একাধিক producer thread কাজ তৈরি করে একটি queue-তে রাখে। এক বা একাধিক consumer thread সেই queue থেকে কাজ নিয়ে সম্পন্ন করে। Queue হলো একটি bound resource। Producer-কে queue-তে জায়গা খালি হওয়ার জন্য অপেক্ষা করতে হয় এবং consumer-কে queue-তে কিছু থাকার জন্য অপেক্ষা করতে হয়।</p>
+
+<h3>Readers-Writers</h3>
+<p>যখন একটি shared resource মূলত reader-দের জন্য তথ্যের উৎস হিসেবে কাজ করে, কিন্তু মাঝেমধ্যে writer দ্বারা update হয়, তখন throughput একটি সমস্যা। Reader এবং writer ভয়ের কাহিনী মেটানো এবং starvation এড়ানোর ভারসাম্য রাখাটাই চ্যালেঞ্জ।</p>
+
+<h3>Dining Philosophers</h3>
+<p>কল্পনা করুন কিছু দার্শনিক একটি গোল টেবিলে বসে আছেন। প্রতিটির বাঁদিকে একটি কাঁটাচামচ। মাঝখানে স্প্যাগেটির বাটি। খেতে হলে দুটি কাঁটাচামচ দরকার। পাশের জন তার কাঁটাচামচ ব্যবহার করলে অপেক্ষা করতে হবে।</p>
+<p>দার্শনিকদের জায়গায় thread বসান এবং কাঁটাচামচের জায়গায় resource — এই সমস্যাটি অনেক enterprise application-এ দেখা যায় যেখানে process-গুলো resource-এর জন্য প্রতিযোগিতা করে।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>এই মৌলিক algorithm-গুলো শিখুন এবং এদের সমাধান বুঝুন।</div>
+
+<h2>Synchronized Method-এর মধ্যে Dependency থেকে সাবধান</h2>
+<p>একই shared class-এ একাধিক synchronized method থাকলে সূক্ষ্ম bug তৈরি হতে পারে।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>একটি shared object-এ একাধিক method ব্যবহার করা এড়িয়ে চলুন।</div>
+
+<p>যখন একাধিক method ব্যবহার করতেই হয়, তখন তিনটি উপায় আছে:</p>
+<ul class="nl">
+<li><span class="nm">•</span> <span class="b">Client-Based Locking</span> — Client প্রথম method call করার আগে server lock করবে।</li>
+<li><span class="nm">•</span> <span class="b">Server-Based Locking</span> — Server-এর মধ্যে একটি method তৈরি করুন যা lock করে সব method call করে।</li>
+<li><span class="nm">•</span> <span class="b">Adapted Server</span> — একটি intermediary তৈরি করুন যা locking করবে।</li>
+</ul>
+
+<h2>Synchronized সেকশন ছোট রাখুন</h2>
+<p>synchronized keyword একটি lock তৈরি করে। Lock-এ delay হয় এবং overhead যোগ হয়। তাই synchronized statement দিয়ে কোড ভরিয়ে ফেলা উচিত নয়। আবার critical section রক্ষা করাও জরুরি। কিছু programmer critical section অনেক বড় করে ফেলে, কিন্তু এতে contention বাড়ে এবং performance কমে।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>Synchronized সেকশন যতটা সম্ভব ছোট রাখুন।</div>
+
+<h2>সঠিক Shut-Down কোনো সহজ কাজ নয়</h2>
+<p>চিরকাল চলবে এমন system লেখা আর কিছুক্ষণ চলে gracefully shut down করবে এমন system লেখা — দুটো আলাদা ব্যাপার। সাধারণ সমস্যা হলো deadlock, যেখানে thread-গুলো এমন signal-এর জন্য অপেক্ষা করে যা কখনো আসে না।</p>
+<p>দাহরণ: একটি parent thread কিছু child thread তৈরি করে এবং সবার শেষ হওয়ার জন্য অপেক্ষা করে। যদি কোনো child deadlocked হয়? Parent চিরকাল অপেক্ষা করবে। অথবা ধরুন দুটি child producer/consumer pair হিসেবে কাজ করছে — producer shutdown signal পেয়ে বন্ধ হয়ে গেলো কিন্তু consumer producer-এর message-এর জন্য অপেক্ষায় আটকে গেলো।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>Shut-down নিয়ে আগে ভাবুন এবং আগে কাজ করুন। এটা আপনার ধারণার চেয়ে বেশি সময় নেবে।</div>
+
+<h2>Threaded কোড টেস্ট করা <span class="en">Testing Threaded Code</span></h2>
+<p>কোড যে সঠিক তা প্রমাণ করা কঠিন। Testing সঠিকতার guarantee দেয় না, কিন্তু ভালো testing ঝুঁকি কমায়। Threaded কোডে জিনিসটা আরো জটিল হয়ে যায়।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>যথেষ্ট test লিখুন যা সমস্যা প্রকাশ করতে পারে এবং বিভিন্ন configuration-এ অনেকবার চালান। কোনো test fail করলে তা খুঁজে বের করুন। পরের run-এ pass করলেও ব্যর্থতাকে উপেক্ষা করবেন না।</div>
+
+<h3>প্রত্যাশিত ব্যর্থতাকে Threading সমস্যা হিসেবে দেখুন</h3>
+<p>Threaded কোডে এমন জিনিস fail হয় যা "fail হওয়া সম্ভব নয়।" Bug-গুলো হাজারবার বা লক্ষবার execution-এ একবার দেখা দিতে পারে। এদেরকে "one-off" বলে এড়িয়ে দেওয়া উচিত নয়।</p>
+
+<h3>Non-threaded কোড আগে সঠিক করুন</h3>
+<p>আগে নিশ্চিত করুন কোড thread ছাড়া কাজ করছে। POJO তৈরি করুন যা thread-aware নয় এবং threaded environment-এর বাইরে test করা যায়।</p>
+
+<h3>Threaded কোড Pluggable করুন</h3>
+<p>এমনভাবে লিখুন যা বিভিন্ন configuration-এ চালানো যায় — একটি thread, একাধিক thread, বিভিন্ন test double সহ।</p>
+
+<h3>Threaded কোড Tunable করুন</h3>
+<p>Thread-এর সংখ্যা সহজে পরিবর্তনযোগ্য রাখুন। System চলার সময়ও পরিবর্তন করা যেতে পারে — এমন ব্যবস্থা রাখুন।</p>
+
+<h3>Processor-এর চেয়ে বেশি Thread চালান</h3>
+<p>Task swap যত বেশি হবে, ততই critical section miss বা deadlock ধরা পড়ার সম্ভাবনা বাড়বে।</p>
+
+<h3>বিভিন্ন Platform-এ চালান</h3>
+<p>ভিন্ন ভিন্ন operating system-এ ভিন্ন ভিন্ন threading policy থাকে। একটি OS-এ pass করা কোড অন্যটিতে fail করতে পারে।</p>
+
+<h3>কোড Instrument করুন — কোডকে ব্যর্থতা খুঁজে দিন</h3>
+<p>Concurrent কোডের ত্রুটি লুকিয়ে থাকে। Object.wait(), Object.sleep(), Object.yield() এবং Object.priority()-তে call যোগ করে execution-এর ক্রম পরিবর্তন করা যায়।</p>
+
+<div class="cb"><div class="cl neu">হাতে করা দাহরণ:</div><pre>public synchronized String nextUrlOrNull() {
+    if(hasNext()) {
+        String url = urlGenerator.next();
+        Thread.yield(); // testing-এর জন্য যোগ করা
+        updateHasNext();
+        return url;
+    }
+    return null;
+}</pre></div>
+
+<p>এর একটি automated পদ্ধতি হলো ThreadJigglePoint class ব্যবহার করা:</p>
+
+<div class="cb"><div class="cl neu">ThreadJigglePoint:</div><pre>public class ThreadJigglePoint {
+    public static void jiggle() { }
+}
+
+public synchronized String nextUrlOrNull() {
+    if(hasNext()) {
+        ThreadJigglePoint.jiggle();
+        String url = urlGenerator.next();
+        ThreadJigglePoint.jiggle();
+        updateHasNext();
+        ThreadJigglePoint.jiggle();
+        return url;
+    }
+    return null;
+}</pre></div>
+
+<p>ThreadJigglePoint-এর দুটি implementation রাখা যায় — production-এ কিছু করবে না, testing-এ randomly sleep, yield, বা কিছুই না করবে। এভাবে বিভিন্ন execution order তৈরি হয়ে লুকানো bug ধরা পড়তে পারে।</p>
+<div class="rb"><div class="rt">পরামর্শ:</div>Jiggling কৌশল ব্যবহার করে error খুঁজে বের করুন।</div>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+<p>Concurrent কোড সঠিকভাবে লেখা কঠিন। প্রথমত, Single Responsibility Principle অনুসরণ করুন। System-কে POJO-তে ভেঙে ফেলুন যা thread-aware কোড থেকে আলাদা। Concurrency সমস্যার সম্ভাব্য উৎসগুলো জানুন — shared data-তে multiple thread কাজ করা, common resource pool ব্যবহার করা।</p>
+<p>আপনার library শিখুন এবং মৌলিক algorithm বুঝুন। কোন কোড lock করা দরকার তা খুঁজে বের করুন এবং শুধু সেগুলোই lock করুন। Shared object-এর সংখ্যা এবং sharing-এর scope যতটা সম্ভব কমান।</p>
+<p>Thread-সক্রান্ত কোড অনেক configuration-এ, অনেক platform-এ, বারবার এবং ক্রমাগত চালানো দরকার। কোড instrument করার জন্য সময় বিনিয়োগ করুন। Clean approach নিলে সফল হওয়ার সম্ভাবনা অনেক বেড়ে যায়।</p>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Concurrency</div><div class="cd">একই সময়ে একাধিক কাজ চালানো। কঠিন কিন্তু অনেক সময় অপরিহার্য।</div></div>
+<div class="ci"><div class="cn">★ SRP অনুসরণ</div><div class="cd">Concurrent কোড অন্য কোড থেকে আলাদা রাখুন।</div></div>
+<div class="ci"><div class="cn">★ Shared Data সীমিত করুন</div><div class="cd">Shared data যতটা সম্ভব কমাতে হবে — synchronized সেকশন ছোট রাখতে হবে।</div></div>
+<div class="ci"><div class="cn">★ Thread-safe Collection</div><div class="cd">ConcurrentHashMap এর মতো thread-safe collection ব্যবহার করুন।</div></div>
+<div class="ci"><div class="cn">★ Execution Models</div><div class="cd">তিনটি ক্লাসিক model জানুন: Producer-Consumer, Readers-Writers, Dining Philosophers।</div></div>
+<div class="ci"><div class="cn">★ Testing</div><div class="cd">Threaded কোড টেস্ট করার সময় jiggling কৌশল ব্যবহার করে bug খুঁজুন।</div></div>
+</div>
+
+</div>
+</div>

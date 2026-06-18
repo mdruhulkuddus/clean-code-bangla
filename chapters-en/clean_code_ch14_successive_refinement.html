@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.14: Successive Refinement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 14</span>
+  <h1>Successive Refinement</h1>
+  <p class="author">Robert C. Martin — Case Study of a Command-Line Argument Parser</p>
+  <p class="subtitle">A working module that didn't scale, cleaned in tiny disciplined steps. To write clean code, you must first write dirty code — and then clean it.</p>
+  <div class="badges">
+    <span class="badge">Args Case Study</span>
+    <span class="badge">Write Dirty, Then Clean</span>
+    <span class="badge">Incrementalism</span>
+    <span class="badge">TDD Safety Net</span>
+    <span class="badge">Never Let Rot Start</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#args">Args: The Clean Result</a></li>
+    <li><a href="#howdid">How Did I Do This?</a></li>
+    <li><a href="#draft">The Rough Draft</a></li>
+    <li><a href="#stopped">So I Stopped</a></li>
+    <li><a href="#incrementalism">On Incrementalism</a></li>
+    <li><a href="#partition">Partitioning</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>This chapter is a case study in <strong>successive refinement</strong>: an <code>Args</code> command-line parser that started clean, grew into a "festering pile" as argument types were added, and was then refactored back to clean. The lesson: <strong>to write clean code you must first write dirty code and then clean it</strong> — like rough drafts of an essay. The discipline that makes it safe is <strong>TDD</strong> + <strong>incrementalism</strong>: a suite of tests plus a long series of tiny changes, each keeping the system working. It's not enough for code to work; <strong>bad code rots and ferments</strong>, so never let the rot get started.</p>
+  </div>
+</section>
+
+<section id="args">
+  <h2 class="sec"><span class="n">14.1</span>Args: The Clean Result</h2>
+  <p><code>Args</code> is simple to use: construct it with the input args and a <strong>schema</strong> string, then query for values.</p>
+  <pre><code><span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+  <span class="kw">try</span> {
+    Args arg = <span class="kw">new</span> Args(<span class="str">"l,p#,d*"</span>, args);
+    <span class="kw">boolean</span> logging = arg.getBoolean(<span class="str">'l'</span>);
+    <span class="kw">int</span> port = arg.getInt(<span class="str">'p'</span>);
+    String directory = arg.getString(<span class="str">'d'</span>);
+    executeApplication(logging, port, directory);
+  } <span class="kw">catch</span> (ArgsException e) {
+    System.out.printf(<span class="str">"Argument error: %s\n"</span>, e.errorMessage());
+  }
+}</code></pre>
+  <p>The schema <code>"l,p#,d*"</code> declares a boolean <code>-l</code>, an integer <code>-p</code>, and a string <code>-d</code>. The clean implementation parses the schema into <code>ArgumentMarshaler</code> objects and is trivially extensible:</p>
+  <pre><code><span class="kw">public class</span> Args {
+  <span class="kw">private</span> Map&lt;Character, ArgumentMarshaler&gt; marshalers;
+  <span class="kw">private</span> Set&lt;Character&gt; argsFound;
+  <span class="kw">private</span> ListIterator&lt;String&gt; currentArgument;
+  <span class="kw">public</span> <span class="fn">Args</span>(String schema, String[] args) <span class="kw">throws</span> ArgsException {
+    marshalers = <span class="kw">new</span> HashMap&lt;Character, ArgumentMarshaler&gt;();
+    argsFound = <span class="kw">new</span> HashSet&lt;Character&gt;();
+    parseSchema(schema);
+    parseArgumentStrings(Arrays.asList(args));
+  }
+  <span class="kw">private void</span> <span class="fn">parseSchemaElement</span>(String element) <span class="kw">throws</span> ArgsException {
+    <span class="kw">char</span> elementId = element.charAt(<span class="num">0</span>);
+    String elementTail = element.substring(<span class="num">1</span>);
+    validateSchemaElementId(elementId);
+    <span class="kw">if</span> (elementTail.length() == <span class="num">0</span>)
+      marshalers.put(elementId, <span class="kw">new</span> BooleanArgumentMarshaler());
+    <span class="kw">else if</span> (elementTail.equals(<span class="str">"*"</span>))
+      marshalers.put(elementId, <span class="kw">new</span> StringArgumentMarshaler());
+    <span class="kw">else if</span> (elementTail.equals(<span class="str">"#"</span>))
+      marshalers.put(elementId, <span class="kw">new</span> IntegerArgumentMarshaler());
+    <span class="kw">else if</span> (elementTail.equals(<span class="str">"##"</span>))
+      marshalers.put(elementId, <span class="kw">new</span> DoubleArgumentMarshaler());
+    <span class="kw">else if</span> (elementTail.equals(<span class="str">"[*]"</span>))
+      marshalers.put(elementId, <span class="kw">new</span> StringArrayArgumentMarshaler());
+    <span class="kw">else</span>
+      <span class="kw">throw new</span> ArgsException(INVALID_ARGUMENT_FORMAT, elementId, elementTail);
+  }
+}</code></pre>
+  <div class="insight">
+    <span class="card-label">Easy to extend</span>
+    <p>Adding a new argument type (say, a date) requires only a new <code>ArgumentMarshaler</code> derivative, a new <code>getXXX</code> function, and a new case in <code>parseSchemaElement</code> — a trivial amount of effort. <em>But Martin did not write it this way from the start.</em></p>
+  </div>
+</section>
+
+<section id="howdid">
+  <h2 class="sec"><span class="n">14.2</span>How Did I Do This?</h2>
+  <blockquote>To write clean code, you must first write dirty code and then clean it.</blockquote>
+  <p>Programming is a craft more than a science. Just as grade-school teachers taught us to write a rough draft, then a second, then subsequent drafts, <strong>writing clean code is a matter of successive refinement</strong>. Most freshman programmers (like most grade-schoolers) believe the goal is to get the program working — then they move on, leaving it in whatever state it happened to "work." Seasoned programmers know that's professional suicide.</p>
+</section>
+
+<section id="draft">
+  <h2 class="sec"><span class="n">14.3</span>Args: The Rough Draft</h2>
+  <p>An earlier version "works" — and it's messy. As argument types were added, separate maps and scattered error state piled up:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 14-8 — Args.java (first draft)</span>
+<pre><code><span class="kw">public class</span> Args {
+  <span class="kw">private</span> String schema;
+  <span class="kw">private</span> String[] args;
+  <span class="kw">private boolean</span> valid = <span class="kw">true</span>;
+  <span class="kw">private</span> Set&lt;Character&gt; unexpectedArguments = <span class="kw">new</span> TreeSet&lt;Character&gt;();
+  <span class="kw">private</span> Map&lt;Character, Boolean&gt; booleanArgs =
+    <span class="kw">new</span> HashMap&lt;Character, Boolean&gt;();
+  <span class="kw">private</span> Map&lt;Character, String&gt; stringArgs = <span class="kw">new</span> HashMap&lt;Character, String&gt;();
+  <span class="kw">private</span> Map&lt;Character, Integer&gt; intArgs = <span class="kw">new</span> HashMap&lt;Character, Integer&gt;();
+  <span class="kw">private</span> Set&lt;Character&gt; argsFound = <span class="kw">new</span> HashSet&lt;Character&gt;();
+  <span class="kw">private int</span> currentArgument;
+  <span class="kw">private char</span> errorArgumentId = <span class="str">'\0'</span>;
+  <span class="kw">private</span> String errorParameter = <span class="str">"TILT"</span>;
+  <span class="kw">private</span> ErrorCode errorCode = ErrorCode.OK;
+  <span class="kw">private enum</span> ErrorCode {
+    OK, MISSING_STRING, MISSING_INTEGER, INVALID_INTEGER, UNEXPECTED_ARGUMENT}
+  <span class="kw">public</span> <span class="fn">Args</span>(String schema, String[] args) <span class="kw">throws</span> ParseException {
+    <span class="kw">this</span>.schema = schema;
+    <span class="kw">this</span>.args = args;
+    valid = parse();
+  }
+  <span class="kw">private boolean</span> <span class="fn">parse</span>() <span class="kw">throws</span> ParseException {
+    <span class="kw">if</span> (schema.length() == <span class="num">0</span> &amp;&amp; args.length == <span class="num">0</span>)
+      <span class="kw">return true</span>;
+    parseSchema();
+    <span class="kw">try</span> {
+      parseArguments();
+    } <span class="kw">catch</span> (ArgsException e) {
+    }
+    <span class="kw">return</span> valid;
+  }
+  <span class="cm">// ...a separate map, parse, set, and get for
+  // every single argument type...</span>
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ The end state (Listing 14-2)</span>
+<pre><code><span class="kw">public class</span> Args {
+  <span class="kw">private</span> Map&lt;Character, ArgumentMarshaler&gt; marshalers;
+  <span class="kw">private</span> Set&lt;Character&gt; argsFound;
+  <span class="kw">private</span> ListIterator&lt;String&gt; currentArgument;
+
+  <span class="kw">public</span> <span class="fn">Args</span>(String schema, String[] args) <span class="kw">throws</span> ArgsException {
+    marshalers = <span class="kw">new</span> HashMap&lt;Character, ArgumentMarshaler&gt;();
+    argsFound = <span class="kw">new</span> HashSet&lt;Character&gt;();
+    parseSchema(schema);
+    parseArgumentStrings(Arrays.asList(args));
+  }
+  <span class="cm">// One polymorphic ArgumentMarshaler hierarchy
+  // replaces all the per-type maps and methods.
+  // Error handling moved out to ArgsException.</span>
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">After adding String and integer types, the mess was "starting to get out of hand" — three separate maps and three sets of parse/set/get methods, with two more types still to add.</p>
+</section>
+
+<section id="stopped">
+  <h2 class="sec"><span class="n">14.4</span>So I Stopped</h2>
+  <div class="principle">
+    <span class="card-label">Stop and refactor at the right moment</span>
+    <p>With two more types to add, Martin could see they'd make things much worse. Bulldozing forward would leave a mess too large to fix. <em>If the structure was ever going to be maintainable, now was the time.</em> Each argument type required new code in three places — parse the schema element, parse &amp; convert the command-line value, and a <code>getXXX</code> method. "Many different types, all with similar methods — that sounds like a class to me." And so the <strong><code>ArgumentMarshaler</code></strong> concept was born.</p>
+  </div>
+</section>
+
+<section id="incrementalism">
+  <h2 class="sec"><span class="n">14.5</span>On Incrementalism</h2>
+  <blockquote>One of the best ways to ruin a program is to make massive changes to its structure in the name of improvement.</blockquote>
+  <p>Some programs never recover from such "improvements" because it's hard to get them working the same way again. The discipline that prevents this is <strong>TDD</strong>: never make a change that breaks the system. Martin had a suite of unit tests (JUnit) and acceptance tests (FitNesse) he could run on a whim.</p>
+  <div class="insight">
+    <span class="card-label">Many tiny changes</span>
+    <p>He made a large number of <strong>very tiny changes</strong>, each moving the structure toward <code>ArgumentMarshaler</code> while keeping the system working. The first change just appended a skeleton class to the end of the festering pile:</p>
+<pre><code><span class="kw">private class</span> ArgumentMarshaler {
+  <span class="kw">private boolean</span> booleanValue = <span class="kw">false</span>;
+  <span class="kw">public void</span> <span class="fn">setBoolean</span>(<span class="kw">boolean</span> value) {
+    booleanValue = value;
+  }
+  <span class="kw">public boolean</span> <span class="fn">getBoolean</span>() {<span class="kw">return</span> booleanValue;}
+}
+<span class="kw">private class</span> BooleanArgumentMarshaler <span class="kw">extends</span> ArgumentMarshaler {
+}
+<span class="kw">private class</span> StringArgumentMarshaler <span class="kw">extends</span> ArgumentMarshaler {
+}
+<span class="kw">private class</span> IntegerArgumentMarshaler <span class="kw">extends</span> ArgumentMarshaler {
+}</code></pre>
+    <p>Then the simplest possible modification — changing the boolean <code>HashMap</code> to hold an <code>ArgumentMarshaler</code> — broke a few statements (and a test, via a moved null check). <em>Incrementalism demanded he get it working again quickly before any other change.</em></p>
+  </div>
+</section>
+
+<section id="partition">
+  <h2 class="sec"><span class="n">14.6</span>Partitioning &amp; Separation of Concerns</h2>
+  <div class="principle">
+    <span class="card-label">Good design is partitioning</span>
+    <p>The majority of the final changes were <strong>deletions</strong> — code moved out of <code>Args</code> into <code>ArgsException</code>, and each <code>ArgumentMarshaler</code> moved into its own file. Much of good software design is simply <strong>partitioning</strong>: creating appropriate places to put different kinds of code. Putting error-message formatting into <code>Args</code> violated SRP (Args should process arguments, not format messages); moving it to <code>ArgsException</code> is a reasonable compromise that ships convenient canned messages.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">14.7</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Successive Refinement</span><p>Clean code is reached by drafting then refining, not by getting it perfect in one pass.</p></div>
+  <div class="principle"><span class="card-label">Stop Before the Mess Sets</span><p>When you sense a structure won't scale, stop adding features and refactor now.</p></div>
+  <div class="principle"><span class="card-label">Incrementalism via TDD</span><p>Keep the system working at all times; make many tiny, test-verified changes.</p></div>
+  <div class="principle"><span class="card-label">Partition for Separation of Concerns</span><p>Create the right places for different kinds of code (Args vs ArgsException vs marshalers).</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">14.8</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Stopping at "it works"</span><p>Leaving the program in whatever state it happened to work — professional suicide.</p></div>
+  <div class="bad-practice"><span class="card-label">Bulldozing forward</span><p>Adding more features onto a structure you know won't scale, until the mess is too big to fix.</p></div>
+  <div class="bad-practice"><span class="card-label">Massive "improvement" rewrites</span><p>Big structural changes without tests; the program may never work the same again.</p></div>
+  <div class="bad-practice"><span class="card-label">Misplaced responsibilities</span><p>E.g. error-message formatting living inside the argument processor (SRP violation).</p></div>
+</section>
+
+<section id="conclusion">
+  <h2 class="sec"><span class="n">14.9</span>Conclusion &amp; Takeaway</h2>
+  <blockquote>It is not enough for code to work. … Nothing has a more profound and long-term degrading effect upon a development project than bad code.</blockquote>
+  <p>Bad schedules can be redone and bad requirements redefined, but <strong>bad code rots and ferments</strong>, dragging the team down. Cleaning it later is very expensive as tangled dependencies accumulate; cleaning it now is cheap. If you made a mess this morning, it's easy to clean this afternoon — and if you made it five minutes ago, easier still.</p>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Write it dirty to make it work, then refine it clean in tiny test-protected steps — and never let the rot get started.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

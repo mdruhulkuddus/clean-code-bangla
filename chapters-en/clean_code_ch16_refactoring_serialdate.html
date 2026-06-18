@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.16: Refactoring SerialDate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  td.code{ font-family:'JetBrains Mono',monospace; color:var(--accent); font-weight:500; white-space:nowrap; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 16</span>
+  <h1>Refactoring SerialDate</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">A professional code review of David Gilbert's <code>SerialDate</code> from JCommon — already good code, made cleaner. First make it work, then make it right.</p>
+  <div class="badges">
+    <span class="badge">Professional Review</span>
+    <span class="badge">First Make It Work</span>
+    <span class="badge">Then Make It Right</span>
+    <span class="badge">Constants → Enums</span>
+    <span class="badge">Boy Scout Rule</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#review">It's a Professional Review</a></li>
+    <li><a href="#work">First, Make It Work</a></li>
+    <li><a href="#right">Then, Make It Right</a></li>
+    <li><a href="#enums">Constants Become Enums</a></li>
+    <li><a href="#moves">Moving Behavior Where It Belongs</a></li>
+    <li><a href="#finalpass">The Final Pass</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Martin reviews and refactors <code>SerialDate</code> — genuinely good code from a competent author — to show that critique is a normal, welcome part of the craft (doctors, pilots, and lawyers do it too). The discipline is <strong>"first make it work, then make it right."</strong> First he raises test coverage from ~50% to 92% (fixing real bugs along the way), then walks the class top-to-bottom: delete the change-history comment, shorten imports, rename <code>SerialDate</code> → <code>DayDate</code> (a name at the right level of abstraction), turn constant classes into <strong>enums</strong>, move behavior to where it belongs, collapse duplication, extract a <code>DateUtil</code>, and kill magic numbers. The result is smaller, clearer, and better-tested — the <strong>Boy Scout Rule</strong> in action.</p>
+  </div>
+</section>
+
+<section id="review">
+  <h2 class="sec"><span class="n">16.1</span>It's a Professional Review, Not an Attack</h2>
+  <blockquote>For all intents and purposes, this is "good code." And I am going to rip it to pieces.</blockquote>
+  <p>This isn't malice or arrogance — it's a <strong>professional review</strong>, something we should all be comfortable doing and welcome having done for us. It's only through critiques like these that we learn. Martin also praises David Gilbert for the courage and good will to release his code freely for public scrutiny.</p>
+</section>
+
+<section id="work">
+  <h2 class="sec"><span class="n">16.2</span>First, Make It Work</h2>
+  <p>The existing tests pass but don't test everything — a "Find Usages" search shows <code>monthCodeToQuarter</code> is never used <code>[F4]</code>, and a Clover coverage run reveals only <strong>91 of 185 statements (~50%)</strong> are executed <code>[T2]</code>. To understand and refactor the class, Martin writes his own independent suite, raising coverage to <strong>92%</strong> — with some tests deliberately left commented out to express behavior the class <em>should</em> have.</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Case-sensitive parsing (a bug)</span>
+<pre><code><span class="cm">// weekdayCodeToString / stringToMonthCode
+// used case-sensitive equals(), so "MONDAY"
+// and "TUESDAY" failed obvious tests [G2]</span>
+<span class="kw">if</span> (s.equals(shortMonthNames[i])) { ... }</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Case-insensitive</span>
+<pre><code><span class="kw">if</span> ((result &lt; <span class="num">1</span>) || (result &gt; <span class="num">12</span>)) {
+  result = -<span class="num">1</span>;
+  <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; monthNames.length; i++) {
+    <span class="kw">if</span> (s.equalsIgnoreCase(shortMonthNames[i])) {
+      result = i + <span class="num">1</span>;
+      <span class="kw">break</span>;
+    }
+    <span class="kw">if</span> (s.equalsIgnoreCase(monthNames[i])) {
+      result = i + <span class="num">1</span>;
+      <span class="kw">break</span>;
+    }
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Writing the tests was trivial <code>[T3]</code> and making them pass was easier still — just switch to <code>equalsIgnoreCase</code>. With these changes the tests pass and <code>SerialDate</code> works. <strong>Now it's time to make it right.</strong></p>
+</section>
+
+<section id="right">
+  <h2 class="sec"><span class="n">16.3</span>Then, Make It Right</h2>
+  <p>Walking from top to bottom — running <em>all</em> of JCommon's tests after every change — the early fixes:</p>
+  <div class="bad-practice">
+    <span class="card-label">Top-of-file smells</span>
+    <p>The <strong>change-history comment</strong> is a 1960s leftover that source control handles now — delete it <code>[C1]</code>. The import list can be shortened with <code>java.text.*</code> and <code>java.util.*</code> <code>[J1]</code>. The Javadoc mixes <strong>four languages</strong> (Java, English, Javadoc, HTML) which is hard to keep straight <code>[G1]</code>.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Rename SerialDate → DayDate</span>
+    <p>"Serial" leaks the implementation (a serial number = days since 1899-12-30). The term isn't descriptive <code>[N1]</code>, and worse, since the class is abstract, the name implies an implementation it shouldn't — the wrong level of abstraction <code>[N2]</code>. <code>Date</code> and <code>Day</code> are taken, so <code>DayDate</code> is the chosen compromise.</p>
+  </div>
+</section>
+
+<section id="enums">
+  <h2 class="sec"><span class="n">16.4</span>Constants Become Enums</h2>
+  <p>Why does <code>DayDate</code> inherit from <code>MonthConstants</code>? Inheriting from a constants class is an old trick to avoid writing <code>MonthConstants.January</code> — but it's a bad idea <code>[J2]</code>. It should be an <strong>enum</strong>:</p>
+  <pre><code><span class="kw">public abstract class</span> DayDate <span class="kw">implements</span> Comparable, Serializable {
+  <span class="kw">public static enum</span> Month {
+    JANUARY(<span class="num">1</span>), FEBRUARY(<span class="num">2</span>), MARCH(<span class="num">3</span>), APRIL(<span class="num">4</span>),
+    MAY(<span class="num">5</span>), JUNE(<span class="num">6</span>), JULY(<span class="num">7</span>), AUGUST(<span class="num">8</span>),
+    SEPTEMBER(<span class="num">9</span>), OCTOBER(<span class="num">10</span>), NOVEMBER(<span class="num">11</span>), DECEMBER(<span class="num">12</span>);
+    Month(<span class="kw">int</span> index) {
+      <span class="kw">this</span>.index = index;
+    }
+    <span class="kw">public static</span> Month <span class="fn">make</span>(<span class="kw">int</span> monthIndex) {
+      <span class="kw">for</span> (Month m : Month.values()) {
+        <span class="kw">if</span> (m.index == monthIndex)
+          <span class="kw">return</span> m;
+      }
+      <span class="kw">throw new</span> IllegalArgumentException(<span class="str">"Invalid month index "</span> + monthIndex);
+    }
+    <span class="kw">public final int</span> index;
+  }</code></pre>
+  <div class="insight">
+    <span class="card-label">Enums kill error-checking code</span>
+    <p>The conversion took about an hour, but now any function that took an <code>int</code> month takes a <code>Month</code> enumerator — so the <code>isValidMonthCode</code> method and all the month-code error checking (like in <code>monthCodeToQuarter</code>) can be deleted entirely <code>[G5]</code>. Three other constant groups become enums the same way.</p>
+  </div>
+</section>
+
+<section id="moves">
+  <h2 class="sec"><span class="n">16.5</span>Moving Behavior Where It Belongs</h2>
+  <p>The weekday parsing and stringifying don't belong in <code>DayDate</code> — they're really about a <code>Day</code>. So they move into the <code>Day</code> enum (as <code>parse</code> and <code>toString</code>), which then moves into its own file since <code>Day</code> doesn't depend on <code>DayDate</code> <code>[G13]</code>:</p>
+  <pre><code><span class="kw">public enum</span> Day {
+  MONDAY(Calendar.MONDAY), TUESDAY(Calendar.TUESDAY),
+  WEDNESDAY(Calendar.WEDNESDAY), THURSDAY(Calendar.THURSDAY),
+  FRIDAY(Calendar.FRIDAY), SATURDAY(Calendar.SATURDAY),
+  SUNDAY(Calendar.SUNDAY);
+  <span class="kw">public final int</span> index;
+  <span class="kw">private static</span> DateFormatSymbols dateSymbols = <span class="kw">new</span> DateFormatSymbols();
+  Day(<span class="kw">int</span> day) {
+    index = day;
+  }
+  <span class="kw">public static</span> Day <span class="fn">make</span>(<span class="kw">int</span> index) <span class="kw">throws</span> IllegalArgumentException {
+    <span class="kw">for</span> (Day d : Day.values())
+      <span class="kw">if</span> (d.index == index)
+        <span class="kw">return</span> d;
+    <span class="kw">throw new</span> IllegalArgumentException(
+      String.format(<span class="str">"Illegal day index: %d."</span>, index));
+  }
+  <span class="kw">public static</span> Day <span class="fn">parse</span>(String s) <span class="kw">throws</span> IllegalArgumentException {
+    String[] shortWeekdayNames = dateSymbols.getShortWeekdays();
+    String[] weekDayNames = dateSymbols.getWeekdays();
+    s = s.trim();
+    <span class="kw">for</span> (Day day : Day.values()) {
+      <span class="kw">if</span> (s.equalsIgnoreCase(shortWeekdayNames[day.index]) ||
+          s.equalsIgnoreCase(weekDayNames[day.index])) {
+        <span class="kw">return</span> day;
+      }
+    }
+    <span class="kw">throw new</span> IllegalArgumentException(
+      String.format(<span class="str">"%s is not a valid weekday string"</span>, s));
+  }
+  <span class="kw">public</span> String <span class="fn">toString</span>() {
+    <span class="kw">return</span> dateSymbols.getWeekdays()[index];
+  }
+}</code></pre>
+  <p>Two <code>getMonths</code> functions (one only ever called by the other) collapse into a single, vastly simpler method that's also renamed to be self-descriptive <code>[G9][G12][F4][N1]</code>.</p>
+</section>
+
+<section id="finalpass">
+  <h2 class="sec"><span class="n">16.6</span>The Final Pass</h2>
+  <p>One more pass over the whole class to see how it flows:</p>
+  <div class="principle">
+    <span class="card-label">The cleanup checklist</span>
+    <p>Shorten and update the stale opening comment <code>[C2]</code>; move remaining enums into their own files <code>[G12]</code>; extract the static variable and three static methods into a new <code>DateUtil</code> class <code>[G6]</code>; move abstract methods to the top where they belong <code>[G24]</code>; rename <code>Month.make</code> → <code>Month.fromInt</code> (and add a <code>toInt()</code> accessor, making <code>index</code> private) <code>[N1]</code>; eliminate duplication in <code>plusYears</code>/<code>plusMonths</code> by extracting <code>correctLastDayOfMonth</code> <code>[G5]</code>; and replace the magic number <code>1</code> with <code>Month.JANUARY.toInt()</code> or <code>Day.SUNDAY.toInt()</code> <code>[G25]</code>.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">A surprising coverage number</span>
+    <p>Coverage <em>dropped</em> to 84.9% — not because less is tested, but because the class <strong>shrank so much</strong> that the few trivial uncovered lines now carry more weight (45 of 53 statements covered). Smaller code, higher per-line significance.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">16.7</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Code Review Is Professional</span><p>Critiquing and being critiqued is how craftspeople learn — welcome it.</p></div>
+  <div class="principle"><span class="card-label">First Work, Then Right</span><p>Get full test coverage and a passing system before you refactor for cleanliness.</p></div>
+  <div class="principle"><span class="card-label">Tests Enable Fearless Change</span><p>Run the whole suite after every tiny change so refactoring can't break behavior.</p></div>
+  <div class="principle"><span class="card-label">Names at the Right Abstraction</span><p>Don't leak implementation in names (SerialDate → DayDate).</p></div>
+  <div class="principle"><span class="card-label">Prefer Enums; Move Behavior Home</span><p>Replace constant classes with enums; put methods on the class whose data they use.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">16.8</span>Common Mistakes (and the heuristics they hit)</h2>
+  <div class="bad-practice"><span class="card-label">Change-history comments <code>[C1]</code></span><p>Hand-maintained logs that source control already provides.</p></div>
+  <div class="bad-practice"><span class="card-label">Inheriting from a constants class <code>[J2]</code></span><p>An old trick to dodge qualification — use an enum instead.</p></div>
+  <div class="bad-practice"><span class="card-label">Implementation-revealing names <code>[N2]</code></span><p>"Serial" exposed how an abstract class was built.</p></div>
+  <div class="bad-practice"><span class="card-label">Magic numbers &amp; duplication <code>[G25][G5]</code></span><p>Bare <code>1</code>s and repeated logic in <code>plusYears</code>/<code>plusMonths</code>.</p></div>
+</section>
+
+<section id="conclusion">
+  <h2 class="sec"><span class="n">16.9</span>Conclusion &amp; Takeaway</h2>
+  <p>Once again the <strong>Boy Scout Rule</strong> is satisfied: the code was checked in a bit cleaner than it was checked out. It took a little time, but it was worth it — coverage increased, bugs were fixed, and the code was clarified and shrunk. The next person will find it easier to deal with — and will probably clean it up a bit more still.</p>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Make it work with solid tests first, then make it right top-to-bottom — and leave even good code a little cleaner than you found it.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

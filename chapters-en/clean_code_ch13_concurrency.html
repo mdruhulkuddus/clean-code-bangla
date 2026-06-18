@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.13: Concurrency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 13</span>
+  <h1>Concurrency</h1>
+  <p class="author">Brett L. Schuchert</p>
+  <p class="subtitle">Writing clean concurrent code is very hard. Concurrency decouples <em>what</em> from <em>when</em> — but that power demands disciplined defense against races, deadlock, and bugs that hide for weeks.</p>
+  <div class="badges">
+    <span class="badge">Decoupling Strategy</span>
+    <span class="badge">Limit Data Scope</span>
+    <span class="badge">Know Your Library</span>
+    <span class="badge">Small Sync Sections</span>
+    <span class="badge">Test for Failure</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#why">Why Concurrency?</a></li>
+    <li><a href="#myths">Myths &amp; Misconceptions</a></li>
+    <li><a href="#challenges">Challenges</a></li>
+    <li><a href="#defense">Defense Principles</a></li>
+    <li><a href="#library">Know Your Library</a></li>
+    <li><a href="#models">Execution Models</a></li>
+    <li><a href="#deps">Sync Method Dependencies</a></li>
+    <li><a href="#small">Keep Sync Sections Small</a></li>
+    <li><a href="#shutdown">Shut-Down Is Hard</a></li>
+    <li><a href="#testing">Testing Threaded Code</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Concurrency is a <strong>decoupling strategy</strong> — it separates <em>what</em> gets done from <em>when</em>. But it's genuinely hard: correct concurrency is complex even for simple problems, and its bugs aren't repeatable. Defend yourself by keeping concurrency code <strong>separate (SRP)</strong>, <strong>limiting the scope and sharing of data</strong>, and making threads <strong>independent</strong>. Know your library (<code>java.util.concurrent</code>) and the classic execution models. Keep <strong>synchronized sections small</strong>, treat graceful shutdown as hard, and write tests engineered to <strong>expose</strong> threading failures — never dismiss a spurious failure as a one-off.</p>
+  </div>
+</section>
+
+<section id="why">
+  <h2 class="sec"><span class="n">13.1</span>Why Concurrency?</h2>
+  <blockquote>"Objects are abstractions of processing. Threads are abstractions of schedule." — James O. Coplien</blockquote>
+  <p>Concurrency <strong>decouples what from when</strong>. In single-threaded apps, what and when are so coupled that the whole state can be read from the stack. Decoupling them improves throughput and structure — the app becomes "many little collaborating computers" rather than one big loop (e.g. the Servlet model). Beyond structure, some systems need it for <strong>response-time and throughput</strong> constraints: a single-threaded web aggregator that exceeds 24 hours, a one-user-at-a-time service that queues, or large data sets processed in parallel.</p>
+</section>
+
+<section id="myths">
+  <h2 class="sec"><span class="n">13.2</span>Myths and Misconceptions</h2>
+  <div class="bad-practice">
+    <span class="card-label">Three dangerous myths</span>
+    <p><strong>"Concurrency always improves performance"</strong> — only when there's significant wait time to share, and neither situation is trivial. <strong>"Design doesn't change"</strong> — a concurrent design can differ dramatically from single-threaded. <strong>"You don't need to understand concurrency with a container"</strong> — you'd better know what your container does and how to guard against concurrent update and deadlock.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">Balanced sound bites</span>
+    <p>Concurrency incurs overhead (performance and extra code); correct concurrency is complex even for simple problems; its bugs <strong>aren't usually repeatable</strong> so they get ignored as one-offs; and it often requires a fundamental change in design strategy.</p>
+  </div>
+</section>
+
+<section id="challenges">
+  <h2 class="sec"><span class="n">13.3</span>Challenges</h2>
+  <p>Consider this trivial class shared between two threads after <code>lastIdUsed</code> is set to 42:</p>
+  <pre><code><span class="kw">public class</span> X {
+  <span class="kw">private int</span> lastIdUsed;
+  <span class="kw">public int</span> <span class="fn">getNextId</span>() {
+    <span class="kw">return</span> ++lastIdUsed;
+  }
+}</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">One line, many paths</span>
+    <p>Two threads calling <code>getNextId()</code> can produce <strong>43/44, 44/43, or 43/43</strong> — the surprising third result happens when threads step on each other. That single line of Java has <strong>12,870</strong> possible execution paths for two threads (and over <strong>2.7 million</strong> if <code>lastIdUsed</code> is a <code>long</code>). Most paths are valid; the problem is that some are not.</p>
+  </div>
+</section>
+
+<section id="defense">
+  <h2 class="sec"><span class="n">13.4</span>Concurrency Defense Principles</h2>
+  <div class="principle">
+    <span class="card-label">Single Responsibility Principle</span>
+    <p>Concurrency design is complex enough to be a reason to change on its own, so it deserves to be <strong>separated</strong> from the rest of the code. It has its own life cycle and its own (harder) challenges. <em>Keep your concurrency-related code separate from other code.</em></p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Corollary: Limit the Scope of Data</span>
+    <p>Two threads modifying the same shared field can interfere. Use <code>synchronized</code> to protect critical sections, but <strong>restrict their number</strong> — the more places shared data is updated, the more likely you forget protection, duplicate guarding effort (DRY violation), and struggle to find failures. <em>Take data encapsulation to heart; severely limit access to shared data.</em></p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Corollary: Use Copies of Data</span>
+    <p>Avoid sharing in the first place: copy objects as read-only, or collect results in per-thread copies and merge in one thread. If copies let you avoid synchronizing, the saved lock cost usually outweighs the creation/GC overhead.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Corollary: Threads Should Be as Independent as Possible</span>
+    <p>Write each thread to live in its own world, sharing no data — processing one request with all data from an unshared source in local variables (like an <code>HttpServlet</code> using only local variables). <em>Partition data into independent subsets operated on by independent threads.</em></p>
+  </div>
+</section>
+
+<section id="library">
+  <h2 class="sec"><span class="n">13.5</span>Know Your Library</h2>
+  <div class="principle">
+    <span class="card-label">Use the tools Java gives you</span>
+    <p>Use the provided <strong>thread-safe collections</strong>, the <strong>executor framework</strong> for unrelated tasks, and <strong>nonblocking</strong> solutions where possible — and remember several library classes are <em>not</em> thread-safe. <code>ConcurrentHashMap</code> outperforms <code>HashMap</code> in nearly all situations and allows concurrent reads/writes; start there on Java 5+.</p>
+  </div>
+  <p>Other concurrency classes worth knowing: <code>ReentrantLock</code> (acquire in one method, release in another), <code>Semaphore</code> (a lock with a count), and <code>CountDownLatch</code> (waits for N events before releasing all waiting threads). <em>Become familiar with</em> <code>java.util.concurrent</code>, <code>.atomic</code>, and <code>.locks</code>.</p>
+</section>
+
+<section id="models">
+  <h2 class="sec"><span class="n">13.6</span>Know Your Execution Models</h2>
+  <table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Bound Resources</td><td>Fixed-size/number resources in a concurrent environment (DB connections, buffers).</td></tr>
+      <tr><td>Mutual Exclusion</td><td>Only one thread can access shared data/resource at a time.</td></tr>
+      <tr><td>Starvation</td><td>A thread (or group) is blocked from proceeding for too long or forever.</td></tr>
+      <tr><td>Deadlock</td><td>Threads waiting on each other; each holds a resource the other needs.</td></tr>
+      <tr><td>Livelock</td><td>Threads in lockstep, each "in the way," making no real progress.</td></tr>
+    </tbody>
+  </table>
+  <div class="principle">
+    <span class="card-label">Three classic problems</span>
+    <p><strong>Producer-Consumer</strong> — producers fill a bound queue and signal "not empty"; consumers drain it and signal "not full." <strong>Readers-Writers</strong> — balance throughput vs. stale data when a shared resource is mostly read, occasionally written. <strong>Dining Philosophers</strong> — threads competing for shared resources (forks) risk deadlock, livelock, and throughput degradation. <em>Learn these algorithms and their solutions</em> — most problems you meet are variations of them.</p>
+  </div>
+</section>
+
+<section id="deps">
+  <h2 class="sec"><span class="n">13.7</span>Beware Dependencies Between Synchronized Methods</h2>
+  <div class="bad-practice">
+    <span class="card-label">Multiple synchronized methods</span>
+    <p>Dependencies between synchronized methods cause subtle bugs. <em>Avoid using more than one method on a shared object.</em> When you must, make it correct with one of three locking strategies: <strong>Client-Based Locking</strong> (client locks the server across all calls), <strong>Server-Based Locking</strong> (server method locks, calls all, unlocks), or <strong>Adapted Server</strong> (an intermediary does the locking when the server can't be changed).</p>
+  </div>
+</section>
+
+<section id="small">
+  <h2 class="sec"><span class="n">13.8</span>Keep Synchronized Sections Small</h2>
+  <div class="principle">
+    <span class="card-label">As few, as small as possible</span>
+    <p>Locks are expensive (delays + overhead), so don't litter code with <code>synchronized</code> — but critical sections <em>must</em> be guarded. Naive programmers make their critical sections very large; extending synchronization beyond the minimal critical section <strong>increases contention and degrades performance</strong>. <em>Keep synchronized sections as small as possible.</em></p>
+  </div>
+</section>
+
+<section id="shutdown">
+  <h2 class="sec"><span class="n">13.9</span>Writing Correct Shut-Down Code Is Hard</h2>
+  <div class="bad-practice">
+    <span class="card-label">Graceful shutdown deadlocks</span>
+    <p>A parent waiting for child threads can wait forever if one child deadlocks. A producer/consumer pair can hang when the producer shuts down quickly and the consumer blocks waiting for a message that never comes — preventing the parent from finishing too. <em>Think about shut-down early and get it working early</em> — it takes longer than you expect; review existing algorithms.</p>
+  </div>
+</section>
+
+<section id="testing">
+  <h2 class="sec"><span class="n">13.10</span>Testing Threaded Code</h2>
+  <p>Testing can't prove correctness but can minimize risk. <em>Write tests with the potential to expose problems and run them frequently</em> across different configurations and loads; if a test ever fails, track it down — never dismiss it because a later run passes. Fine-grained recommendations:</p>
+  <div class="principle"><span class="card-label">Treat spurious failures as candidate threading issues</span><p>Threaded bugs may surface once in a million runs. Assume one-offs don't exist — the longer ignored, the more code builds on a faulty approach.</p></div>
+  <div class="principle"><span class="card-label">Get your nonthreaded code working first</span><p>Make logic work as thread-unaware POJOs called by threads, testable outside the threaded environment. Don't chase threading and nonthreading bugs at once.</p></div>
+  <div class="principle"><span class="card-label">Make it pluggable &amp; tunable</span><p>Run in many configurations (1 thread, many, real vs. test double, fast/slow). Allow thread counts to be tuned — even at runtime, even self-tuning.</p></div>
+  <div class="principle"><span class="card-label">Run with more threads than processors; on different platforms</span><p>More threads than cores encourages task swapping, exposing missing critical sections and deadlocks. Different OSes have different threading policies — run on all target platforms early and often.</p></div>
+  <h3>Instrument your code to force failures</h3>
+  <p>Flaws hide during normal processing. Force different orderings by inserting calls to <code>wait()</code>, <code>sleep()</code>, <code>yield()</code>, <code>priority()</code> — better that broken code fails early and often. <strong>Hand-coded</strong> instrumentation:</p>
+  <pre><code><span class="kw">public synchronized</span> String <span class="fn">nextUrlOrNull</span>() {
+  <span class="kw">if</span>(hasNext()) {
+    String url = urlGenerator.next();
+    Thread.yield(); <span class="cm">// inserted for testing.</span>
+    updateHasNext();
+    <span class="kw">return</span> url;
+  }
+  <span class="kw">return null</span>;
+}</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">Hand-coding has problems</span>
+    <p>You must manually find places, guess the right call, it slows production unnecessarily, and it's a shotgun approach. Better to <strong>automate</strong> with an AOP framework, CGLIB, or ASM — e.g. a <code>ThreadJigglePoint.jiggle()</code> sprinkled through the code and randomized only during testing:</p>
+<pre><code><span class="kw">public class</span> ThreadJigglePoint {
+  <span class="kw">public static void</span> <span class="fn">jiggle</span>() {
+  }
+}</code></pre>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">13.11</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Separate Concurrency (SRP)</span><p>Keep threading code isolated from domain logic.</p></div>
+  <div class="principle"><span class="card-label">Limit &amp; Avoid Shared Data</span><p>Encapsulate tightly; prefer copies and independent threads.</p></div>
+  <div class="principle"><span class="card-label">Know Your Library &amp; Models</span><p>Use <code>java.util.concurrent</code>; learn producer-consumer, readers-writers, dining philosophers.</p></div>
+  <div class="principle"><span class="card-label">Small Synchronized Sections</span><p>Few and minimal; beware multi-method dependencies; plan shutdown early.</p></div>
+  <div class="principle"><span class="card-label">Engineer Tests to Fail</span><p>Run broadly, instrument to force orderings, never ignore a spurious failure.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">13.12</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Threading code tangled into logic</span><p>Mixing concurrency concerns with domain code violates SRP and hides bugs.</p></div>
+  <div class="bad-practice"><span class="card-label">Over-large synchronized blocks</span><p>"Lock everything" kills throughput through contention.</p></div>
+  <div class="bad-practice"><span class="card-label">Dismissing one-off failures</span><p>Spurious failures are real threading defects waiting to recur.</p></div>
+  <div class="bad-practice"><span class="card-label">Ignoring shutdown until late</span><p>Graceful shutdown deadlocks are common and hard — design for them early.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">13.13</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Keep concurrency code separate (SRP)</td><td class="dont">Embed threading details in domain code</td></tr>
+      <tr><td class="do">Limit shared data; use copies / independent threads</td><td class="dont">Scatter many critical sections over shared state</td></tr>
+      <tr><td class="do">Use <code>java.util.concurrent</code> &amp; thread-safe collections</td><td class="dont">Roll your own when the library has it</td></tr>
+      <tr><td class="do">Keep synchronized sections small</td><td class="dont">Wrap huge blocks in one lock</td></tr>
+      <tr><td class="do">Design shutdown early; engineer tests to fail</td><td class="dont">Bolt on shutdown late; ignore one-offs</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Concurrency is a powerful decoupling tool — keep it isolated, share as little as possible, and write tests built to make the rare failure happen.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

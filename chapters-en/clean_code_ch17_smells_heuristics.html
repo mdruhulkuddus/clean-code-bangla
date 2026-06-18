@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.17: Smells and Heuristics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.95rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:10px 14px; font-weight:700; }
+  tbody td{ padding:10px 14px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.code{ font-family:'JetBrains Mono',monospace; color:var(--accent); font-weight:700; white-space:nowrap; }
+  td.name{ font-weight:600; color:#3a352f; }
+  .cat-badge{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:700; letter-spacing:.05em; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2)); padding:3px 10px; border-radius:999px; margin-left:.5em; vertical-align:middle; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } table{ font-size:.88rem; } thead th, tbody td{ padding:8px 9px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 17</span>
+  <h1>Smells and Heuristics</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">The complete catalog — 66 code smells and heuristics, building on Martin Fowler's "code smells" and the whole book before it. A reference to read top-to-bottom and return to often.</p>
+  <div class="badges">
+    <span class="badge">5 Comments</span>
+    <span class="badge">2 Environment</span>
+    <span class="badge">4 Functions</span>
+    <span class="badge">36 General</span>
+    <span class="badge">3 Java</span>
+    <span class="badge">7 Names</span>
+    <span class="badge">9 Tests</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>Categories</h2>
+  <ol>
+    <li><a href="#comments">Comments (C1–C5)</a></li>
+    <li><a href="#environment">Environment (E1–E2)</a></li>
+    <li><a href="#functions">Functions (F1–F4)</a></li>
+    <li><a href="#general">General (G1–G36)</a></li>
+    <li><a href="#java">Java (J1–J3)</a></li>
+    <li><a href="#names">Names (N1–N7)</a></li>
+    <li><a href="#tests">Tests (T1–T9)</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+
+<section id="intro">
+  <div class="insight">
+    <span class="card-label">How to use this list</span>
+    <p>Martin compiled this by refactoring several programs and, with each change, writing down <em>why</em> he made it. The result distills the entire book into a checklist. These are <strong>heuristics, not hard rules</strong> — a description of the value system that drives clean code. Read it top to bottom once, then keep it as a reference and a code-review aid.</p>
+  </div>
+</section>
+
+<section id="comments">
+  <h2 class="sec"><span class="n">C</span>Comments <span class="cat-badge">C1–C5</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">C1</td><td class="name">Inappropriate Information</td><td>Comments should hold info the code/system can't — not change history, authors, or metadata that belongs in source control or other systems.</td></tr>
+      <tr><td class="code">C2</td><td class="name">Obsolete Comment</td><td>A comment that has grown old, irrelevant, or wrong. Update or delete it before it misleads — better yet, don't write ones that can go stale.</td></tr>
+      <tr><td class="code">C3</td><td class="name">Redundant Comment</td><td>A comment that says nothing the code doesn't already say (e.g. <code>i++; // increment i</code>). It just takes time to read and can drift out of sync.</td></tr>
+      <tr><td class="code">C4</td><td class="name">Poorly Written Comment</td><td>If you write one, make it the best you can: brief, correct, grammatical — don't ramble or state the obvious.</td></tr>
+      <tr><td class="code">C5</td><td class="name">Commented-Out Code</td><td>Delete it. It rots, confuses readers who fear removing it, and source control remembers it anyway.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="environment">
+  <h2 class="sec"><span class="n">E</span>Environment <span class="cat-badge">E1–E2</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">E1</td><td class="name">Build Requires More Than One Step</td><td>You should check out and build the whole system with one trivial command — not hunt for files or type a long sequence.</td></tr>
+      <tr><td class="code">E2</td><td class="name">Tests Require More Than One Step</td><td>You should run all unit tests with one button or one command. Anything harder discourages running them.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="functions">
+  <h2 class="sec"><span class="n">F</span>Functions <span class="cat-badge">F1–F4</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">F1</td><td class="name">Too Many Arguments</td><td>Prefer zero, then one, then two. Three is questionable; more should be avoided.</td></tr>
+      <tr><td class="code">F2</td><td class="name">Output Arguments</td><td>Counterintuitive — readers expect arguments as inputs. If a function must change state, change its own object's state.</td></tr>
+      <tr><td class="code">F3</td><td class="name">Flag Arguments</td><td>A boolean argument announces the function does more than one thing. Eliminate it; split the function.</td></tr>
+      <tr><td class="code">F4</td><td class="name">Dead Function</td><td>Methods that are never called should be deleted. Source control keeps the history.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="general">
+  <h2 class="sec"><span class="n">G</span>General <span class="cat-badge">G1–G36</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">G1</td><td class="name">Multiple Languages in One Source File</td><td>Minimize the number and extent of languages in a file (Java + HTML + XML + …). Ideally one.</td></tr>
+      <tr><td class="code">G2</td><td class="name">Obvious Behavior Is Unimplemented</td><td>Follow the Principle of Least Surprise — a function should do what a reader obviously expects (e.g. day-name parsing should be case-insensitive).</td></tr>
+      <tr><td class="code">G3</td><td class="name">Incorrect Behavior at the Boundaries</td><td>Don't rely on intuition; write tests for every boundary and corner case. Bugs hide at the edges.</td></tr>
+      <tr><td class="code">G4</td><td class="name">Overridden Safeties</td><td>Don't turn off compiler warnings, skip failing tests, or override safeguards — it's risking debts that come due.</td></tr>
+      <tr><td class="code">G5</td><td class="name">Duplication</td><td>"DRY" / "Once and only once." Every duplication is a missed abstraction — fold it into a method, base class, or pattern (Template Method, polymorphism, etc.).</td></tr>
+      <tr><td class="code">G6</td><td class="name">Code at Wrong Level of Abstraction</td><td>Separate higher-level general concepts from lower-level detailed ones, and put them in different (base vs. derivative) places.</td></tr>
+      <tr><td class="code">G7</td><td class="name">Base Classes Depending on Derivatives</td><td>Base classes should know nothing of their derivatives. Such dependence usually signals a deployment/partitioning problem.</td></tr>
+      <tr><td class="code">G8</td><td class="name">Too Much Information</td><td>Keep interfaces small and tight — few methods, few variables. Well-defined modules hide almost everything; less coupling = less to know.</td></tr>
+      <tr><td class="code">G9</td><td class="name">Dead Code</td><td>Code that never executes (unreachable branches, unused utilities). Find it and delete it.</td></tr>
+      <tr><td class="code">G10</td><td class="name">Vertical Separation</td><td>Declare variables and define private functions close to where they're used; minimize vertical distance.</td></tr>
+      <tr><td class="code">G11</td><td class="name">Inconsistency</td><td>Do similar things the same way. Consistency lets readers trust their assumptions (the Principle of Least Surprise again).</td></tr>
+      <tr><td class="code">G12</td><td class="name">Clutter</td><td>Default constructors with no use, unused variables, meaningless comments — remove everything that isn't pulling its weight.</td></tr>
+      <tr><td class="code">G13</td><td class="name">Artificial Coupling</td><td>Don't couple things that have no real dependency by placing them together for convenience (e.g. a general enum nested in a specific class).</td></tr>
+      <tr><td class="code">G14</td><td class="name">Feature Envy</td><td>A method that fiddles with another object's data via its accessors "envies" that class — move the behavior to where the data lives (Fowler's smell).</td></tr>
+      <tr><td class="code">G15</td><td class="name">Selector Arguments</td><td>Flags and other selector args force the reader to remember what each value means. Prefer many small functions over one with a selector.</td></tr>
+      <tr><td class="code">G16</td><td class="name">Obscured Intent</td><td>Don't write so densely that intent is hidden (run-on expressions, magic numbers, Hungarian notation). Make it expressive.</td></tr>
+      <tr><td class="code">G17</td><td class="name">Misplaced Responsibility</td><td>Put code where a reader would naturally expect it — based on the Principle of Least Surprise, not on what's convenient to you.</td></tr>
+      <tr><td class="code">G18</td><td class="name">Inappropriate Static</td><td>Prefer nonstatic methods. Make a function static only when there's no chance you'll want polymorphic behavior on it.</td></tr>
+      <tr><td class="code">G19</td><td class="name">Use Explanatory Variables</td><td>Break calculations into intermediate values with meaningful names — one of the most powerful ways to make a program readable.</td></tr>
+      <tr><td class="code">G20</td><td class="name">Function Names Should Say What They Do</td><td>If you must look at the implementation (or docs) to know what a call does, the name has failed — rename it.</td></tr>
+      <tr><td class="code">G21</td><td class="name">Understand the Algorithm</td><td>Don't just hack until tests pass. Know <em>why</em> a function works; refactor it until it obviously reflects your understanding.</td></tr>
+      <tr><td class="code">G22</td><td class="name">Make Logical Dependencies Physical</td><td>If one module depends on another, make that dependency explicit — don't make assumptions about the other module's behavior (e.g. ask it for the value rather than hard-coding it).</td></tr>
+      <tr><td class="code">G23</td><td class="name">Prefer Polymorphism to If/Else or Switch/Case</td><td>Consider polymorphism before reaching for selection. "One switch" rule: there may be at most one switch for a given type of selection, hidden behind a factory.</td></tr>
+      <tr><td class="code">G24</td><td class="name">Follow Standard Conventions</td><td>The team follows one standard (formatting, naming, organization) based on industry norms — and everyone abides by it.</td></tr>
+      <tr><td class="code">G25</td><td class="name">Replace Magic Numbers with Named Constants</td><td>Hide raw literals behind well-named constants. ("Magic number" includes any unexplained token, not just numbers.)</td></tr>
+      <tr><td class="code">G26</td><td class="name">Be Precise</td><td>Don't be lazy about decisions — check for nulls, handle concurrency, lock when needed, use the right type. Ambiguity in code is laziness.</td></tr>
+      <tr><td class="code">G27</td><td class="name">Structure over Convention</td><td>Enforce design decisions with structure (abstract methods, polymorphism) rather than relying on a convention people must remember.</td></tr>
+      <tr><td class="code">G28</td><td class="name">Encapsulate Conditionals</td><td>Extract boolean logic into well-named functions: <code>if (shouldBeDeleted(timer))</code> beats a tangled inline expression.</td></tr>
+      <tr><td class="code">G29</td><td class="name">Avoid Negative Conditionals</td><td>Positives are easier to read than negatives — prefer <code>if (buffer.shouldCompact())</code> over <code>if (!buffer.shouldNotCompact())</code>.</td></tr>
+      <tr><td class="code">G30</td><td class="name">Functions Should Do One Thing</td><td>A function with many sections doing several things should be split into smaller single-purpose functions.</td></tr>
+      <tr><td class="code">G31</td><td class="name">Hidden Temporal Couplings</td><td>When calls must happen in a certain order, make it visible — have each call produce a result the next one needs as an argument.</td></tr>
+      <tr><td class="code">G32</td><td class="name">Don't Be Arbitrary</td><td>Have a reason for the way you structure code, and make that reason consistent and communicated, so others won't "fix" it.</td></tr>
+      <tr><td class="code">G33</td><td class="name">Encapsulate Boundary Conditions</td><td>Don't scatter <code>+1</code>/<code>-1</code> edge logic; capture it in one well-named variable (e.g. <code>nextLevel = level + 1</code>).</td></tr>
+      <tr><td class="code">G34</td><td class="name">Functions Should Descend Only One Level of Abstraction</td><td>Statements in a function should all be one level below the function's name — don't mix high- and low-level operations.</td></tr>
+      <tr><td class="code">G35</td><td class="name">Keep Configurable Data at High Levels</td><td>Constants and config values known at a high level should live there and be passed down, not buried in low-level functions.</td></tr>
+      <tr><td class="code">G36</td><td class="name">Avoid Transitive Navigation</td><td>The Law of Demeter / "writing shy code." A module should know only its direct collaborators, not navigate <code>a.getB().getC()</code> chains.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="java">
+  <h2 class="sec"><span class="n">J</span>Java <span class="cat-badge">J1–J3</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">J1</td><td class="name">Avoid Long Import Lists by Using Wildcards</td><td>If you use two or more classes from a package, import the whole package with <code>*</code> to reduce clutter and coupling to specific names.</td></tr>
+      <tr><td class="code">J2</td><td class="name">Don't Inherit Constants</td><td>Don't hide constants in an inherited interface/class to avoid qualifying them. Use a <code>static import</code> instead.</td></tr>
+      <tr><td class="code">J3</td><td class="name">Constants versus Enums</td><td>Use <code>enum</code>s, not <code>public static final int</code> constants. Enums are type-safe, carry behavior, and read better.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="names">
+  <h2 class="sec"><span class="n">N</span>Names <span class="cat-badge">N1–N7</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">N1</td><td class="name">Choose Descriptive Names</td><td>Names are 90% of readability. Choose them carefully and keep them current; a good name reveals intent and abstraction.</td></tr>
+      <tr><td class="code">N2</td><td class="name">Names at the Appropriate Level of Abstraction</td><td>Don't name things for their implementation; name them for their concept/intent (so the name survives implementation changes).</td></tr>
+      <tr><td class="code">N3</td><td class="name">Use Standard Nomenclature Where Possible</td><td>Lean on names rooted in conventions and patterns (<code>...Visitor</code>, <code>...Factory</code>, <code>toString</code>) so readers recognize them instantly.</td></tr>
+      <tr><td class="code">N4</td><td class="name">Unambiguous Names</td><td>Pick a name that leaves no doubt about what a function or variable does — even if it's longer.</td></tr>
+      <tr><td class="code">N5</td><td class="name">Use Long Names for Long Scopes</td><td>Short names (<code>i</code>, <code>j</code>) are fine in tiny scopes; the larger the scope, the longer and clearer the name should be.</td></tr>
+      <tr><td class="code">N6</td><td class="name">Avoid Encodings</td><td>No Hungarian notation, no type/scope prefixes, no <code>m_</code>. Modern tools make them needless noise.</td></tr>
+      <tr><td class="code">N7</td><td class="name">Names Should Describe Side-Effects</td><td>A name should reveal everything a function does — <code>getOos()</code> that also creates the stream should be <code>createOrReturnOos()</code>.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="tests">
+  <h2 class="sec"><span class="n">T</span>Tests <span class="cat-badge">T1–T9</span></h2>
+  <table>
+    <thead><tr><th>Code</th><th>Heuristic</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="code">T1</td><td class="name">Insufficient Tests</td><td>A test suite should test everything that could plausibly break — not just the few cases you happened to think of.</td></tr>
+      <tr><td class="code">T2</td><td class="name">Use a Coverage Tool!</td><td>Coverage tools reveal the gaps in your testing strategy and find untested branches and statements.</td></tr>
+      <tr><td class="code">T3</td><td class="name">Don't Skip Trivial Tests</td><td>They're easy to write and their documentary value outweighs the cost.</td></tr>
+      <tr><td class="code">T4</td><td class="name">An Ignored Test Is a Question about an Ambiguity</td><td>Express an open question about requirements as a commented-out or <code>@Ignore</code>'d test, depending on whether it compiles.</td></tr>
+      <tr><td class="code">T5</td><td class="name">Test Boundary Conditions</td><td>Take special care to test the edges — the middle of an algorithm is often right while the boundaries are wrong.</td></tr>
+      <tr><td class="code">T6</td><td class="name">Exhaustively Test Near Bugs</td><td>Bugs cluster. When you find one, test thoroughly around it — there are probably more nearby.</td></tr>
+      <tr><td class="code">T7</td><td class="name">Patterns of Failure Are Revealing</td><td>The pattern of which tests pass and fail can diagnose the problem; complete test cases ordered reasonably expose patterns.</td></tr>
+      <tr><td class="code">T8</td><td class="name">Test Coverage Patterns Can Be Revealing</td><td>Looking at what passing tests do and don't execute gives clues to why failing tests fail.</td></tr>
+      <tr><td class="code">T9</td><td class="name">Tests Should Be Fast</td><td>A slow test is a test that won't get run. Keep them fast so they're run often.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="principle">
+    <span class="card-label">The high-value handful</span>
+    <p>If you internalize only a few: <strong>G5 Duplication</strong>, <strong>G30 Do One Thing</strong>, <strong>G34 One Level of Abstraction</strong>, <strong>G25 Magic Numbers</strong>, <strong>G28/G29 Encapsulate &amp; avoid negative conditionals</strong>, <strong>N1 Descriptive Names</strong>, and <strong>G36 Law of Demeter</strong>. They recur throughout every chapter of the book.</p>
+  </div>
+</section>
+
+<section id="conclusion">
+  <h2 class="sec"><span class="n">★</span>Conclusion</h2>
+  <blockquote>This list of heuristics and smells could hardly be said to be complete. … Indeed, I'm not sure that such a list can ever be complete.</blockquote>
+  <p>But completeness isn't the goal. The list <strong>implies a value system</strong> — and that value system is the real point of the book, and its true subject. A knowledge of these heuristics is not what makes a craftsman; you can know them all and still apply them poorly. Craftsmanship is the discipline of <strong>caring</strong> — applying the values, not just memorizing the rules.</p>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">These 67 heuristics aren't rules to memorize but a value system to absorb — clean code comes from caring, applied one small decision at a time.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

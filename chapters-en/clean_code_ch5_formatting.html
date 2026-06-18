@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.5: Formatting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 05</span>
+  <h1>Formatting</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Formatting is about communication — and communication is a professional developer's first order of business. Your style and discipline survive long after the original code is gone.</p>
+  <div class="badges">
+    <span class="badge">Newspaper Metaphor</span>
+    <span class="badge">Vertical Openness</span>
+    <span class="badge">Vertical Distance</span>
+    <span class="badge">Line Width</span>
+    <span class="badge">Indentation</span>
+    <span class="badge">Team Rules</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#purpose">The Purpose of Formatting</a></li>
+    <li><a href="#filesize">Vertical Size &amp; Newspaper</a></li>
+    <li><a href="#openness">Vertical Openness</a></li>
+    <li><a href="#density">Vertical Density</a></li>
+    <li><a href="#distance">Vertical Distance</a></li>
+    <li><a href="#ordering">Vertical Ordering</a></li>
+    <li><a href="#hwidth">Horizontal Width</a></li>
+    <li><a href="#hdensity">Horizontal Openness &amp; Density</a></li>
+    <li><a href="#align">Horizontal Alignment</a></li>
+    <li><a href="#indent">Indentation</a></li>
+    <li><a href="#team">Team Rules</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Formatting is communication, not decoration. Read a file <strong>vertically like a newspaper</strong>: a clear name at top, high-level concepts first, details below. Use <strong>blank lines to separate concepts</strong> and tight grouping to show association; keep related code <strong>vertically close</strong>, with callers above callees. Favor <strong>short files</strong> (~200 lines, ≤500) and <strong>short lines</strong> (~120 chars). Use horizontal whitespace to reflect operator precedence, skip column alignment, and never break indentation. Above all, a <strong>team agrees on one style</strong> so every file reads the same way.</p>
+  </div>
+</section>
+
+<section id="purpose">
+  <h2 class="sec"><span class="n">5.1</span>The Purpose of Formatting</h2>
+  <p>Formatting is too important to ignore and too important to treat religiously. It's about <strong>communication</strong> — the professional developer's first order of business (not "getting it working"). Today's functionality will likely change next release, but <strong>readability shapes every future change</strong>.</p>
+  <div class="insight">
+    <span class="card-label">Key Insight</span>
+    <p>Your coding style and discipline <strong>survive even though your code does not</strong>. The precedents you set continue to affect maintainability long after the original lines are rewritten.</p>
+  </div>
+</section>
+
+<section id="filesize">
+  <h2 class="sec"><span class="n">5.2</span>Vertical Size &amp; The Newspaper Metaphor</h2>
+  <p>Across seven projects, big systems were built from small files: FitNesse (~50,000 lines) averaged ~65 lines per file. Aim for files around <strong>200 lines, with an upper limit near 500</strong> — not a hard rule, but highly desirable, since small files are easier to understand.</p>
+  <div class="principle">
+    <span class="card-label">The Newspaper Metaphor</span>
+    <p>A source file should read like a newspaper article: a <strong>simple, explanatory name</strong> (the headline), <strong>high-level concepts and algorithms at the top</strong> (the synopsis), and increasing <strong>detail as you move down</strong>. A newspaper of one long disorganized story would go unread — and so would such a file.</p>
+  </div>
+</section>
+
+<section id="openness">
+  <h2 class="sec"><span class="n">5.3</span>Vertical Openness Between Concepts</h2>
+  <p>Each group of lines is a complete thought; separate thoughts with <strong>blank lines</strong>. Each blank line is a visual cue that draws the eye to the start of the next concept.</p>
+  <div class="before-after">
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 5-1 (with openness)</span>
+<pre><code><span class="kw">package</span> fitnesse.wikitext.widgets;
+
+<span class="kw">import</span> java.util.regex.*;
+
+<span class="kw">public class</span> BoldWidget <span class="kw">extends</span> ParentWidget {
+  <span class="kw">public static final</span> String REGEXP = <span class="str">"'''.+?'''"</span>;
+  <span class="kw">private static final</span> Pattern pattern = Pattern.compile(<span class="str">"'''(.+?)'''"</span>,
+    Pattern.MULTILINE + Pattern.DOTALL
+  );
+
+  <span class="kw">public</span> <span class="fn">BoldWidget</span>(ParentWidget parent, String text) <span class="kw">throws</span> Exception {
+    <span class="kw">super</span>(parent);
+    Matcher match = pattern.matcher(text);
+    match.find();
+    addChildWidgets(match.group(<span class="num">1</span>));
+  }
+
+  <span class="kw">public</span> String <span class="fn">render</span>() <span class="kw">throws</span> Exception {
+    StringBuffer html = <span class="kw">new</span> StringBuffer(<span class="str">"&lt;b&gt;"</span>);
+    html.append(childHtml()).append(<span class="str">"&lt;/b&gt;"</span>);
+    <span class="kw">return</span> html.toString();
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 5-2 (openness removed)</span>
+<pre><code><span class="kw">package</span> fitnesse.wikitext.widgets;
+<span class="kw">import</span> java.util.regex.*;
+<span class="kw">public class</span> BoldWidget <span class="kw">extends</span> ParentWidget {
+  <span class="kw">public static final</span> String REGEXP = <span class="str">"'''.+?'''"</span>;
+  <span class="kw">private static final</span> Pattern pattern = Pattern.compile(<span class="str">"'''(.+?)'''"</span>,
+    Pattern.MULTILINE + Pattern.DOTALL);
+  <span class="kw">public</span> <span class="fn">BoldWidget</span>(ParentWidget parent, String text) <span class="kw">throws</span> Exception {
+    <span class="kw">super</span>(parent);
+    Matcher match = pattern.matcher(text);
+    match.find();
+    addChildWidgets(match.group(<span class="num">1</span>));}
+  <span class="kw">public</span> String <span class="fn">render</span>() <span class="kw">throws</span> Exception {
+    StringBuffer html = <span class="kw">new</span> StringBuffer(<span class="str">"&lt;b&gt;"</span>);
+    html.append(childHtml()).append(<span class="str">"&lt;/b&gt;"</span>);
+    <span class="kw">return</span> html.toString();
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Unfocus your eyes: the first version's groupings pop out, the second is a muddle. The only difference is a little vertical openness.</p>
+</section>
+
+<section id="density">
+  <h2 class="sec"><span class="n">5.4</span>Vertical Density</h2>
+  <p>If openness separates concepts, <strong>density implies association</strong>. Tightly related lines should sit together. Useless comments break that association:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 5-3 (broken by comments)</span>
+<pre><code><span class="kw">public class</span> ReporterConfig {
+  <span class="cm">/**
+   * The class name of the reporter listener
+   */</span>
+  <span class="kw">private</span> String m_className;
+  <span class="cm">/**
+   * The properties of the reporter listener
+   */</span>
+  <span class="kw">private</span> List&lt;Property&gt; m_properties = <span class="kw">new</span> ArrayList&lt;Property&gt;();
+  <span class="kw">public void</span> <span class="fn">addProperty</span>(Property property) {
+    m_properties.add(property);
+  }</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 5-4 (dense, an "eye-full")</span>
+<pre><code><span class="kw">public class</span> ReporterConfig {
+  <span class="kw">private</span> String m_className;
+  <span class="kw">private</span> List&lt;Property&gt; m_properties = <span class="kw">new</span> ArrayList&lt;Property&gt;();
+  <span class="kw">public void</span> <span class="fn">addProperty</span>(Property property) {
+    m_properties.add(property);
+  }</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The dense version is read at a glance — two variables and a method — without moving your head or eyes.</p>
+</section>
+
+<section id="distance">
+  <h2 class="sec"><span class="n">5.5</span>Vertical Distance</h2>
+  <p>Closely related concepts should be kept <strong>vertically close</strong> to avoid forcing readers to hop around files. (This is one reason to avoid protected variables — they invite separation.)</p>
+  <div class="principle">
+    <span class="card-label">Variable Declarations</span>
+    <p>Declare variables <strong>as close to their use as possible</strong>. With short functions, locals go at the top of the function; loop control variables go inside the loop statement.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Instance Variables</span>
+    <p>Declare them in <strong>one well-known place</strong> — the top of the class in Java. The worst case is the JUnit <code>TestSuite</code>, which hides two instance variables halfway down the class where you'd only find them by accident.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Dependent Functions</span>
+    <p>If one function calls another, keep them close, with the <strong>caller above the callee</strong>. This gives a natural top-down flow so readers can trust definitions follow shortly after their use.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Conceptual Affinity</span>
+    <p>Code with strong affinity wants to be near related code — e.g. JUnit's <code>assertTrue</code>/<code>assertFalse</code> family shares a naming scheme and task. The stronger the affinity, the smaller the vertical distance should be, even without a direct call.</p>
+  </div>
+</section>
+
+<section id="ordering">
+  <h2 class="sec"><span class="n">5.6</span>Vertical Ordering</h2>
+  <p>Call dependencies should point <strong>downward</strong>: a called function appears below its caller, creating a flow from high level to low level (the opposite of Pascal/C/C++'s "declare before use"). Like a newspaper, the most important concepts come first with the least polluting detail, so you can skim the first few functions and get the gist.</p>
+</section>
+
+<section id="hwidth">
+  <h2 class="sec"><span class="n">5.7</span>Horizontal Width</h2>
+  <p>Programmers clearly prefer short lines — most lines cluster around 20–60 characters. The old 80-column Hollerith limit is arbitrary; edging out to 100 or 120 is fine, but beyond that is careless.</p>
+  <div class="insight">
+    <span class="card-label">Uncle Bob's limit</span>
+    <p>Modern monitors let you cram 200 characters across by shrinking the font. <strong>Don't.</strong> Martin sets his personal limit at <strong>120 characters</strong> and never scrolls right.</p>
+  </div>
+</section>
+
+<section id="hdensity">
+  <h2 class="sec"><span class="n">5.8</span>Horizontal Openness and Density</h2>
+  <p>Use horizontal whitespace to associate strongly related things and separate weakly related ones. Surround assignment operators with spaces (left side vs. right side), but put <strong>no space</strong> between a function name and its opening paren (they're tightly bound). Whitespace can also reflect <strong>operator precedence</strong>:</p>
+  <pre><code><span class="kw">public class</span> Quadratic {
+  <span class="kw">public static double</span> <span class="fn">root1</span>(<span class="kw">double</span> a, <span class="kw">double</span> b, <span class="kw">double</span> c) {
+    <span class="kw">double</span> determinant = determinant(a, b, c);
+    <span class="kw">return</span> (-b + Math.sqrt(determinant)) / (<span class="num">2</span>*a);
+  }
+  <span class="kw">private static double</span> <span class="fn">determinant</span>(<span class="kw">double</span> a, <span class="kw">double</span> b, <span class="kw">double</span> c) {
+    <span class="kw">return</span> b*b - <span class="num">4</span>*a*c;
+  }
+}</code></pre>
+  <p>High-precedence factors (<code>b*b</code>, <code>4*a*c</code>) have no spaces; lower-precedence terms are separated by spaces — though most reformatting tools are blind to precedence and will flatten these subtle spacings.</p>
+</section>
+
+<section id="align">
+  <h2 class="sec"><span class="n">5.9</span>Horizontal Alignment</h2>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Aligned (don't)</span>
+<pre><code><span class="kw">private</span> Socket      socket;
+<span class="kw">private</span> InputStream input;
+<span class="kw">private</span> OutputStream output;
+<span class="kw">private</span> Request     request;
+<span class="kw">private</span> Response    response;</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Unaligned (prefer)</span>
+<pre><code><span class="kw">private</span> Socket socket;
+<span class="kw">private</span> InputStream input;
+<span class="kw">private</span> OutputStream output;
+<span class="kw">private</span> Request request;
+<span class="kw">private</span> Response response;</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Alignment emphasizes the wrong things (your eye reads down the names, skipping the types) and reformatting tools wipe it out. If a list is so long that alignment seems to help, the real problem is the <strong>length of the list</strong> — the class should be split.</p>
+</section>
+
+<section id="indent">
+  <h2 class="sec"><span class="n">5.10</span>Indentation</h2>
+  <p>A source file is a hierarchy of scopes; indentation makes that hierarchy visible. Programmers rely on it to hop over irrelevant scopes. Two syntactically identical programs:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Unindented (impenetrable)</span>
+<pre><code><span class="kw">public class</span> FitNesseServer <span class="kw">implements</span> SocketServer { <span class="kw">private</span> FitNesseContext
+context; <span class="kw">public</span> <span class="fn">FitNesseServer</span>(FitNesseContext context) { <span class="kw">this</span>.context =
+context; } <span class="kw">public void</span> <span class="fn">serve</span>(Socket s) { serve(s, <span class="num">10000</span>); } <span class="kw">public void</span>
+<span class="fn">serve</span>(Socket s, <span class="kw">long</span> requestTimeout) { <span class="kw">try</span> { FitNesseExpediter sender = <span class="kw">new</span>
+FitNesseExpediter(s, context);
+sender.setRequestParsingTimeLimit(requestTimeout); sender.start(); }
+<span class="kw">catch</span>(Exception e) { e.printStackTrace(); } } }</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Indented (instantly clear)</span>
+<pre><code><span class="kw">public class</span> FitNesseServer <span class="kw">implements</span> SocketServer {
+  <span class="kw">private</span> FitNesseContext context;
+
+  <span class="kw">public</span> <span class="fn">FitNesseServer</span>(FitNesseContext context) {
+    <span class="kw">this</span>.context = context;
+  }
+
+  <span class="kw">public void</span> <span class="fn">serve</span>(Socket s) {
+    serve(s, <span class="num">10000</span>);
+  }
+
+  <span class="kw">public void</span> <span class="fn">serve</span>(Socket s, <span class="kw">long</span> requestTimeout) {
+    <span class="kw">try</span> {
+      FitNesseExpediter sender = <span class="kw">new</span> FitNesseExpediter(s, context);
+      sender.setRequestParsingTimeLimit(requestTimeout);
+      sender.start();
+    }
+    <span class="kw">catch</span> (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}</code></pre>
+    </div>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Breaking Indentation &amp; Dummy Scopes</span>
+    <p>Don't collapse scopes onto one line for short <code>if</code>s/loops/functions — expand and indent them instead. And when a <code>while</code>/<code>for</code> has a dummy body, make the lone semicolon visible on its own indented line, or it will fool you:</p>
+<pre><code><span class="kw">while</span> (dis.read(buf, <span class="num">0</span>, readBufferSize) != -<span class="num">1</span>)
+  ;</code></pre>
+  </div>
+</section>
+
+<section id="team">
+  <h2 class="sec"><span class="n">5.11</span>Team Rules</h2>
+  <div class="principle">
+    <span class="card-label">The team rules</span>
+    <p>Every programmer has favorite formatting rules — but on a team, <strong>the team rules</strong>. Agree on one style (braces, indent size, naming), encode it in the IDE's formatter, and all comply. The FitNesse team settled theirs in about 10 minutes. A reader must trust that a formatting gesture means the same thing in every file. The goal: software that reads like one consistent voice, not a jumble of disagreeing individuals.</p>
+  </div>
+  <blockquote>Consider this an example of how code makes the best coding standard document.</blockquote>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">5.12</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Newspaper Metaphor</span><p>Name → high-level → detail, top to bottom; small files (~200 lines).</p></div>
+  <div class="principle"><span class="card-label">Openness vs. Density</span><p>Blank lines separate concepts; tight grouping shows association.</p></div>
+  <div class="principle"><span class="card-label">Minimize Vertical Distance</span><p>Declare near use; callers above callees; keep affine code close.</p></div>
+  <div class="principle"><span class="card-label">Short Lines &amp; Meaningful Whitespace</span><p>~120 char limit; spaces reflect precedence; skip column alignment.</p></div>
+  <div class="principle"><span class="card-label">Consistent Indentation &amp; Team Style</span><p>Never break indentation; one agreed style across the whole team.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">5.13</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Removing vertical openness</span><p>Cramming everything together so concepts blur into a muddle.</p></div>
+  <div class="bad-practice"><span class="card-label">Hiding instance variables mid-class</span><p>Readers can only find them by accident — declare them in one known place.</p></div>
+  <div class="bad-practice"><span class="card-label">Column-aligning declarations/assignments</span><p>Emphasizes the wrong thing and gets wiped by formatters.</p></div>
+  <div class="bad-practice"><span class="card-label">Collapsing scopes &amp; invisible dummy semicolons</span><p>One-line <code>if</code>/loops and hidden <code>;</code> mislead the reader.</p></div>
+  <div class="bad-practice"><span class="card-label">Everyone using their own style</span><p>Inconsistent formatting adds complexity to the whole codebase.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">5.14</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Keep files small (~200, ≤500 lines)</td><td class="dont">Write multi-thousand-line files</td></tr>
+      <tr><td class="do">Separate concepts with blank lines</td><td class="dont">Cram unrelated thoughts together</td></tr>
+      <tr><td class="do">Declare variables near their use</td><td class="dont">Hide instance variables mid-class</td></tr>
+      <tr><td class="do">Put callers above callees (flow down)</td><td class="dont">Scatter related functions far apart</td></tr>
+      <tr><td class="do">Keep lines ≤120 chars; use precedence spacing</td><td class="dont">Run lines to 200 or align columns</td></tr>
+      <tr><td class="do">Indent every scope consistently</td><td class="dont">Collapse scopes or hide dummy semicolons</td></tr>
+      <tr><td class="do">Adopt one team-wide style</td><td class="dont">Let each developer format their own way</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Format code like a newspaper the whole team writes together — so any reader can find their way at a glance.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

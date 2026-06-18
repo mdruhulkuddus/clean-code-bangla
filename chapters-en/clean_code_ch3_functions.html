@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.3: Functions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 03</span>
+  <h1>Functions</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Functions are the first line of organization in any program. The rules here make them small, focused, well-named, and easy to read top-to-bottom like a story.</p>
+  <div class="badges">
+    <span class="badge">Small!</span>
+    <span class="badge">Do One Thing</span>
+    <span class="badge">One Abstraction Level</span>
+    <span class="badge">Few Arguments</span>
+    <span class="badge">No Side Effects</span>
+    <span class="badge">Command/Query</span>
+    <span class="badge">DRY</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#small">Small!</a></li>
+    <li><a href="#one">Do One Thing</a></li>
+    <li><a href="#abstraction">One Level of Abstraction</a></li>
+    <li><a href="#switch">Switch Statements</a></li>
+    <li><a href="#names">Use Descriptive Names</a></li>
+    <li><a href="#args">Function Arguments</a></li>
+    <li><a href="#flag">Flag Arguments</a></li>
+    <li><a href="#argobj">Argument Objects &amp; Lists</a></li>
+    <li><a href="#sideeffects">Have No Side Effects</a></li>
+    <li><a href="#cqs">Command Query Separation</a></li>
+    <li><a href="#exceptions">Prefer Exceptions to Error Codes</a></li>
+    <li><a href="#dry">Don't Repeat Yourself</a></li>
+    <li><a href="#structured">Structured Programming</a></li>
+    <li><a href="#how">How To Write Functions Like This</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Functions should be <strong>small</strong> — rarely 20 lines, ideally two to four — and they should <strong>do one thing</strong> at a <strong>single level of abstraction</strong>, so the code reads like a top-down narrative (the Stepdown Rule). Use long, descriptive names; keep arguments to a minimum (zero is best, three is suspect); avoid flag arguments and output arguments; have <strong>no side effects</strong>; separate commands from queries; prefer exceptions to error codes; and ruthlessly eliminate duplication. You won't write them this way the first time — you refactor your way there with tests passing.</p>
+  </div>
+</section>
+
+<section id="small">
+  <h2 class="sec"><span class="n">3.1</span>Small!</h2>
+  <p>Martin opens with a long, multi-level FitNesse function (Listing 3-1) that almost nobody can understand in three minutes — nested <code>if</code>s controlled by flags, arcane strings, and mixed abstraction levels. A few extractions and renames produce the nine-line Listing 3-2, and then the three-line Listing 3-3.</p>
+
+  <p class="listing-label">Listing 3-1 — HtmlUtil.java (FitNesse 20070619)</p>
+<pre><code><span class="kw">public static</span> String <span class="fn">testableHtml</span>(
+  PageData pageData,
+  <span class="kw">boolean</span> includeSuiteSetup
+) <span class="kw">throws</span> Exception {
+  WikiPage wikiPage = pageData.getWikiPage();
+  StringBuffer buffer = <span class="kw">new</span> StringBuffer();
+  <span class="kw">if</span> (pageData.hasAttribute(<span class="str">"Test"</span>)) {
+    <span class="kw">if</span> (includeSuiteSetup) {
+      WikiPage suiteSetup =
+        PageCrawlerImpl.getInheritedPage(
+          SuiteResponder.SUITE_SETUP_NAME, wikiPage
+        );
+      <span class="kw">if</span> (suiteSetup != <span class="kw">null</span>) {
+        WikiPagePath pagePath =
+          suiteSetup.getPageCrawler().getFullPath(suiteSetup);
+        String pagePathName = PathParser.render(pagePath);
+        buffer.append(<span class="str">"!include -setup ."</span>)
+          .append(pagePathName)
+          .append(<span class="str">"\n"</span>);
+      }
+    }
+    WikiPage setup =
+      PageCrawlerImpl.getInheritedPage(<span class="str">"SetUp"</span>, wikiPage);
+    <span class="kw">if</span> (setup != <span class="kw">null</span>) {
+      WikiPagePath setupPath =
+        wikiPage.getPageCrawler().getFullPath(setup);
+      String setupPathName = PathParser.render(setupPath);
+      buffer.append(<span class="str">"!include -setup ."</span>)
+        .append(setupPathName)
+        .append(<span class="str">"\n"</span>);
+    }
+  }
+  buffer.append(pageData.getContent());
+  <span class="kw">if</span> (pageData.hasAttribute(<span class="str">"Test"</span>)) {
+    WikiPage teardown =
+      PageCrawlerImpl.getInheritedPage(<span class="str">"TearDown"</span>, wikiPage);
+    <span class="kw">if</span> (teardown != <span class="kw">null</span>) {
+      WikiPagePath tearDownPath =
+        wikiPage.getPageCrawler().getFullPath(teardown);
+      String tearDownPathName = PathParser.render(tearDownPath);
+      buffer.append(<span class="str">"\n"</span>)
+        .append(<span class="str">"!include -teardown ."</span>)
+        .append(tearDownPathName)
+        .append(<span class="str">"\n"</span>);
+    }
+    <span class="kw">if</span> (includeSuiteSetup) {
+      WikiPage suiteTeardown =
+        PageCrawlerImpl.getInheritedPage(
+          SuiteResponder.SUITE_TEARDOWN_NAME,
+          wikiPage
+        );
+      <span class="kw">if</span> (suiteTeardown != <span class="kw">null</span>) {
+        WikiPagePath pagePath =
+          suiteTeardown.getPageCrawler().getFullPath (suiteTeardown);
+        String pagePathName = PathParser.render(pagePath);
+        buffer.append(<span class="str">"!include -teardown ."</span>)
+          .append(pagePathName)
+          .append(<span class="str">"\n"</span>);
+      }
+    }
+  }
+  pageData.setContent(buffer.toString());
+  <span class="kw">return</span> pageData.getHtml();
+}</code></pre>
+
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 3-2 (refactored)</span>
+<pre><code><span class="kw">public static</span> String <span class="fn">renderPageWithSetupsAndTeardowns</span>(
+  PageData pageData, <span class="kw">boolean</span> isSuite
+) <span class="kw">throws</span> Exception {
+  <span class="kw">boolean</span> isTestPage = pageData.hasAttribute(<span class="str">"Test"</span>);
+  <span class="kw">if</span> (isTestPage) {
+    WikiPage testPage = pageData.getWikiPage();
+    StringBuffer newPageContent = <span class="kw">new</span> StringBuffer();
+    includeSetupPages(testPage, newPageContent, isSuite);
+    newPageContent.append(pageData.getContent());
+    includeTeardownPages(testPage, newPageContent, isSuite);
+    pageData.setContent(newPageContent.toString());
+  }
+  <span class="kw">return</span> pageData.getHtml();
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 3-3 (re-refactored)</span>
+<pre><code><span class="kw">public static</span> String <span class="fn">renderPageWithSetupsAndTeardowns</span>(
+  PageData pageData, <span class="kw">boolean</span> isSuite) <span class="kw">throws</span> Exception {
+  <span class="kw">if</span> (isTestPage(pageData))
+    includeSetupAndTeardownPages(pageData, isSuite);
+  <span class="kw">return</span> pageData.getHtml();
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Even without knowing FitNesse, you can tell 3-3 includes setup/teardown pages and renders HTML. That clarity is the point.</p>
+
+  <div class="principle">
+    <span class="card-label">The First Rule of Functions</span>
+    <p>Functions should be <strong>small</strong>. The second rule is that they should be <strong>smaller than that</strong>. Functions should hardly ever be 20 lines long — Kent Beck's <em>Sparkle</em> program had functions of two, three, or four lines, each transparently obvious, each leading to the next.</p>
+  </div>
+  <h3>Blocks and Indenting</h3>
+  <p>The body of an <code>if</code>, <code>else</code>, or <code>while</code> should be <strong>one line long</strong> — probably a function call. This keeps the enclosing function small and adds documentary value through the called function's name. Functions shouldn't hold nested structures, so the <strong>indent level should not exceed one or two</strong>.</p>
+</section>
+
+<section id="one">
+  <h2 class="sec"><span class="n">3.2</span>Do One Thing</h2>
+  <blockquote>FUNCTIONS SHOULD DO ONE THING. THEY SHOULD DO IT WELL. THEY SHOULD DO IT ONLY.</blockquote>
+  <p>The trouble is defining "one thing." Listing 3-3 arguably does three: decide if it's a test page, include setups/teardowns, render HTML. But those steps are all <strong>one level of abstraction below the function's name</strong>. Described as a "TO paragraph":</p>
+  <blockquote>TO RenderPageWithSetupsAndTeardowns, we check to see whether the page is a test page and if so, we include the setups and teardowns. In either case we render the page in HTML.</blockquote>
+  <div class="principle">
+    <span class="card-label">The Extraction Test</span>
+    <p>A function does one thing if you <strong>cannot extract another function</strong> from it with a name that isn't merely a restatement of its implementation. Functions that do one thing cannot be reasonably divided into sections (declarations, inits, etc.).</p>
+  </div>
+</section>
+
+<section id="abstraction">
+  <h2 class="sec"><span class="n">3.3</span>One Level of Abstraction per Function</h2>
+  <p>To ensure a function does one thing, all its statements must sit at the <strong>same level of abstraction</strong>. Listing 3-1 mixed high-level (<code>getHtml()</code>), mid-level (<code>PathParser.render(pagePath)</code>), and low-level (<code>.append("\n")</code>) — confusing the reader about what's essential vs. detail. Like broken windows, once details intrude they accrete.</p>
+  <div class="insight">
+    <span class="card-label">The Stepdown Rule</span>
+    <p>Code should read like a <strong>top-down narrative</strong>: every function is followed by those at the next level down, so you descend one abstraction at a time. Read it as a set of "TO paragraphs":</p>
+    <blockquote style="margin-top:.6em;">To include the setups and teardowns, we include setups, then the test page content, then the teardowns.<br>To include the setups, we include the suite setup if this is a suite, then the regular setup.<br>To include the suite setup, we search the parent hierarchy for the "SuiteSetUp" page…</blockquote>
+  </div>
+</section>
+
+<section id="switch">
+  <h2 class="sec"><span class="n">3.4</span>Switch Statements</h2>
+  <p>A <code>switch</code> inherently does <strong>N things</strong> and is hard to keep small or single-purpose. The fix isn't to ban it but to <strong>bury it once</strong> in a low-level factory, hidden behind polymorphism.</p>
+  <p class="listing-label">Listing 3-4 — Payroll.java (the problem)</p>
+<pre><code><span class="kw">public</span> Money <span class="fn">calculatePay</span>(Employee e)
+<span class="kw">throws</span> InvalidEmployeeType {
+  <span class="kw">switch</span> (e.type) {
+    <span class="kw">case</span> COMMISSIONED:
+      <span class="kw">return</span> calculateCommissionedPay(e);
+    <span class="kw">case</span> HOURLY:
+      <span class="kw">return</span> calculateHourlyPay(e);
+    <span class="kw">case</span> SALARIED:
+      <span class="kw">return</span> calculateSalariedPay(e);
+    <span class="kw">default</span>:
+      <span class="kw">throw new</span> InvalidEmployeeType(e.type);
+  }
+}</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">Four problems with this switch</span>
+    <p>It's large and grows with each new type; it does more than one thing; it violates <strong>SRP</strong> (more than one reason to change); it violates <strong>OCP</strong> (must change when types are added); and worst, the same structure repeats in <code>isPayday(e, date)</code>, <code>deliverPay(e, pay)</code>, and countless others.</p>
+  </div>
+  <p class="listing-label">Listing 3-5 — Employee and Factory (the fix)</p>
+<pre><code><span class="kw">public abstract class</span> Employee {
+  <span class="kw">public abstract boolean</span> <span class="fn">isPayday</span>();
+  <span class="kw">public abstract</span> Money <span class="fn">calculatePay</span>();
+  <span class="kw">public abstract void</span> <span class="fn">deliverPay</span>(Money pay);
+}
+-----------------
+<span class="kw">public interface</span> EmployeeFactory {
+  <span class="kw">public</span> Employee <span class="fn">makeEmployee</span>(EmployeeRecord r) <span class="kw">throws</span> InvalidEmployeeType;
+}
+-----------------
+<span class="kw">public class</span> EmployeeFactoryImpl <span class="kw">implements</span> EmployeeFactory {
+  <span class="kw">public</span> Employee <span class="fn">makeEmployee</span>(EmployeeRecord r) <span class="kw">throws</span> InvalidEmployeeType {
+    <span class="kw">switch</span> (r.type) {
+      <span class="kw">case</span> COMMISSIONED:
+        <span class="kw">return new</span> CommissionedEmployee(r) ;
+      <span class="kw">case</span> HOURLY:
+        <span class="kw">return new</span> HourlyEmployee(r);
+      <span class="kw">case</span> SALARIED:
+        <span class="kw">return new</span> SalariedEmploye(r);
+      <span class="kw">default</span>:
+        <span class="kw">throw new</span> InvalidEmployeeType(r.type);
+    }
+  }
+}</code></pre>
+  <div class="principle">
+    <span class="card-label">Switch Rule</span>
+    <p>A <code>switch</code> is tolerable if it appears <strong>only once</strong>, is used to <strong>create polymorphic objects</strong>, and is <strong>hidden behind an inheritance relationship</strong> so the rest of the system can't see it.</p>
+  </div>
+</section>
+
+<section id="names">
+  <h2 class="sec"><span class="n">3.5</span>Use Descriptive Names</h2>
+  <p>Renaming <code>testableHtml</code> to <code>SetupTeardownIncluder.render</code> — and the private methods to things like <code>isTestPage</code> and <code>includeSetupAndTeardownPages</code> — makes the code self-explanatory. The smaller and more focused a function, the easier it is to name well.</p>
+  <div class="insight">
+    <span class="card-label">Don't fear long names</span>
+    <p>A long descriptive name beats a short enigmatic one, and beats a long descriptive comment. Try several names and read the code with each; hunting for a good name often leads to a favorable restructuring. Be <strong>consistent</strong>: <code>includeSetupPages</code>, <code>includeSuiteSetupPage</code>, <code>includeSetupPage</code> — the shared phrasing lets the sequence tell a story.</p>
+  </div>
+</section>
+
+<section id="args">
+  <h2 class="sec"><span class="n">3.6</span>Function Arguments</h2>
+  <p>The ideal argument count, in order: <strong>zero (niladic) &gt; one (monadic) &gt; two (dyadic) &gt; three (triadic, avoid) &gt; more (polyadic, needs special justification — don't).</strong> Arguments take conceptual power, and they're hard to test — every combination multiplies the test cases.</p>
+  <table>
+    <thead><tr><th>Form</th><th>Args</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Niladic</td><td>0</td><td class="do">Best — trivial to understand and test</td></tr>
+      <tr><td>Monadic</td><td>1</td><td class="do">Next best (question, transform, or event)</td></tr>
+      <tr><td>Dyadic</td><td>2</td><td>Harder; OK when args are naturally ordered components</td></tr>
+      <tr><td>Triadic</td><td>3</td><td class="dont">Significantly harder; think very carefully</td></tr>
+      <tr><td>Polyadic</td><td>4+</td><td class="dont">Needs special justification — then don't</td></tr>
+    </tbody>
+  </table>
+  <h3>Common Monadic Forms</h3>
+  <p>Two natural reasons for one argument: <strong>asking a question</strong> — <code>boolean fileExists("MyFile")</code> — or <strong>transforming</strong> the argument and returning it — <code>InputStream fileOpen("MyFile")</code>. A less common form is an <strong>event</strong>, like <code>void passwordAttemptFailedNtimes(int attempts)</code>, which alters system state; use it with care and make its event nature obvious.</p>
+  <p>If a function transforms its input, the transformation should appear in the <strong>return value</strong>, not an output argument — <code>StringBuffer transform(StringBuffer in)</code> is better than <code>void transform(StringBuffer out)</code>.</p>
+  <h3>Dyads &amp; Triads</h3>
+  <p><code>writeField(name)</code> reads more easily than <code>writeField(outputStream, name)</code>. Dyads are appropriate when the two arguments are <strong>ordered components of a single value</strong> — <code>new Point(0, 0)</code> is fine because Cartesian points naturally take two. But even <code>assertEquals(expected, actual)</code> trips people up because the order is just a convention. Triads multiply the ordering/pausing/ignoring problems: <code>assertEquals(message, expected, actual)</code> invites mistaking the message for the expected.</p>
+</section>
+
+<section id="flag">
+  <h2 class="sec"><span class="n">3.7</span>Flag Arguments</h2>
+  <div class="bad-practice">
+    <span class="card-label">Flag arguments are ugly</span>
+    <p>Passing a <code>boolean</code> into a function loudly proclaims it does <strong>more than one thing</strong> — one thing if true, another if false. <code>render(true)</code> is confusing; the function should have been split into <code>renderForSuite()</code> and <code>renderForSingleTest()</code>.</p>
+  </div>
+</section>
+
+<section id="argobj">
+  <h2 class="sec"><span class="n">3.8</span>Argument Objects &amp; Argument Lists</h2>
+  <p>When a function seems to need more than two or three arguments, some likely belong wrapped in their own class:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code>Circle <span class="fn">makeCircle</span>(<span class="kw">double</span> x, <span class="kw">double</span> y, <span class="kw">double</span> radius);</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code>Circle <span class="fn">makeCircle</span>(Point center, <span class="kw">double</span> radius);</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">When variables travel together (like <code>x</code> and <code>y</code>), they're usually part of a concept that deserves its own name.</p>
+  <p><strong>Argument lists.</strong> Variable args treated identically are equivalent to a single <code>List</code> argument — so <code>String.format(String format, Object... args)</code> is really dyadic. Variadic functions can be monads, dyads, or triads, but no more:</p>
+<pre><code><span class="kw">void</span> <span class="fn">monad</span>(Integer... args);
+<span class="kw">void</span> <span class="fn">dyad</span>(String name, Integer... args);
+<span class="kw">void</span> <span class="fn">triad</span>(String name, <span class="kw">int</span> count, Integer... args);</code></pre>
+  <p><strong>Verbs and keywords.</strong> A monad should form a verb/noun pair — <code>writeField(name)</code>. The <em>keyword</em> form encodes argument names into the function name to fix ordering confusion: <code>assertExpectedEqualsActual(expected, actual)</code>.</p>
+</section>
+
+<section id="sideeffects">
+  <h2 class="sec"><span class="n">3.9</span>Have No Side Effects</h2>
+  <blockquote>Side effects are lies. Your function promises to do one thing, but it also does other hidden things.</blockquote>
+  <p>Can you spot the side effect below?</p>
+  <p class="listing-label">Listing 3-6 — UserValidator.java</p>
+<pre><code><span class="kw">public class</span> UserValidator {
+  <span class="kw">private</span> Cryptographer cryptographer;
+  <span class="kw">public boolean</span> <span class="fn">checkPassword</span>(String userName, String password) {
+    User user = UserGateway.findByName(userName);
+    <span class="kw">if</span> (user != User.NULL) {
+      String codedPhrase = user.getPhraseEncodedByPassword();
+      String phrase = cryptographer.decrypt(codedPhrase, password);
+      <span class="kw">if</span> (<span class="str">"Valid Password"</span>.equals(phrase)) {
+        Session.initialize();
+        <span class="kw">return true</span>;
+      }
+    }
+    <span class="kw">return false</span>;
+  }
+}</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">The hidden side effect</span>
+    <p><code>Session.initialize()</code> — nothing in the name <code>checkPassword</code> implies it wipes session state. This creates a <strong>temporal coupling</strong>: the function can only be called when it's safe to initialize the session. If you must have such coupling, name it for it (<code>checkPasswordAndInitializeSession</code>) — though that violates "do one thing."</p>
+  </div>
+  <h3>Output Arguments</h3>
+  <p>Arguments are naturally read as <em>inputs</em>. <code>appendFooter(s)</code> forces a double-take — does it append <code>s</code> as a footer, or append a footer to <code>s</code>? Prefer making it a method on the owning object: <code>report.appendFooter()</code>. In general, if a function must change state, it should change the state of <strong>its own object</strong>.</p>
+</section>
+
+<section id="cqs">
+  <h2 class="sec"><span class="n">3.10</span>Command Query Separation</h2>
+  <p>A function should <strong>either do something or answer something — not both.</strong> Consider:</p>
+  <pre><code><span class="kw">public boolean</span> <span class="fn">set</span>(String attribute, String value);</code></pre>
+  <p>This sets a value <em>and</em> returns success, producing ambiguous reads like:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">if</span> (set(<span class="str">"username"</span>, <span class="str">"unclebob"</span>))...</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">if</span> (attributeExists(<span class="str">"username"</span>)) {
+  setAttribute(<span class="str">"username"</span>, <span class="str">"unclebob"</span>);
+  ...
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Is the <code>if</code> asking whether the attribute <em>was</em> set, or commanding it <em>to be</em> set? Separating the command from the query removes the ambiguity entirely.</p>
+</section>
+
+<section id="exceptions">
+  <h2 class="sec"><span class="n">3.11</span>Prefer Exceptions to Returning Error Codes</h2>
+  <p>Returning error codes is a subtle violation of command/query separation — it tempts you to use commands as <code>if</code> predicates and forces the caller to handle errors immediately, producing deep nesting:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before — error codes</span>
+<pre><code><span class="kw">if</span> (deletePage(page) == E_OK) {
+  <span class="kw">if</span> (registry.deleteReference(page.name) == E_OK) {
+    <span class="kw">if</span> (configKeys.deleteKey(page.name.makeKey()) == E_OK){
+      logger.log(<span class="str">"page deleted"</span>);
+    } <span class="kw">else</span> {
+      logger.log(<span class="str">"configKey not deleted"</span>);
+    }
+  } <span class="kw">else</span> {
+    logger.log(<span class="str">"deleteReference from registry failed"</span>);
+  }
+} <span class="kw">else</span> {
+  logger.log(<span class="str">"delete failed"</span>);
+  <span class="kw">return</span> E_ERROR;
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After — exceptions</span>
+<pre><code><span class="kw">try</span> {
+  deletePage(page);
+  registry.deleteReference(page.name);
+  configKeys.deleteKey(page.name.makeKey());
+}
+<span class="kw">catch</span> (Exception e) {
+  logger.log(e.getMessage());
+}</code></pre>
+    </div>
+  </div>
+  <h3>Extract Try/Catch Blocks &amp; Error Handling Is One Thing</h3>
+  <p>Try/catch blocks confuse structure by mixing error processing with normal processing, so extract their bodies into their own functions:</p>
+<pre><code><span class="kw">public void</span> <span class="fn">delete</span>(Page page) {
+  <span class="kw">try</span> {
+    deletePageAndAllReferences(page);
+  }
+  <span class="kw">catch</span> (Exception e) {
+    logError(e);
+  }
+}
+<span class="kw">private void</span> <span class="fn">deletePageAndAllReferences</span>(Page page) <span class="kw">throws</span> Exception {
+  deletePage(page);
+  registry.deleteReference(page.name);
+  configKeys.deleteKey(page.name.makeKey());
+}
+<span class="kw">private void</span> <span class="fn">logError</span>(Exception e) {
+  logger.log(e.getMessage());
+}</code></pre>
+  <div class="principle">
+    <span class="card-label">Error Handling Is One Thing</span>
+    <p>A function that handles errors should do nothing else. If <code>try</code> exists in a function, it should be the <strong>very first word</strong>, and there should be nothing after the <code>catch/finally</code> blocks.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">The Error enum dependency magnet</span>
+    <p>An <code>Error</code> enum of codes is a dependency magnet — every change forces recompiling and redeploying its many users, so programmers <em>reuse</em> old codes rather than add new ones. With exceptions, new error types are simply derivatives that add no recompilation pressure.</p>
+  </div>
+</section>
+
+<section id="dry">
+  <h2 class="sec"><span class="n">3.12</span>Don't Repeat Yourself (DRY)</h2>
+  <p>Listing 3-1 repeated the same include algorithm four times (SetUp, SuiteSetUp, TearDown, SuiteTearDown), bloating the code and creating a four-fold modification and error risk. Extracting an <code>include</code> method removed it.</p>
+  <div class="insight">
+    <span class="card-label">Duplication may be the root of all evil</span>
+    <p>So much of software innovation — database normal forms, OO base classes, structured/aspect/component-oriented programming — exists to control or eliminate duplication. Since the invention of the subroutine, the field has been one long attempt to remove it.</p>
+  </div>
+</section>
+
+<section id="structured">
+  <h2 class="sec"><span class="n">3.13</span>Structured Programming</h2>
+  <p>Dijkstra's rule is one entry, one exit: a single <code>return</code>, no <code>break</code>/<code>continue</code> in loops, and never <code>goto</code>. But these rules give significant benefit only in <strong>large</strong> functions. When functions are small, an occasional multiple <code>return</code>, <code>break</code>, or <code>continue</code> does no harm and can be more expressive. <code>goto</code> only makes sense in large functions, so avoid it.</p>
+</section>
+
+<section id="how">
+  <h2 class="sec"><span class="n">3.14</span>How Do You Write Functions Like This?</h2>
+  <div class="insight">
+    <span class="card-label">It's a process, not a first draft</span>
+    <p>Writing code is like writing prose: you get a clumsy first draft down, then refine it. Martin's functions come out long, deeply nested, with arbitrary names and duplication — but covered by <strong>unit tests</strong>. Then he massages and refines: splitting functions, renaming, eliminating duplication, even breaking out whole classes, all while keeping the tests passing. Nobody writes them clean from the start.</p>
+  </div>
+  <blockquote>Master programmers think of systems as stories to be told rather than programs to be written. Functions are the verbs of that language, and classes are the nouns.</blockquote>
+  <p>The payoff is the fully refactored <code>SetupTeardownIncluder</code> (Listing 3-7), where each function introduces the next and stays at a consistent level of abstraction — every method just two to four lines.</p>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">3.15</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Small &amp; Do One Thing</span><p>Tiny functions, one responsibility, indent depth of one or two.</p></div>
+  <div class="principle"><span class="card-label">One Level of Abstraction (Stepdown Rule)</span><p>All statements at the same level; code reads top-down as "TO paragraphs."</p></div>
+  <div class="principle"><span class="card-label">Fewest Arguments</span><p>0 &gt; 1 &gt; 2 &gt; 3. No flag arguments, no output arguments.</p></div>
+  <div class="principle"><span class="card-label">No Side Effects</span><p>Do exactly what the name says; avoid hidden temporal couplings.</p></div>
+  <div class="principle"><span class="card-label">Command Query Separation</span><p>Do something or answer something — never both.</p></div>
+  <div class="principle"><span class="card-label">Exceptions over Error Codes</span><p>Separate happy-path from error handling; error handling is one thing.</p></div>
+  <div class="principle"><span class="card-label">DRY</span><p>Duplication is the root of much evil — remove it relentlessly.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">3.16</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Mixing abstraction levels</span><p>High-level calls beside low-level <code>.append("\n")</code> blurs essential vs. detail.</p></div>
+  <div class="bad-practice"><span class="card-label">Repeated switch statements</span><p>The same type-switch reappears across many functions — bury it once behind polymorphism.</p></div>
+  <div class="bad-practice"><span class="card-label">Boolean &amp; output arguments</span><p>Flags signal "more than one thing"; output args force a double-take.</p></div>
+  <div class="bad-practice"><span class="card-label">Hidden side effects</span><p>A "check" that also initializes state lies to its caller and couples timing.</p></div>
+  <div class="bad-practice"><span class="card-label">Error codes as predicates</span><p>Leads to deep nesting and a dependency-magnet error enum.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">3.17</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Keep functions tiny (2–4 lines ideal)</td><td class="dont">Write 20+ line functions</td></tr>
+      <tr><td class="do">Do one thing at one abstraction level</td><td class="dont">Mix levels or do several things</td></tr>
+      <tr><td class="do">Use long, descriptive, consistent names</td><td class="dont">Use short enigmatic names</td></tr>
+      <tr><td class="do">Prefer 0–1 arguments; wrap related args in objects</td><td class="dont">Pass flags, output args, or 3+ params</td></tr>
+      <tr><td class="do">Do what the name says — nothing hidden</td><td class="dont">Introduce side effects / temporal coupling</td></tr>
+      <tr><td class="do">Separate commands from queries</td><td class="dont">Mutate <em>and</em> return status in one call</td></tr>
+      <tr><td class="do">Throw exceptions; extract try/catch bodies</td><td class="dont">Return error codes and nest deeply</td></tr>
+      <tr><td class="do">Remove every bit of duplication</td><td class="dont">Repeat the same algorithm</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Make functions small, single-purpose, and honestly named — then your code reads like a story told from the top down.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

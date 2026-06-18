@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.12: Emergence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 12</span>
+  <h1>Emergence</h1>
+  <p class="author">Jeff Langr</p>
+  <p class="subtitle">Four simple rules — in priority order — that let good design <em>emerge</em> as you work, nudging you toward SRP, DIP, low coupling, and high cohesion almost automatically.</p>
+  <div class="badges">
+    <span class="badge">Simple Design</span>
+    <span class="badge">Runs All Tests</span>
+    <span class="badge">No Duplication</span>
+    <span class="badge">Expressive</span>
+    <span class="badge">Minimal Classes</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#rules">The Four Rules</a></li>
+    <li><a href="#tests">Rule 1: Runs All Tests</a></li>
+    <li><a href="#refactor">Rules 2–4: Refactoring</a></li>
+    <li><a href="#duplication">No Duplication</a></li>
+    <li><a href="#expressive">Expressive</a></li>
+    <li><a href="#minimal">Minimal Classes &amp; Methods</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Kent Beck's four rules of <strong>Simple Design</strong>, in priority order, make good design emerge: a design is simple if it <strong>runs all the tests</strong>, <strong>contains no duplication</strong>, <strong>expresses the programmer's intent</strong>, and <strong>minimizes classes and methods</strong>. Being testable pushes you toward small, single-purpose, loosely-coupled classes. Then refactoring — done safely under the protection of tests — lets you eliminate duplication, sharpen names, and apply patterns. These simple practices don't replace experience, but they encode decades of it.</p>
+  </div>
+</section>
+
+<section id="rules">
+  <h2 class="sec"><span class="n">12.1</span>Getting Clean via Emergent Design</h2>
+  <p>According to Kent Beck, a design is <strong>"simple"</strong> if it follows these rules, <em>in order of importance</em>:</p>
+  <div class="principle">
+    <span class="card-label">Kent Beck's Four Rules of Simple Design</span>
+    <p><strong>1.</strong> Runs all the tests &nbsp;•&nbsp; <strong>2.</strong> Contains no duplication &nbsp;•&nbsp; <strong>3.</strong> Expresses the intent of the programmer &nbsp;•&nbsp; <strong>4.</strong> Minimizes the number of classes and methods.</p>
+  </div>
+  <p>Following these rules gives you insights into structure and design, making it easier to apply principles like <strong>SRP</strong> and <strong>DIP</strong> — facilitating the <em>emergence</em> of good design.</p>
+</section>
+
+<section id="tests">
+  <h2 class="sec"><span class="n">12.2</span>Simple Design Rule 1: Runs All the Tests</h2>
+  <p>A design must produce a system that works as intended. A system that can't be easily verified should arguably never be deployed. Crucially, the <em>act</em> of making a system testable improves its design:</p>
+  <div class="insight">
+    <span class="card-label">Tests drive better design</span>
+    <p>Testable code pushes toward <strong>small, single-purpose classes</strong> (SRP is easier to test). Tight coupling makes tests hard to write, so writing more tests pushes you toward <strong>DIP</strong>, dependency injection, interfaces, and abstraction — minimizing coupling. A simple, obvious rule ("have tests and run them continuously") drives the primary OO goals of <strong>low coupling and high cohesion</strong>. Writing tests leads to better designs.</p>
+  </div>
+</section>
+
+<section id="refactor">
+  <h2 class="sec"><span class="n">12.3</span>Simple Design Rules 2–4: Refactoring</h2>
+  <p>Once you have tests, you can keep code clean fearlessly. After every few lines, pause and reflect: did I just degrade the design? If so, clean it and run the tests. The tests <strong>eliminate the fear</strong> that cleanup will break something.</p>
+  <p>This refactoring step is where you apply the whole body of design knowledge — increase cohesion, decrease coupling, separate concerns, shrink functions and classes, choose better names — and apply the final three rules: eliminate duplication, ensure expressiveness, and minimize classes and methods.</p>
+</section>
+
+<section id="duplication">
+  <h2 class="sec"><span class="n">12.4</span>No Duplication</h2>
+  <blockquote>Duplication is the primary enemy of a well-designed system.</blockquote>
+  <p>It represents extra work, extra risk, and unnecessary complexity. Duplication appears as identical lines, similar lines (massage them to look alike, then refactor), and <strong>duplication of implementation</strong>:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Two separate implementations</span>
+<pre><code><span class="kw">int</span> <span class="fn">size</span>() {}
+<span class="kw">boolean</span> <span class="fn">isEmpty</span>() {}
+<span class="cm">// isEmpty tracks its own boolean,
+// size tracks its own counter</span></code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Tie one to the other</span>
+<pre><code><span class="kw">boolean</span> <span class="fn">isEmpty</span>() {
+  <span class="kw">return</span> <span class="num">0</span> == size();
+}</code></pre>
+    </div>
+  </div>
+  <p>Even tiny duplication is worth eliminating — extracting a small <code>replaceImage</code> method shared by two image operations:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Duplicated dispose/gc/assign</span>
+<pre><code><span class="kw">public void</span> <span class="fn">scaleToOneDimension</span>(
+    <span class="kw">float</span> desiredDimension, <span class="kw">float</span> imageDimension) {
+  <span class="kw">if</span> (Math.abs(desiredDimension - imageDimension) &lt; errorThreshold)
+    <span class="kw">return</span>;
+  <span class="kw">float</span> scalingFactor = desiredDimension / imageDimension;
+  scalingFactor = (<span class="kw">float</span>)(Math.floor(scalingFactor * <span class="num">100</span>) * <span class="num">0.01f</span>);
+  RenderedOp newImage = ImageUtilities.getScaledImage(
+    image, scalingFactor, scalingFactor);
+  image.dispose();
+  System.gc();
+  image = newImage;
+}
+<span class="kw">public synchronized void</span> <span class="fn">rotate</span>(<span class="kw">int</span> degrees) {
+  RenderedOp newImage = ImageUtilities.getRotatedImage(
+    image, degrees);
+  image.dispose();
+  System.gc();
+  image = newImage;
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Extracted replaceImage</span>
+<pre><code><span class="kw">public void</span> <span class="fn">scaleToOneDimension</span>(
+    <span class="kw">float</span> desiredDimension, <span class="kw">float</span> imageDimension) {
+  <span class="kw">if</span> (Math.abs(desiredDimension - imageDimension) &lt; errorThreshold)
+    <span class="kw">return</span>;
+  <span class="kw">float</span> scalingFactor = desiredDimension / imageDimension;
+  scalingFactor = (<span class="kw">float</span>)(Math.floor(scalingFactor * <span class="num">100</span>) * <span class="num">0.01f</span>);
+  replaceImage(ImageUtilities.getScaledImage(
+    image, scalingFactor, scalingFactor));
+}
+<span class="kw">public synchronized void</span> <span class="fn">rotate</span>(<span class="kw">int</span> degrees) {
+  replaceImage(ImageUtilities.getRotatedImage(image, degrees));
+}
+<span class="kw">private void</span> <span class="fn">replaceImage</span>(RenderedOp newImage) {
+  image.dispose();
+  System.gc();
+  image = newImage;
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Extracting commonality at this tiny level surfaces SRP violations and enables <strong>"reuse in the small"</strong> — which is essential to achieving reuse in the large.</p>
+  <h3>Template Method for higher-level duplication</h3>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Duplicated algorithm</span>
+<pre><code><span class="kw">public class</span> VacationPolicy {
+  <span class="kw">public void</span> <span class="fn">accrueUSDivisionVacation</span>() {
+    <span class="cm">// calculate vacation from hours worked
+    // ensure vacation meets US minimums
+    // apply vacation to payroll record</span>
+  }
+  <span class="kw">public void</span> <span class="fn">accrueEUDivisionVacation</span>() {
+    <span class="cm">// calculate vacation from hours worked
+    // ensure vacation meets EU minimums
+    // apply vacation to payroll record</span>
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ TEMPLATE METHOD pattern</span>
+<pre><code><span class="kw">abstract public class</span> VacationPolicy {
+  <span class="kw">public void</span> <span class="fn">accrueVacation</span>() {
+    calculateBaseVacationHours();
+    alterForLegalMinimums();
+    applyToPayroll();
+  }
+  <span class="kw">private void</span> <span class="fn">calculateBaseVacationHours</span>() { <span class="cm">/* ... */</span> };
+  <span class="kw">abstract protected void</span> <span class="fn">alterForLegalMinimums</span>();
+  <span class="kw">private void</span> <span class="fn">applyToPayroll</span>() { <span class="cm">/* ... */</span> };
+}
+<span class="kw">public class</span> USVacationPolicy <span class="kw">extends</span> VacationPolicy {
+  <span class="ann">@Override</span> <span class="kw">protected void</span> <span class="fn">alterForLegalMinimums</span>() {
+    <span class="cm">// US specific logic</span>
+  }
+}
+<span class="kw">public class</span> EUVacationPolicy <span class="kw">extends</span> VacationPolicy {
+  <span class="ann">@Override</span> <span class="kw">protected void</span> <span class="fn">alterForLegalMinimums</span>() {
+    <span class="cm">// EU specific logic</span>
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The subclasses fill in the one "hole" in the algorithm — the only part that isn't duplicated.</p>
+</section>
+
+<section id="expressive">
+  <h2 class="sec"><span class="n">12.5</span>Expressive</h2>
+  <p>The majority of a project's cost is long-term maintenance, and most defects come from misunderstanding. Code should clearly <strong>express the intent of its author</strong> — the clearer it is, the less time others spend understanding it. Ways to be expressive:</p>
+  <div class="principle">
+    <span class="card-label">How to express intent</span>
+    <p>Choose <strong>good names</strong> (hear a name and not be surprised by its responsibilities); keep <strong>functions and classes small</strong> (easy to name, write, understand); use <strong>standard nomenclature</strong> — pattern names like COMMAND or VISITOR in class names succinctly convey design; and write <strong>well-written unit tests</strong> as documentation by example.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">The most important way: try</span>
+    <p>Too often we get code working and move on without making it readable for the next person — who is most likely to be <strong>you</strong>. Take pride in your workmanship: spend a little time with each function and class, choose better names, split large functions. <strong>Care is a precious resource.</strong></p>
+  </div>
+</section>
+
+<section id="minimal">
+  <h2 class="sec"><span class="n">12.6</span>Minimal Classes and Methods</h2>
+  <p>Even good ideas — eliminating duplication, expressiveness, SRP — can be taken too far, producing too many tiny classes and methods. Keep function and class counts low too.</p>
+  <div class="bad-practice">
+    <span class="card-label">Pointless dogmatism</span>
+    <p>High counts often come from dogma: insisting on an interface for <em>every</em> class, or always separating fields and behavior into data classes and behavior classes. Resist such dogma; adopt a pragmatic approach. But remember this rule is the <strong>lowest priority</strong> of the four — having tests, eliminating duplication, and expressing yourself matter more.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">12.7</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Runs All Tests (highest priority)</span><p>A verifiable system; testability forces low coupling and high cohesion.</p></div>
+  <div class="principle"><span class="card-label">No Duplication</span><p>The primary enemy of good design; eliminate it even in a few lines, via extraction and Template Method.</p></div>
+  <div class="principle"><span class="card-label">Expressive</span><p>Good names, small units, standard pattern names, expressive tests — and above all, <em>try</em>.</p></div>
+  <div class="principle"><span class="card-label">Minimal Classes &amp; Methods (lowest priority)</span><p>Keep counts low, but never at the expense of the higher three rules.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">12.8</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Skipping tests</span><p>An unverifiable design — and a missed driver of low coupling / high cohesion.</p></div>
+  <div class="bad-practice"><span class="card-label">Tolerating "just a little" duplication</span><p>Small duplications fester; eliminating them surfaces deeper design improvements.</p></div>
+  <div class="bad-practice"><span class="card-label">Stopping at "it works"</span><p>Leaving code unreadable for the next person — who is probably you.</p></div>
+  <div class="bad-practice"><span class="card-label">Dogmatic over-decomposition</span><p>An interface per class, or rigid data/behavior splits, inflating class and method counts.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">12.9</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Make the system fully testable and run tests always</td><td class="dont">Deploy code you can't verify</td></tr>
+      <tr><td class="do">Eliminate every form of duplication</td><td class="dont">Leave "harmless" repeated lines or logic</td></tr>
+      <tr><td class="do">Express intent via names, small units, patterns, tests</td><td class="dont">Write code only you understand right now</td></tr>
+      <tr><td class="do">Use Template Method for higher-level duplication</td><td class="dont">Copy an algorithm with one differing step</td></tr>
+      <tr><td class="do">Keep class/method counts reasonable</td><td class="dont">Over-decompose out of dogma</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Run all the tests, kill duplication, say what you mean, keep it small — and good design emerges on its own.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

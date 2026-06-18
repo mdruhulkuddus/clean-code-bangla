@@ -1,0 +1,239 @@
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--surface:#fff;--warm:#f5f0eb;--code-bg:#f8f5f0;--text:#2c2420;--text2:#5a504a;--muted:#8a7e76;--heading:#1a1410;--accent:#1a6b4a;--accent-lt:#e8f5ee;--accent-bd:#2d9d6e;--bad:#c0392b;--bad-lt:#fdf0ef;--good:#1a6b4a;--good-lt:#e8f5ee;--border:#e0d8d0;--star:#d4840a;--star-lt:#fef8ed;--cover-ac:#4fd1a5;--fn:'Noto Sans Bengali',sans-serif;--fc:'JetBrains Mono',monospace;--fs:'Libre Baskerville',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+.ch{font-family:var(--fn);background:var(--bg);color:var(--text);line-height:2;font-size:17px}
+.cover{background:linear-gradient(145deg,#1a2332,#243447,#1e2d3d);min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 40px;position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cover-ac),#38bdf8,var(--cover-ac))}
+.cnum{font-family:var(--fs);font-size:96px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-3px}
+.clab{font-size:13px;text-transform:uppercase;letter-spacing:8px;color:var(--cover-ac);margin:8px 0 18px;font-weight:600}
+.ctbn{font-size:46px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:8px}
+.cten{font-size:21px;font-family:var(--fs);font-style:italic;color:rgba(255,255,255,.5)}
+.caut{margin-top:22px;font-size:14px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.ct{max-width:760px;margin:0 auto;padding:52px 32px 90px}
+h2{font-size:27px;font-weight:800;color:var(--heading);margin:50px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);line-height:1.5}
+h2 .en{font-size:14px;color:var(--accent);font-weight:500;display:block;margin-top:2px;font-family:var(--fc)}
+h3{font-size:21px;font-weight:700;color:var(--accent);margin:36px 0 12px}
+p{margin-bottom:15px}
+.b{font-weight:700;color:var(--heading)} .hi{color:var(--accent);font-weight:700}
+.cb{margin:18px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.cl{padding:7px 14px;font-size:12px;font-weight:700;letter-spacing:.5px;font-family:var(--fc)}
+.cl.bad{background:var(--bad-lt);color:var(--bad)}
+.cl.good{background:var(--good-lt);color:var(--good)}
+.cl.neu{background:var(--warm);color:var(--muted)}
+.cb pre{background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--fc);font-size:13.5px;line-height:1.7;color:#3d3530;margin:0}
+.rb{margin:22px 0;padding:18px 22px;background:var(--warm);border-radius:8px;border-left:4px solid var(--accent-bd)}
+.rb .rt{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:14px}
+.kp{margin:26px 0;padding:18px 22px;background:var(--accent-lt);border-radius:8px;border:1px solid #c4e5d4}
+.kp .kl{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:5px}
+.law{margin:26px 0;padding:22px 26px;background:var(--warm);border-radius:8px;border-left:5px solid var(--accent-bd);text-align:center;font-size:19px;font-weight:700;color:var(--accent);line-height:1.7}
+.nl{margin:14px 0;padding-left:0;list-style:none}
+.nl li{margin-bottom:8px;padding:9px 14px;background:var(--surface);border-radius:7px;border:1px solid var(--border);border-left:3px solid var(--accent-bd)}
+.nl li .nm{font-weight:700;color:var(--accent);margin-right:6px;font-family:var(--fc)}
+.kc{margin-top:56px;padding:30px;background:var(--star-lt);border-radius:12px;border:1px solid #f0dfc0}
+.kc h2{margin-top:0;border-bottom-color:var(--star);color:var(--star)}
+.ci{margin-bottom:14px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:4px solid var(--star);box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.ci .cn{font-weight:700;color:var(--star);font-size:16px;margin-bottom:2px}
+.ci .cd{color:var(--text2);font-size:15px;line-height:1.8}
+</style>
+<div class="ch">
+<div class="cover">
+<div class="cnum">14</div>
+<div class="clab">অধ্যায় ১৪</div>
+<div class="ctbn">ধাপে ধাপে উন্নতি</div>
+<div class="cten">Successive Refinement</div>
+<div class="caut">Clean Code — Robert C. Martin</div>
+</div>
+<div class="ct">
+
+<p>এই অধ্যায়টি একটি case study — command-line argument parser-এর। এখানে দেখানো হয়েছে কিভাবে একটি module প্রথমে ভালো শুরু হলো কিন্তু বড় হতে গিয়ে সমস্যায় পড়লো, এবং তারপর কিভাবে সেটিকে refactor ও পরিষ্কার করা হলো।</p>
+
+<p>লেখক নিজের তৈরি একটি argument parser-এর কথা বলছেন যার নাম <span class="b">Args</span>। এটি খুব সহজে ব্যবহার করা যায়:</p>
+
+<div class="cb"><div class="cl good">✓ Args-এর ব্যবহার:</div><pre>public static void main(String[] args) {
+    try {
+        Args arg = new Args("l,p#,d*", args);
+        boolean logging = arg.getBoolean('l');
+        int port = arg.getInt('p');
+        String directory = arg.getString('d');
+        executeApplication(logging, port, directory);
+    } catch (ArgsException e) {
+        System.out.printf("Argument error: %s\n", e.errorMessage());
+    }
+}</pre></div>
+
+<p>এখানে "l,p#,d*" হলো schema string। l হলো boolean argument, p# হলো integer argument, এবং d* হলো string argument। Constructor-এ কোনো ArgsException না আসলে মানে command-line সফলভাবে parse হয়েছে।</p>
+
+<h2>Args-এর Implementation <span class="en">Args Implementation</span></h2>
+
+<p>চূড়ান্ত পরিষ্কার version-এ Args class এভাবে সাজানো হয়েছে:</p>
+
+<div class="cb"><div class="cl good">✓ পরিষ্কার Args class:</div><pre>public class Args {
+    private Map&lt;Character, ArgumentMarshaler&gt; marshalers;
+    private Set&lt;Character&gt; argsFound;
+    private ListIterator&lt;String&gt; currentArgument;
+
+    public Args(String schema, String[] args) throws ArgsException {
+        marshalers = new HashMap&lt;Character, ArgumentMarshaler&gt;();
+        argsFound = new HashSet&lt;Character&gt;();
+        parseSchema(schema);
+        parseArgumentStrings(Arrays.asList(args));
+    }
+
+    private void parseSchema(String schema) throws ArgsException {
+        for (String element : schema.split(","))
+            if (element.length() &gt; 0)
+                parseSchemaElement(element.trim());
+    }
+
+    private void parseSchemaElement(String element) throws ArgsException {
+        char elementId = element.charAt(0);
+        String elementTail = element.substring(1);
+        validateSchemaElementId(elementId);
+        if (elementTail.length() == 0)
+            marshalers.put(elementId, new BooleanArgumentMarshaler());
+        else if (elementTail.equals("*"))
+            marshalers.put(elementId, new StringArgumentMarshaler());
+        else if (elementTail.equals("#"))
+            marshalers.put(elementId, new IntegerArgumentMarshaler());
+        else if (elementTail.equals("##"))
+            marshalers.put(elementId, new DoubleArgumentMarshaler());
+        else if (elementTail.equals("[*]"))
+            marshalers.put(elementId, new StringArrayArgumentMarshaler());
+        else
+            throw new ArgsException(INVALID_ARGUMENT_FORMAT,
+                elementId, elementTail);
+    }
+    // ... বাকি method-গুলো
+}</pre></div>
+
+<p>লক্ষ্য করুন — এই কোড ওপর থেকে নিচে পড়া যায়, কোথাও বেশি লাফ দিতে হয় না।</p>
+
+<p>ArgumentMarshaler হলো একটি interface:</p>
+
+<div class="cb"><div class="cl neu">ArgumentMarshaler interface:</div><pre>public interface ArgumentMarshaler {
+    void set(Iterator&lt;String&gt; currentArgument) throws ArgsException;
+}</pre></div>
+
+<p>প্রতিটি argument type-এর জন্য আলাদা implementation আছে:</p>
+
+<div class="cb"><div class="cl neu">Boolean ও String Marshaler:</div><pre>public class BooleanArgumentMarshaler implements ArgumentMarshaler {
+    private boolean booleanValue = false;
+    public void set(Iterator&lt;String&gt; currentArgument) throws ArgsException {
+        booleanValue = true;
+    }
+    public static boolean getValue(ArgumentMarshaler am) {
+        if (am != null &amp;&amp; am instanceof BooleanArgumentMarshaler)
+            return ((BooleanArgumentMarshaler) am).booleanValue;
+        else return false;
+    }
+}
+
+public class StringArgumentMarshaler implements ArgumentMarshaler {
+    private String stringValue = "";
+    public void set(Iterator&lt;String&gt; currentArgument) throws ArgsException {
+        try {
+            stringValue = currentArgument.next();
+        } catch (NoSuchElementException e) {
+            throw new ArgsException(MISSING_STRING);
+        }
+    }
+    public static String getValue(ArgumentMarshaler am) {
+        if (am != null &amp;&amp; am instanceof StringArgumentMarshaler)
+            return ((StringArgumentMarshaler) am).stringValue;
+        else return "";
+    }
+}</pre></div>
+
+<h2>এটা কিভাবে করলাম? <span class="en">How Did I Do This?</span></h2>
+
+<p>লেখক বলেন — তিনি এই program শুরু থেকে শেষ পর্যন্ত এই পরিষ্কার রূপে লেখেননি। তিনি আমাদের কাউকে এটা আশা করেন না। কয়েক দশকে আমরা যা শিখেছি তা হলো — <span class="b">programming বিজ্ঞানের চেয়ে বেশিটাই শিল্প (craft)।</span></p>
+
+<p>পরিষ্কার কোড লিখতে হলে আগে "dirty" কোড লিখতে হবে, তারপর সেটা পরিষ্কার করতে হবে। এটা ঠিক যেমন প্রবন্ধ লেখার সময় হয় — প্রথমে rough draft, তারপর দ্বিতীয় draft, তারপর আরো কয়েকটি draft, এবং সবশেষে চূড়ান্ত version। <span class="b">পরিষ্কার কোড লেখার ব্যাপারটা হলো ধাপে ধাপে উন্নতি (successive refinement) এর ব্যাপার।</span></p>
+
+<p>বেশিরভাগ নতুন programmer (এবং প্রবন্ধ লেখার ছাত্রদের মতো) এই পরামর্শ মানে না। তারা মনে করে প্রাথমিক লক্ষ্য হলো program কাজ করানো। একবার "কাজ করলে" তারা পরের কাজে চলে যায়, "কাজ করা" program-কে যে অবস্থায় আছে সেই অবস্থায় রেখে দেয়। অভিজ্ঞ programmer জানেন এটা পেশাদার আত্মহত্যা।</p>
+
+<h2>Args: প্রাথমিক সংস্করণ <span class="en">The Rough Draft</span></h2>
+
+<p>প্রথম version-টি কাজ করতো — কিন্তু ছিলো এলোমেলো। সব argument type-এর জন্য আলাদা HashMap ছিলো, parsing logic ছিলো জটিল এবং এক জায়গায় জড়ো করা:</p>
+
+<div class="cb"><div class="cl bad">✗ প্রাথমিক এলোমেলো version:</div><pre>public class Args {
+    private String schema;
+    private String[] args;
+    private boolean valid = true;
+    private Set&lt;Character&gt; unexpectedArguments = new TreeSet&lt;Character&gt;();
+    private Map&lt;Character, Boolean&gt; booleanArgs =
+        new HashMap&lt;Character, Boolean&gt;();
+    private Map&lt;Character, String&gt; stringArgs =
+        new HashMap&lt;Character, String&gt;();
+    private Map&lt;Character, Integer&gt; intArgs =
+        new HashMap&lt;Character, Integer&gt;();
+    private Set&lt;Character&gt; argsFound = new HashSet&lt;Character&gt;();
+    private int currentArgument;
+    private char errorArgumentId = '\0';
+    private String errorParameter = "TILT";
+    private ErrorCode errorCode = ErrorCode.OK;
+    private enum ErrorCode {
+        OK, MISSING_STRING, MISSING_INTEGER,
+        INVALID_INTEGER, UNEXPECTED_ARGUMENT}
+    // ... বিশাল জটিল কোড
+}</pre></div>
+
+<p>Boolean এবং String argument যোগ করার পর ঠিকাকই ছিলো। কিন্তু Integer argument যোগ করতে গিয়ে অনেক জায়গায় কোড duplicate হতে শুরু করলো। প্রতিটি নতুন argument type-এর জন্য তিনটি জায়গায় কোড যোগ করতে হতো: schema parsing, command-line parsing, এবং getXXX method।</p>
+
+<h2>তাই আমি থামলাম <span class="en">So I Stopped</span></h2>
+
+<p>আরো দুটি argument type যোগ করা বাকি ছিলো, এবং লেখক বুঝতে পারলেন সেগুলো জিনিসটাকে আরো খারাপ করবে। জোর করে এগিয়ে গেলে হয়তো কাজ করানো যেতো, কিন্তু পেছনে রেখে যেতো এমন একটি গোলমাল যা ঠিক করা সম্ভব নয়।</p>
+
+<p>তাই তিনি feature যোগ করা বন্ধ করে refactoring শুরু করলেন। অনেক ধরনের type, সবার একই রকম method — এটা শুনতে একটি class-এর মতো লাগে। এভাবেই <span class="b">ArgumentMarshaler</span>-এর ধারণা জন্ম নিলো।</p>
+
+<h2>ধাপে ধাপে এগিয়ে যাওয়া <span class="en">On Incrementalism</span></h2>
+
+<p>Program নষ্ট করার সবচেয়ে ভালো উপায় হলো "উন্নতির" নামে এর structure-এ বিশাল পরিবর্তন করা। কিছু program এই "উন্নতি" থেকে আর সুস্থ হয় না। সমস্যা হলো "উন্নতি"-র পর program-কে আগের মতো কাজ করানো অনেক কঠিন।</p>
+
+<p>এটা এড়াতে লেখক <span class="b">Test-Driven Development (TDD)</span>-এর শৃঙ্খলা ব্যবহার করেন। TDD-এর একটি মূল নীতি হলো — system-কে সবসময় চালু রাখা। প্রতিটি পরিবর্তন এমন হতে হবে যা system ভাঙে না। এর জন্য দরকার automated test suite যা যেকোনো সময় চালানো যায়। Args class-এর জন্য unit test (JUnit-এ) এবং acceptance test (FitNesse-এ) তৈরি করা ছিলো।</p>
+
+<p>তারপর তিনি অনেক অনেক ছোট ছোট পরিবর্তন করেন। প্রতিটি পরিবর্তন system-কে ArgumentMarshaler ধারণার দিকে নিয়ে যায়, এবং প্রতিটি পরিবর্তনের পরও system কাজ করতে থাকে।</p>
+
+<p>প্রথম পরিবর্তন — ArgumentMarshaler-এর কঙ্কাল যোগ করা:</p>
+
+<div class="cb"><div class="cl neu">প্রাথমিক কঙ্কাল:</div><pre>private class ArgumentMarshaler {
+    private boolean booleanValue = false;
+    public void setBoolean(boolean value) { booleanValue = value; }
+    public boolean getBoolean() { return booleanValue; }
+}
+
+private class BooleanArgumentMarshaler extends ArgumentMarshaler { }
+private class StringArgumentMarshaler extends ArgumentMarshaler { }
+private class IntegerArgumentMarshaler extends ArgumentMarshaler { }</pre></div>
+
+<p>এটা কিছু ভাঙে না। তারপর Boolean argument-এর HashMap পরিবর্তন করা হলো ArgumentMarshaler নিতে। এতে কিছু statement ভেঙেছিলো, যা দ্রুত ঠিক করা হলো।</p>
+
+<p>ছোট পরিবর্তনে test fail করলে সাথে সাথে ঠিক করা হতো। এভাবে ধীরে ধীরে — একটি type-এর parse, set, get আলাদা Marshaler-এ সরানো হলো। Boolean-এর পর String, তারপর Integer — প্রতিটি ধাপে test pass করাতে করাতে।</p>
+
+<p>এই পুরো প্রক্রিয়ায় HashMap-গুলো একটি একটি করে সরানো হলো, error handling উন্নত করা হলো, এবং সবশেষে সব ArgumentMarshaler তাদের নিজস্ব file-এ চলে গেলো। ArgsException class-ও আলাদা করা হলো error message formatting সহ।</p>
+
+<p>ভালো software design-এর অনেকটাই হলো partitioning — বিভিন্ন ধরনের কোডের জন্য যথার্থ জায়গা তৈরি করা। এই separation of concerns কোডকে বুঝতে ও রক্ষণাবেক্ষণ করতে অনেক সহজ করে তোলে।</p>
+
+<h2>উপসংহার <span class="en">Conclusion</span></h2>
+
+<p>কোড শুধু কাজ করলেই যথেষ্ট নয়। যে কোড কাজ করে সেটাও প্রায়ই ভয়করভাবে ভাঙা। যে programmer "শুধু কাজ করে" — এটা নিয়ে সন্তুষ্ট, তিনি unprofessionally আচরণ করেন।</p>
+
+<p>খারাপ কোড পচে এবং কাঁজিয়ে ওঠে, একটি নিবাড় ভার হয়ে team-কে টেনে ধরে। খারাপ schedule আবার করা যায়, খারাপ requirement পুনঃসংজ্ঞায়িত করা যায়, খারাপ team dynamics মেরামত করা যায়। <span class="b">কিন্তু খারাপ কোড পচায় আর team-র ভার বিশ্বের কিছুই নিরাময় করে না।</span></p>
+
+<p>খারাপ কোড পরিষ্কার করা যায়, কিন্তু এটা অনেক ব্যয়বহুল। সকালে কোনো module-এ গোলমাল করলে বিকেলে পরিষ্কার করা সহজ। পাঁচ মিনিট আগে গোলমাল করলে এখনই পরিষ্কার করা আরো সহজ।</p>
+
+<div class="law">সমাধান হলো — ক্রমাগত আপনার কোড যতটা সম্ভব পরিষ্কার ও সহজ রাখুন। কখনো শুরু হতে দেবেন না।</div>
+
+<div class="kc">
+<h2>★ মূল ধারণা সারসংক্ষেপ <span class="en">Key Concepts</span></h2>
+<div class="ci"><div class="cn">★ Successive Refinement</div><div class="cd">প্রথমে একটি কাজ করা version লেখো, তারপর ধাপে ধাপে সেটোকে পরিষ্কার করো।</div></div>
+<div class="ci"><div class="cn">★ Dirty First, Then Clean</div><div class="cd">পরিষ্কার কোড প্রথম চেষ্টায় হয় না — প্রথমে "dirty" কোড লিখতে হয়, তারপর পরিষ্কার করতে হয়।</div></div>
+<div class="ci"><div class="cn">★ Incrementalism</div><div class="cd">বড় পরিবর্তন একবারে না করে, অনেক ছোট ছোট পরিবর্তনের মাধ্যমে এগিয়ে যাওয়া।</div></div>
+<div class="ci"><div class="cn">★ TDD</div><div class="cd">Test-Driven Development ব্যবহার করে প্রতিটি ছোট পরিবর্তনের পর system কাজ করছে কিনা যাচাই করা।</div></div>
+<div class="ci"><div class="cn">★ ArgumentMarshaler Pattern</div><div class="cd">একই ধরনের কাজ বারবার করতে হলে সেটা একটি class-এ পরিণত করার কথা ভাবুন।</div></div>
+<div class="ci"><div class="cn">★ কোড শুধু "কাজ করলেই" যথেষ্ট নয়</div><div class="cd">Structure ও design-ও গুরুত্বপূর্ণ। খারাপ কোড team-কে ধ্বংস করে।</div></div>
+</div>
+
+</div>
+</div>

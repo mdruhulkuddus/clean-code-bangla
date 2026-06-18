@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Appendix A: Concurrency II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  td.code{ font-family:'JetBrains Mono',monospace; color:var(--accent); font-weight:700; white-space:nowrap; }
+  td.name{ font-weight:600; color:#3a352f; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Appendix A</span>
+  <h1>Concurrency II</h1>
+  <p class="author">Brett L. Schuchert — amplifies the Concurrency chapter (Ch.13)</p>
+  <p class="subtitle">A deeper, hands-on tour: isolate thread management, understand why <code>++</code> isn't atomic, lock at the server not the client, prevent deadlock by breaking one of its four conditions, and instrument code to make rare bugs fail fast.</p>
+  <div class="badges">
+    <span class="badge">Isolate Thread Mgmt</span>
+    <span class="badge">Atomicity</span>
+    <span class="badge">Server-Based Locking</span>
+    <span class="badge">Deadlock's 4 Conditions</span>
+    <span class="badge">Monte Carlo Testing</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#clientserver">Client/Server &amp; SRP</a></li>
+    <li><a href="#paths">Atomicity &amp; Execution Paths</a></li>
+    <li><a href="#library">Knowing Your Library</a></li>
+    <li><a href="#deps">Method Dependencies</a></li>
+    <li><a href="#locking">Client vs Server Locking</a></li>
+    <li><a href="#throughput">Increasing Throughput</a></li>
+    <li><a href="#deadlock">Deadlock's Four Conditions</a></li>
+    <li><a href="#breaking">Breaking Deadlock</a></li>
+    <li><a href="#testing">Testing Multithreaded Code</a></li>
+    <li><a href="#tools">Tool Support (ConTest)</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Keep all thread management in <strong>one well-controlled place</strong> (a <code>ClientScheduler</code>), so a server's other responsibilities stay testable and threading-free. Understand the memory model: assignment to a 32-bit value is atomic but to a 64-bit (<code>long</code>) is not, and <code>++</code> is <strong>never atomic</strong>. Prefer <strong>server-based locking</strong> over client-based (clients forget to lock). Deadlock needs <strong>all four</strong> of mutual exclusion, lock &amp; wait, no preemption, and circular wait — break any one to prevent it (breaking circular wait via a global resource ordering is the most common). Threading bugs may surface once in a billion runs, so <strong>instrument and Monte-Carlo test</strong> (tools like ConTest) to make them fail fast.</p>
+  </div>
+</section>
+
+<section id="clientserver">
+  <h2 class="sec"><span class="n">A.1</span>Client/Server Example &amp; the SRP</h2>
+  <p>A naive threaded server spawns a new thread per request — it works, but it's unbounded (could exhaust the JVM under load) and, worse, the tiny <code>process</code> function holds <strong>four responsibilities</strong> at mixed abstraction levels: socket connection management, client processing, threading policy, and server-shutdown policy.</p>
+  <div class="bad-practice">
+    <span class="card-label">SRP violation in concurrent code</span>
+    <p>The server has several reasons to change. To keep concurrent systems clean, <strong>thread management should live in a few well-controlled places</strong>, and code that manages threads should do <em>nothing else</em> — tracking down concurrency bugs is hard enough without unwinding unrelated issues at the same time.</p>
+  </div>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Everything in one place</span>
+<pre><code><span class="cm">// process() mixes connection mgmt,
+// client processing, threading, and
+// shutdown — and spawns unbounded threads</span></code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Thread policy isolated</span>
+<pre><code><span class="kw">public void</span> <span class="fn">run</span>() {
+  <span class="kw">while</span> (keepProcessing) {
+    <span class="kw">try</span> {
+      ClientConnection clientConnection = connectionManager.awaitClient();
+      ClientRequestProcessor requestProcessor
+        = <span class="kw">new</span> ClientRequestProcessor(clientConnection);
+      clientScheduler.schedule(requestProcessor);
+    } <span class="kw">catch</span> (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  connectionManager.shutdown();
+}
+<span class="kw">public interface</span> ClientScheduler {
+  <span class="kw">void</span> <span class="fn">schedule</span>(ClientRequestProcessor requestProcessor);
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">All thread concerns now funnel through <code>clientScheduler</code> — one place to look when there's a concurrency bug. Swapping the policy (thread-per-request → a Java 5 <code>Executor</code> pool) is just writing a new class and plugging it in:</p>
+  <pre><code><span class="kw">public class</span> ExecutorClientScheduler <span class="kw">implements</span> ClientScheduler {
+  Executor executor;
+  <span class="kw">public</span> <span class="fn">ExecutorClientScheduler</span>(<span class="kw">int</span> availableThreads) {
+    executor = Executors.newFixedThreadPool(availableThreads);
+  }
+  <span class="kw">public void</span> <span class="fn">schedule</span>(<span class="kw">final</span> ClientRequestProcessor requestProcessor) {
+    Runnable runnable = <span class="kw">new</span> Runnable() {
+      <span class="kw">public void</span> <span class="fn">run</span>() {
+        requestProcessor.process();
+      }
+    };
+    executor.execute(runnable);
+  }
+}</code></pre>
+</section>
+
+<section id="paths">
+  <h2 class="sec"><span class="n">A.2</span>Atomicity &amp; Possible Paths of Execution</h2>
+  <p>An <strong>atomic operation</strong> is one that is uninterruptable. Per the Java Memory Model, assignment to a <strong>32-bit</strong> value is atomic — but assignment to a <strong>64-bit</strong> value (a <code>long</code>) requires <em>two</em> 32-bit assignments, so another thread can sneak in between them.</p>
+  <pre><code><span class="kw">public class</span> Example {
+  <span class="kw">int</span> lastId;
+  <span class="kw">public void</span> <span class="fn">resetId</span>() {
+    value = <span class="num">0</span>;        <span class="cm">// atomic for int, NOT for long</span>
+  }
+  <span class="kw">public int</span> <span class="fn">getNextId</span>() {
+    ++value;          <span class="cm">// pre-increment is NOT atomic</span>
+  }
+}</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">Why <code>++</code> loses an increment</span>
+    <p>In byte-code, <code>++value</code> is several instructions (<code>GETFIELD</code>, <code>ICONST_1</code>, <code>IADD</code>, <code>PUTFIELD</code>) operating on the <strong>operand stack</strong>. Starting from 42: Thread 1 runs through <code>GETFIELD</code> (reads 42), then is interrupted. Thread 2 runs the whole method, storing 43. Thread 1 resumes with 42 still on its stack, adds one, and stores 43 again. <strong>One increment is lost.</strong> Making <code>getNextId()</code> <code>synchronized</code> fixes it.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">What you actually need to know</span>
+    <p>You don't need to master byte-code — just internalize that <code>++</code> isn't atomic and the memory model has rules. Then know: <strong>where shared values exist</strong>, <strong>which code causes concurrent read/update issues</strong>, and <strong>how to guard against them</strong>.</p>
+  </div>
+</section>
+
+<section id="library">
+  <h2 class="sec"><span class="n">A.3</span>Knowing Your Library</h2>
+  <div class="principle">
+    <span class="card-label">Executor framework &amp; Futures</span>
+    <p>If you're creating threads without a pool (or with a hand-written one), use the Java 5 <code>Executor</code> framework: it pools and resizes threads, recreates them if needed, and supports <code>Future</code>s. It works with <code>Runnable</code> and with <code>Callable</code> (a <code>Runnable</code> that returns a result). A <code>Future</code> lets you launch independent work and block only when you need the result:</p>
+<pre><code>Future&lt;String&gt; result = executorService.submit(makeExternalCall);
+String partialResult = doSomeLocalProcessing();
+<span class="kw">return</span> result.get() + partialResult;  <span class="cm">// get() blocks until done</span></code></pre>
+  </div>
+  <div class="principle">
+    <span class="card-label">Nonblocking solutions &amp; thread-safe collections</span>
+    <p>Java 5's <code>AtomicBoolean</code>, <code>AtomicInteger</code>, <code>AtomicReference</code>, etc. use processor-level CAS for reliable <strong>nonblocking</strong> updates — faster than synchronization and never deadlock. And the <code>java.util.concurrent</code> collections add safe composite operations like <code>ConcurrentHashMap.putIfAbsent(key, value)</code> that you can't do safely with check-then-act on a plain map.</p>
+  </div>
+</section>
+
+<section id="deps">
+  <h2 class="sec"><span class="n">A.4</span>Dependencies Between Methods Can Break Concurrent Code</h2>
+  <p>Even when each method is <code>synchronized</code>, a client that calls <em>two</em> of them can break:</p>
+  <pre><code><span class="kw">public class</span> IntegerIterator <span class="kw">implements</span> Iterator&lt;Integer&gt; {
+  <span class="kw">private</span> Integer nextValue = <span class="num">0</span>;
+  <span class="kw">public synchronized boolean</span> <span class="fn">hasNext</span>() {
+    <span class="kw">return</span> nextValue &lt; <span class="num">100000</span>;
+  }
+  <span class="kw">public synchronized</span> Integer <span class="fn">next</span>() {
+    <span class="kw">if</span> (nextValue == <span class="num">100000</span>)
+      <span class="kw">throw new</span> IteratorPastEndException();
+    <span class="kw">return</span> nextValue++;
+  }
+}</code></pre>
+  <div class="bad-practice">
+    <span class="card-label">The race at the last element</span>
+    <p>Thread 1 calls <code>hasNext()</code> → true, then is preempted. Thread 2 calls <code>hasNext()</code> → true, then <code>next()</code> (which makes <code>hasNext()</code> false). Thread 1 resumes, still believing <code>hasNext()</code> is true, calls <code>next()</code> — and runs off the end. It only faults on the final iteration, so it surfaces long after the system is in production. <strong>You have three options:</strong> tolerate the failure, client-based locking, or server-based locking.</p>
+  </div>
+</section>
+
+<section id="locking">
+  <h2 class="sec"><span class="n">A.5</span>Client-Based vs Server-Based Locking</h2>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Client-Based Locking</span>
+<pre><code>IntegerIterator iterator = <span class="kw">new</span> IntegerIterator();
+<span class="kw">while</span> (<span class="kw">true</span>) {
+  <span class="kw">int</span> nextValue;
+  <span class="kw">synchronized</span> (iterator) {
+    <span class="kw">if</span> (!iterator.hasNext())
+      <span class="kw">break</span>;
+    nextValue = iterator.next();
+  }
+  doSometingWith(nextValue);
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Server-Based Locking</span>
+<pre><code><span class="kw">public class</span> IntegerIteratorServerLocked {
+  <span class="kw">private</span> Integer nextValue = <span class="num">0</span>;
+  <span class="kw">public synchronized</span> Integer <span class="fn">getNextOrNull</span>() {
+    <span class="kw">if</span> (nextValue &lt; <span class="num">100000</span>)
+      <span class="kw">return</span> nextValue++;
+    <span class="kw">else</span>
+      <span class="kw">return null</span>;
+  }
+}
+<span class="cm">// client just null-checks:</span>
+<span class="kw">while</span> (<span class="kw">true</span>) {
+  Integer nextValue = iterator.getNextOrNull();
+  <span class="kw">if</span> (next == <span class="kw">null</span>)
+    <span class="kw">break</span>;
+  <span class="cm">// do something with nextValue</span>
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Client-based locking forces <em>every</em> client to lock correctly (DRY violation) — and one forgotten lock causes nightmares. (Schuchert's 1971 trucker's-union war story: a single unprotected ring-buffer use locked random terminals for weeks. "Client-based locking really blows.")</p>
+  <div class="principle">
+    <span class="card-label">Prefer server-based locking</span>
+    <p>It <strong>reduces repeated code</strong>, <strong>improves performance</strong> (swap in a non-thread-safe server for single-threaded deployment), <strong>reduces error</strong> (one forgotten lock can't happen), <strong>enforces a single policy</strong> in one place, and <strong>shrinks the scope of shared variables</strong>. If you don't own the server, wrap it with an <strong>Adapter</strong> that adds the locking, or use a thread-safe collection with an extended interface.</p>
+  </div>
+</section>
+
+<section id="throughput">
+  <h2 class="sec"><span class="n">A.6</span>Increasing Throughput</h2>
+  <p>Reading many web pages and accumulating statistics is <strong>I/O-bound</strong> — most time is spent waiting on sockets. A shared, server-locked <code>PageIterator</code> hands out URLs while each thread uses its own <code>PageReader</code> to fetch and parse in parallel.</p>
+  <div class="insight">
+    <span class="card-label">Where concurrency actually pays off</span>
+    <p>Single-threaded, total time ≈ the <em>sum</em> of all page-read times. Multithreaded, total time ≈ the <em>longest single</em> read plus overhead, because the waiting is shared across threads. This is exactly the situation concurrency helps — lots of wait time to overlap. (CPU-bound work with no wait sees little or no gain.)</p>
+  </div>
+</section>
+
+<section id="deadlock">
+  <h2 class="sec"><span class="n">A.7</span>Deadlock's Four Conditions</h2>
+  <p>Deadlock is the kind of bug that freezes a system every other week and takes weeks to reproduce. The good news: <strong>all four</strong> of these conditions must hold simultaneously — break any one and deadlock becomes impossible.</p>
+  <table>
+    <thead><tr><th>Condition</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="name">Mutual Exclusion</td><td>Multiple threads need the same resources, which can't be used by more than one thread at a time and are limited in number (DB connection, write-locked file, semaphore).</td></tr>
+      <tr><td class="name">Lock &amp; Wait</td><td>Once a thread acquires a resource, it won't release it until it has acquired all the others it needs and finished its work.</td></tr>
+      <tr><td class="name">No Preemption</td><td>A thread can't take a resource away from another; the holder must release it voluntarily.</td></tr>
+      <tr><td class="name">Circular Wait</td><td>The "deadly embrace": T1 holds R1 and needs R2; T2 holds R2 and needs R1.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="breaking">
+  <h2 class="sec"><span class="n">A.8</span>Breaking Deadlock</h2>
+  <div class="principle">
+    <span class="card-label">Break Mutual Exclusion</span>
+    <p>Use resources that allow simultaneous use (e.g. <code>AtomicInteger</code>), increase the resource count to meet or exceed competing threads, or check that all resources are free before seizing any. Often impractical — most resources are limited and single-use.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Break Lock &amp; Wait</span>
+    <p>Refuse to wait: check each resource before seizing it, and if any is busy, release everything and start over. Risks <strong>starvation</strong> (low CPU use) and <strong>livelock</strong> (high, useless CPU use) — but it's better than nothing and can almost always be implemented.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Break Preemption</span>
+    <p>Let a thread ask the owner to release a busy resource; if the owner is itself waiting, it releases all and starts over. Fewer start-overs than the above, but managing the requests is tricky.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Break Circular Wait — the most common fix</span>
+    <p>Impose a <strong>global ordering on resources</strong> and have all threads acquire in that order; circular wait becomes impossible. Usually just a convention all parties agree to. Caveats: acquisition order may not match use order (locks held longer than needed), and ordering may be infeasible if one resource's identity comes from operating on another. <strong>TANSTAAFL</strong> — every strategy has a cost, so isolate the thread code to tune and experiment.</p>
+  </div>
+</section>
+
+<section id="testing">
+  <h2 class="sec"><span class="n">A.9</span>Testing Multithreaded Code</h2>
+  <p>To prove a class like <code>takeNextId()</code> is broken: remember the current value, run two threads that each call it once, and assert the value rose by two — looping until it only rose by one. But running it once usually passes; the failure is rare.</p>
+  <div class="principle">
+    <span class="card-label">Monte Carlo testing</span>
+    <p>Make tests <strong>flexible and tunable</strong>, then run them over and over on a server with randomly varied tuning values; any failure means the code is broken (log the failing conditions). Run on <strong>every target platform</strong>, repeatedly and continuously, and under <strong>varying loads</strong> close to production. Even so, the most insidious bugs occur once in a billion opportunities — the terror of complex systems.</p>
+  </div>
+</section>
+
+<section id="tools">
+  <h2 class="sec"><span class="n">A.10</span>Tool Support for Testing Thread-Based Code</h2>
+  <div class="insight">
+    <span class="card-label">IBM ConTest</span>
+    <p>ConTest <strong>instruments classes</strong> to make non-thread-safe code more likely to fail. After instrumenting, the authors' failure rate jumped from roughly <strong>1 in 10,000,000</strong> iterations to roughly <strong>1 in 30</strong> — the bugs surfaced far earlier and far more reliably. Write tests that simulate multiple users under varying loads, instrument both test and production code, and run.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">A.11</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Isolate Thread Management</span><p>One well-controlled place (a scheduler); thread code does nothing but threading (SRP).</p></div>
+  <div class="principle"><span class="card-label">Respect Atomicity</span><p>32-bit assignment is atomic; 64-bit and <code>++</code> are not — guard shared read/update.</p></div>
+  <div class="principle"><span class="card-label">Lock at the Server</span><p>Server-based locking beats client-based; Adapter a server you don't own.</p></div>
+  <div class="principle"><span class="card-label">Break One Deadlock Condition</span><p>Mutual exclusion, lock &amp; wait, no preemption, or circular wait — usually order resources globally.</p></div>
+  <div class="principle"><span class="card-label">Instrument to Expose Bugs</span><p>Monte-Carlo across platforms/loads; use tools like ConTest to make rare failures frequent.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">A.12</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Threading mixed with other responsibilities</span><p>A process function juggling connections, processing, threading, and shutdown.</p></div>
+  <div class="bad-practice"><span class="card-label">Assuming <code>++</code> (or long assignment) is atomic</span><p>A common misconception that silently loses updates.</p></div>
+  <div class="bad-practice"><span class="card-label">Client-based locking</span><p>Every client must remember to lock; one slip causes rare, brutal bugs.</p></div>
+  <div class="bad-practice"><span class="card-label">"Fixing" deadlock with debug statements</span><p>The added code shifts timing so the deadlock hides — it isn't actually solved.</p></div>
+</section>
+
+<section id="conclusion">
+  <h2 class="sec"><span class="n">A.13</span>Conclusion &amp; Takeaway</h2>
+  <p>This was a brief sojourn through a large, treacherous territory — barely the surface. The emphasis throughout was on <strong>disciplines that keep concurrent code clean</strong>: clean synchronization and locking to prevent concurrent update, threads to boost an I/O-bound system's throughput, clean strategies to prevent deadlock, and instrumentation to expose concurrent problems. For deeper study, start with Doug Lea's <em>Concurrent Programming in Java</em>.</p>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Corral threading into one place, lock at the server, break a deadlock condition by design, and instrument your tests so the billion-to-one bug fails today instead of in production.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
