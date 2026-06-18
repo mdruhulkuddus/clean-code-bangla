@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.7: Error Handling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 07</span>
+  <h1>Error Handling</h1>
+  <p class="author">Michael Feathers</p>
+  <p class="subtitle">Error handling is important — but if it obscures logic, it's wrong. Treat it as a separate concern so your main algorithm stays a clean, unadorned story.</p>
+  <div class="badges">
+    <span class="badge">Exceptions over Codes</span>
+    <span class="badge">Try-Catch-Finally First</span>
+    <span class="badge">Unchecked Exceptions</span>
+    <span class="badge">Special Case Pattern</span>
+    <span class="badge">Don't Return Null</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#exceptions">Exceptions over Return Codes</a></li>
+    <li><a href="#tcffirst">Try-Catch-Finally First</a></li>
+    <li><a href="#unchecked">Use Unchecked Exceptions</a></li>
+    <li><a href="#context">Provide Context</a></li>
+    <li><a href="#callerneeds">Classes by Caller's Needs</a></li>
+    <li><a href="#normalflow">Define the Normal Flow</a></li>
+    <li><a href="#noreturnnull">Don't Return Null</a></li>
+    <li><a href="#nopassnull">Don't Pass Null</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Throw <strong>exceptions</strong> instead of returning error codes so the caller's logic isn't tangled with checks. Write the <strong>try-catch-finally first</strong> to define the transaction scope. Prefer <strong>unchecked</strong> exceptions (checked ones break encapsulation and violate OCP). Give every exception enough <strong>context</strong>, and define exception classes around <strong>how they'll be caught</strong> — often by wrapping third-party APIs. Keep the happy path clean with the <strong>Special Case pattern</strong>, and never <strong>return or pass null</strong>. Robust and clean are not in conflict: treat error handling as a separate concern.</p>
+  </div>
+</section>
+
+<section id="exceptions">
+  <h2 class="sec"><span class="n">7.1</span>Use Exceptions Rather Than Return Codes</h2>
+  <p>Error codes clutter the caller, which must check immediately after each call — and it's easy to forget. Throwing an exception keeps the calling code clean and separates two tangled concerns: the algorithm and the error handling.</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 7-1 — return codes</span>
+<pre><code><span class="kw">public class</span> DeviceController {
+  ...
+  <span class="kw">public void</span> <span class="fn">sendShutDown</span>() {
+    DeviceHandle handle = getHandle(DEV1);
+    <span class="cm">// Check the state of the device</span>
+    <span class="kw">if</span> (handle != DeviceHandle.INVALID) {
+      <span class="cm">// Save the device status to the record field</span>
+      retrieveDeviceRecord(handle);
+      <span class="cm">// If not suspended, shut down</span>
+      <span class="kw">if</span> (record.getStatus() != DEVICE_SUSPENDED) {
+        pauseDevice(handle);
+        clearDeviceWorkQueue(handle);
+        closeDevice(handle);
+      } <span class="kw">else</span> {
+        logger.log(<span class="str">"Device suspended. Unable to shut down"</span>);
+      }
+    } <span class="kw">else</span> {
+      logger.log(<span class="str">"Invalid handle for: "</span> + DEV1.toString());
+    }
+  }
+  ...
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 7-2 — exceptions</span>
+<pre><code><span class="kw">public class</span> DeviceController {
+  ...
+  <span class="kw">public void</span> <span class="fn">sendShutDown</span>() {
+    <span class="kw">try</span> {
+      tryToShutDown();
+    } <span class="kw">catch</span> (DeviceShutDownError e) {
+      logger.log(e);
+    }
+  }
+  <span class="kw">private void</span> <span class="fn">tryToShutDown</span>() <span class="kw">throws</span> DeviceShutDownError {
+    DeviceHandle handle = getHandle(DEV1);
+    DeviceRecord record = retrieveDeviceRecord(handle);
+    pauseDevice(handle);
+    clearDeviceWorkQueue(handle);
+    closeDevice(handle);
+  }
+  <span class="kw">private</span> DeviceHandle <span class="fn">getHandle</span>(DeviceID id) {
+    ...
+    <span class="kw">throw new</span> DeviceShutDownError(<span class="str">"Invalid handle for: "</span> + id.toString());
+    ...
+  }
+  ...
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The device-shutdown algorithm and the error handling can now be read and understood independently.</p>
+</section>
+
+<section id="tcffirst">
+  <h2 class="sec"><span class="n">7.2</span>Write Your Try-Catch-Finally Statement First</h2>
+  <p>Exceptions define a <strong>scope</strong>: the <code>try</code> can abort at any point and resume at the <code>catch</code>. Like a transaction, the <code>catch</code> must leave the program in a consistent state. So start with the try-catch-finally — it defines what the caller should expect no matter what goes wrong. Drive it with TDD, starting from a test that forces the exception:</p>
+  <pre><code><span class="ann">@Test</span>(expected = StorageException.class)
+<span class="kw">public void</span> <span class="fn">retrieveSectionShouldThrowOnInvalidFileName</span>() {
+  sectionStore.retrieveSection(<span class="str">"invalid - file"</span>);
+}</code></pre>
+  <pre><code><span class="kw">public</span> List&lt;RecordedGrip&gt; <span class="fn">retrieveSection</span>(String sectionName) {
+  <span class="kw">try</span> {
+    FileInputStream stream = <span class="kw">new</span> FileInputStream(sectionName);
+    stream.close();
+  } <span class="kw">catch</span> (FileNotFoundException e) {
+    <span class="kw">throw new</span> StorageException(<span class="str">"retrieval error"</span>, e);
+  }
+  <span class="kw">return new</span> ArrayList&lt;RecordedGrip&gt;();
+}</code></pre>
+  <p>With the transaction scope defined, you can build the rest of the logic between the open and the close, pretending nothing goes wrong.</p>
+</section>
+
+<section id="unchecked">
+  <h2 class="sec"><span class="n">7.3</span>Use Unchecked Exceptions</h2>
+  <blockquote>The debate is over. … checked exceptions aren't necessary for the production of robust software.</blockquote>
+  <p>C#, C++, Python, and Ruby write robust software without checked exceptions. The <strong>price</strong> of checked exceptions is an <strong>Open/Closed Principle violation</strong>:</p>
+  <div class="bad-practice">
+    <span class="card-label">The cascade of changes</span>
+    <p>Throw a checked exception three levels below its <code>catch</code>, and every method in between must declare it. A change at a low level forces signature changes — and rebuilds/redeploys — all the way up. <strong>Encapsulation breaks</strong> because every function in the throw's path must know about a low-level exception. Checked exceptions can help in a critical library, but for general applications the dependency cost outweighs the benefit.</p>
+  </div>
+</section>
+
+<section id="context">
+  <h2 class="sec"><span class="n">7.4</span>Provide Context with Exceptions</h2>
+  <div class="principle">
+    <span class="card-label">Informative messages</span>
+    <p>A stack trace tells you <em>where</em> but not <em>what</em> the failed operation intended. Create informative messages — mention the operation and the type of failure — and pass enough information to log the error in your <code>catch</code>.</p>
+  </div>
+</section>
+
+<section id="callerneeds">
+  <h2 class="sec"><span class="n">7.5</span>Define Exception Classes in Terms of a Caller's Needs</h2>
+  <p>You can classify errors by source or type, but the most important concern is <strong>how they're caught</strong>. Poor classification produces duplicated catch blocks for a third-party call; wrapping the API into one common exception type fixes it:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Catch every vendor exception</span>
+<pre><code>ACMEPort port = <span class="kw">new</span> ACMEPort(<span class="num">12</span>);
+<span class="kw">try</span> {
+  port.open();
+} <span class="kw">catch</span> (DeviceResponseException e) {
+  reportPortError(e);
+  logger.log(<span class="str">"Device response exception"</span>, e);
+} <span class="kw">catch</span> (ATM1212UnlockedException e) {
+  reportPortError(e);
+  logger.log(<span class="str">"Unlock exception"</span>, e);
+} <span class="kw">catch</span> (GMXError e) {
+  reportPortError(e);
+  logger.log(<span class="str">"Device response exception"</span>);
+} <span class="kw">finally</span> {
+  …
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Wrap into one exception type</span>
+<pre><code>LocalPort port = <span class="kw">new</span> LocalPort(<span class="num">12</span>);
+<span class="kw">try</span> {
+  port.open();
+} <span class="kw">catch</span> (PortDeviceFailure e) {
+  reportError(e);
+  logger.log(e.getMessage(), e);
+} <span class="kw">finally</span> {
+  …
+}
+
+<span class="kw">public class</span> LocalPort {
+  <span class="kw">private</span> ACMEPort innerPort;
+  <span class="kw">public</span> <span class="fn">LocalPort</span>(<span class="kw">int</span> portNumber) {
+    innerPort = <span class="kw">new</span> ACMEPort(portNumber);
+  }
+  <span class="kw">public void</span> <span class="fn">open</span>() {
+    <span class="kw">try</span> {
+      innerPort.open();
+    } <span class="kw">catch</span> (DeviceResponseException e) {
+      <span class="kw">throw new</span> PortDeviceFailure(e);
+    } <span class="kw">catch</span> (ATM1212UnlockedException e) {
+      <span class="kw">throw new</span> PortDeviceFailure(e);
+    } <span class="kw">catch</span> (GMXError e) {
+      <span class="kw">throw new</span> PortDeviceFailure(e);
+    }
+  }
+  …
+}</code></pre>
+    </div>
+  </div>
+  <div class="insight">
+    <span class="card-label">Wrapping is a best practice</span>
+    <p>Wrapping a third-party API minimizes dependence on it (you can switch libraries), makes mocking easier in tests, and frees you from a vendor's API design choices. Often a single exception class per area of code is fine; use multiple only when you must catch one and let another pass.</p>
+  </div>
+</section>
+
+<section id="normalflow">
+  <h2 class="sec"><span class="n">7.6</span>Define the Normal Flow</h2>
+  <p>Separating error handling pushes detection to the program's edges — usually great, but sometimes you don't want to abort at all. This billing code lets an exception clutter the logic:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Exception as control flow</span>
+<pre><code><span class="kw">try</span> {
+  MealExpenses expenses = expenseReportDAO.getMeals(employee.getID());
+  m_total += expenses.getTotal();
+} <span class="kw">catch</span>(MealExpensesNotFound e) {
+  m_total += getMealPerDiem();
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Special Case pattern</span>
+<pre><code>MealExpenses expenses = expenseReportDAO.getMeals(employee.getID());
+m_total += expenses.getTotal();
+
+<span class="kw">public class</span> PerDiemMealExpenses <span class="kw">implements</span> MealExpenses {
+  <span class="kw">public int</span> <span class="fn">getTotal</span>() {
+    <span class="cm">// return the per diem default</span>
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note"><strong>Special Case pattern</strong> — configure an object to handle the special case so the client never deals with exceptional behavior. <code>ExpenseReportDAO</code> always returns a <code>MealExpenses</code> object; when there are none, it returns one whose total is the per diem.</p>
+</section>
+
+<section id="noreturnnull">
+  <h2 class="sec"><span class="n">7.7</span>Don't Return Null</h2>
+  <div class="bad-practice">
+    <span class="card-label">Null checks invite errors</span>
+    <p>Returning <code>null</code> creates work for callers and foists problems on them — one missing check sends the app out of control. The real problem with null-check-laden code isn't a missing check; it's that there are <strong>too many</strong>. Throw an exception or return a <strong>Special Case</strong> object instead; wrap null-returning third-party methods.</p>
+  </div>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Null guard</span>
+<pre><code>List&lt;Employee&gt; employees = getEmployees();
+<span class="kw">if</span> (employees != <span class="kw">null</span>) {
+  <span class="kw">for</span>(Employee e : employees) {
+    totalPay += e.getPay();
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Empty list</span>
+<pre><code>List&lt;Employee&gt; employees = getEmployees();
+<span class="kw">for</span>(Employee e : employees) {
+  totalPay += e.getPay();
+}
+
+<span class="kw">public</span> List&lt;Employee&gt; <span class="fn">getEmployees</span>() {
+  <span class="kw">if</span>( .. there are no employees .. )
+    <span class="kw">return</span> Collections.emptyList();
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Returning <code>Collections.emptyList()</code> removes the guard and minimizes <code>NullPointerException</code> risk.</p>
+</section>
+
+<section id="nopassnull">
+  <h2 class="sec"><span class="n">7.8</span>Don't Pass Null</h2>
+  <p>Passing <code>null</code> in is worse than returning it. Neither a thrown <code>InvalidArgumentException</code> (you still need a handler) nor an <code>assert</code> (still a runtime error) truly solves it:</p>
+  <pre><code><span class="kw">public double</span> <span class="fn">xProjection</span>(Point p1, Point p2) {
+  <span class="kw">assert</span> p1 != <span class="kw">null</span> : <span class="str">"p1 should not be null"</span>;
+  <span class="kw">assert</span> p2 != <span class="kw">null</span> : <span class="str">"p2 should not be null"</span>;
+  <span class="kw">return</span> (p2.x – p1.x) * <span class="num">1.5</span>;
+}</code></pre>
+  <div class="insight">
+    <span class="card-label">Forbid null by default</span>
+    <p>Most languages have no good way to handle an accidentally-passed null. The rational approach is to <strong>forbid passing null</strong>, so that a null in an argument list signals a real problem — leading to far fewer careless mistakes.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">7.9</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Exceptions, Not Codes</span><p>Throw exceptions to keep the caller's logic clean and separate from error handling.</p></div>
+  <div class="principle"><span class="card-label">Scope First</span><p>Write try-catch-finally first to define a transaction-like scope; drive it with TDD.</p></div>
+  <div class="principle"><span class="card-label">Prefer Unchecked</span><p>Checked exceptions break encapsulation and violate OCP across call levels.</p></div>
+  <div class="principle"><span class="card-label">Special Case Pattern</span><p>Encapsulate exceptional behavior in an object so the client sees only the normal flow.</p></div>
+  <div class="principle"><span class="card-label">No Nulls</span><p>Don't return or pass null; use exceptions or special-case/empty objects.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">7.10</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Error codes as predicates</span><p>Forcing callers to check immediately, cluttering and easily forgotten.</p></div>
+  <div class="bad-practice"><span class="card-label">Duplicated catch blocks</span><p>Catching every vendor exception instead of wrapping into one type.</p></div>
+  <div class="bad-practice"><span class="card-label">Exceptions for normal flow</span><p>Using a catch where a Special Case object belongs.</p></div>
+  <div class="bad-practice"><span class="card-label">Returning / passing null</span><p>Spreading null checks and inviting NullPointerExceptions.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">7.11</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Throw exceptions on error</td><td class="dont">Return error codes / flags</td></tr>
+      <tr><td class="do">Write try-catch-finally first</td><td class="dont">Bolt error handling on afterward</td></tr>
+      <tr><td class="do">Use unchecked exceptions in apps</td><td class="dont">Force checked-exception cascades</td></tr>
+      <tr><td class="do">Wrap third-party APIs with your own exception</td><td class="dont">Catch each vendor exception separately</td></tr>
+      <tr><td class="do">Use Special Case objects / empty lists</td><td class="dont">Return or pass null</td></tr>
+      <tr><td class="do">Give exceptions rich context</td><td class="dont">Rely on a bare stack trace</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Treat error handling as a separate concern — clean and robust are the same goal, not competing ones.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

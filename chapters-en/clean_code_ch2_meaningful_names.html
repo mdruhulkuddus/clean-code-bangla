@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.2: Meaningful Names</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 02</span>
+  <h1>Meaningful Names</h1>
+  <p class="author">by Tim Ottinger</p>
+  <p class="subtitle">Names are everywhere in software. A handful of simple, disciplined rules turns cryptic code into something that reads like plain language.</p>
+  <div class="badges">
+    <span class="badge">Intention-Revealing</span>
+    <span class="badge">Avoid Disinformation</span>
+    <span class="badge">Pronounceable</span>
+    <span class="badge">Searchable</span>
+    <span class="badge">One Word per Concept</span>
+    <span class="badge">Meaningful Context</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#intention">Intention-Revealing Names</a></li>
+    <li><a href="#disinfo">Avoid Disinformation</a></li>
+    <li><a href="#distinct">Meaningful Distinctions</a></li>
+    <li><a href="#pronounce">Pronounceable Names</a></li>
+    <li><a href="#search">Searchable Names</a></li>
+    <li><a href="#encodings">Avoid Encodings</a></li>
+    <li><a href="#mental">Avoid Mental Mapping</a></li>
+    <li><a href="#classmethod">Class &amp; Method Names</a></li>
+    <li><a href="#cute">Don't Be Cute / Don't Pun</a></li>
+    <li><a href="#oneword">One Word per Concept</a></li>
+    <li><a href="#domain">Solution vs Problem Domain</a></li>
+    <li><a href="#context">Add Meaningful Context</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>A good name answers <strong>why something exists, what it does, and how it's used</strong> — if it needs a comment to explain it, it has failed. Choose names that reveal intent, avoid false clues (disinformation), and make every distinction meaningful. Names should be <strong>pronounceable</strong>, <strong>searchable</strong>, and free of cryptic encodings. Classes are nouns, methods are verbs, and each concept gets exactly one word. When a name isn't meaningful on its own, give it context with a well-named class — not a clumsy prefix.</p>
+  </div>
+</section>
+
+<section id="intention">
+  <h2 class="sec"><span class="n">2.1</span>Use Intention-Revealing Names</h2>
+  <p><strong>Intention-revealing name</strong> — a name that states why a variable, function, or class exists, what it does, and how it's used. Choosing good names takes time but saves far more than it costs.</p>
+  <p>If a name requires a comment, the name does not reveal its intent:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">int</span> d; <span class="cm">// elapsed time in days</span></code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">int</span> elapsedTimeInDays;
+<span class="kw">int</span> daysSinceCreation;
+<span class="kw">int</span> daysSinceModification;
+<span class="kw">int</span> fileAgeInDays;</code></pre>
+    </div>
+  </div>
+  <p class="ba-note"><code>d</code> evokes nothing. A good name specifies <em>what</em> is measured and its <em>unit</em>.</p>
+
+  <p>The same principle transforms an opaque function. What does this code do?</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">public</span> List&lt;<span class="kw">int</span>[]&gt; <span class="fn">getThem</span>() {
+  List&lt;<span class="kw">int</span>[]&gt; list1 = <span class="kw">new</span> ArrayList&lt;<span class="kw">int</span>[]&gt;();
+  <span class="kw">for</span> (<span class="kw">int</span>[] x : theList)
+    <span class="kw">if</span> (x[<span class="num">0</span>] == <span class="num">4</span>)
+      list1.add(x);
+  <span class="kw">return</span> list1;
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">public</span> List&lt;<span class="kw">int</span>[]&gt; <span class="fn">getFlaggedCells</span>() {
+  List&lt;<span class="kw">int</span>[]&gt; flaggedCells = <span class="kw">new</span> ArrayList&lt;<span class="kw">int</span>[]&gt;();
+  <span class="kw">for</span> (<span class="kw">int</span>[] cell : gameBoard)
+    <span class="kw">if</span> (cell[STATUS_VALUE] == FLAGGED)
+      flaggedCells.add(cell);
+  <span class="kw">return</span> flaggedCells;
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The complexity is identical — same operators, constants, and nesting. Only the <em>names</em> changed (a mine-sweeper board, a status of <code>4</code> meaning "flagged"), yet the intent is now explicit. Wrapping the array in a <code>Cell</code> class with an <code>isFlagged()</code> method goes one step further and hides the magic numbers entirely.</p>
+</section>
+
+<section id="disinfo">
+  <h2 class="sec"><span class="n">2.2</span>Avoid Disinformation</h2>
+  <p><strong>Disinformation</strong> — a name that leaves false clues or whose entrenched meaning differs from your intent. Avoid words with established meanings: <code>hp</code>, <code>aix</code>, and <code>sco</code> are poor names (they're Unix platforms). Don't call a grouping <code>accountList</code> unless it really is a <code>List</code> — prefer <code>accountGroup</code>, <code>bunchOfAccounts</code>, or just <code>accounts</code>.</p>
+  <p>Beware names that vary only slightly — spotting the difference between <code>XYZControllerForEfficientHandlingOfStrings</code> and <code>XYZControllerForEfficientStorageOfStrings</code> takes real effort. The worst offenders are lowercase <code>l</code> and uppercase <code>O</code>, which look like <code>1</code> and <code>0</code>:</p>
+  <div class="bad-practice">
+    <span class="card-label">Disinformative single letters</span>
+<pre><code><span class="kw">int</span> a = l;
+<span class="kw">if</span> ( O == l )
+  a = O1;
+<span class="kw">else</span>
+  l = 01;</code></pre>
+    <p>The author once suggested fixing this with a different <em>font</em>, passed down as oral tradition. The real fix is a simple rename.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Spelling Conveys Information</span>
+    <p>Spelling similar concepts similarly <em>is</em> information; inconsistent spelling is disinformation. With auto-completion, names for similar things should sort together and differ obviously.</p>
+  </div>
+</section>
+
+<section id="distinct">
+  <h2 class="sec"><span class="n">2.3</span>Make Meaningful Distinctions</h2>
+  <p>If names must differ, they should also <em>mean</em> something different. Satisfying the compiler with arbitrary changes — misspellings, number series, or noise words — creates problems.</p>
+  <h3>Number-series naming</h3>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">public static void</span> <span class="fn">copyChars</span>(<span class="kw">char</span> a1[], <span class="kw">char</span> a2[]) {
+  <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; a1.length; i++) {
+    a2[i] = a1[i];
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="cm">// rename a1 → source, a2 → destination</span>
+<span class="kw">public static void</span> <span class="fn">copyChars</span>(<span class="kw">char</span> source[], <span class="kw">char</span> destination[]) {
+  <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; source.length; i++) {
+    destination[i] = source[i];
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note"><code>a1, a2, …aN</code> are noninformative — they give no clue to intent. <code>source</code> and <code>destination</code> read far better.</p>
+  <h3>Noise words</h3>
+  <p><strong>Noise words</strong> like <code>Info</code>, <code>Data</code>, <code>variable</code>, <code>table</code>, <code>Object</code> add length without meaning. <code>ProductInfo</code> and <code>ProductData</code> differ from <code>Product</code> in spelling only. How would a programmer ever choose among these?</p>
+  <div class="bad-practice">
+    <span class="card-label">Indistinguishable names</span>
+<pre><code><span class="fn">getActiveAccount</span>();
+<span class="fn">getActiveAccounts</span>();
+<span class="fn">getActiveAccountInfo</span>();</code></pre>
+    <p>Likewise <code>moneyAmount</code> vs <code>money</code>, <code>customerInfo</code> vs <code>customer</code>, <code>theMessage</code> vs <code>message</code> — distinguish names so the reader knows what the difference offers.</p>
+  </div>
+</section>
+
+<section id="pronounce">
+  <h2 class="sec"><span class="n">2.4</span>Use Pronounceable Names</h2>
+  <p>Programming is a social activity. If you can't pronounce a name, you can't discuss it without sounding like an idiot ("the gen-why-emm-dee-aich-emm-ess field").</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">class</span> DtaRcrd102 {
+  <span class="kw">private</span> Date genymdhms;
+  <span class="kw">private</span> Date modymdhms;
+  <span class="kw">private final</span> String pszqint = <span class="str">"102"</span>;
+  <span class="cm">/* ... */</span>
+};</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">class</span> Customer {
+  <span class="kw">private</span> Date generationTimestamp;
+  <span class="kw">private</span> Date modificationTimestamp;;
+  <span class="kw">private final</span> String recordId = <span class="str">"102"</span>;
+  <span class="cm">/* ... */</span>
+};</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Now intelligent conversation is possible: "the generation timestamp is set to tomorrow's date — how can that be?"</p>
+</section>
+
+<section id="search">
+  <h2 class="sec"><span class="n">2.5</span>Use Searchable Names</h2>
+  <p><strong>Searchable name</strong> — a name long and distinctive enough to <code>grep</code> for. Single-letter names and raw numeric constants are nearly impossible to locate: searching for the number <code>7</code> turns up file names, other constants, and unrelated expressions. The name <code>e</code> appears in nearly every passage of English text.</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">for</span> (<span class="kw">int</span> j=<span class="num">0</span>; j&lt;<span class="num">34</span>; j++) {
+  s += (t[j]*<span class="num">4</span>)/<span class="num">5</span>;
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">int</span> realDaysPerIdealDay = <span class="num">4</span>;
+<span class="kw">const int</span> WORK_DAYS_PER_WEEK = <span class="num">5</span>;
+<span class="kw">int</span> sum = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> j=<span class="num">0</span>; j &lt; NUMBER_OF_TASKS; j++) {
+  <span class="kw">int</span> realTaskDays = taskEstimate[j] * realDaysPerIdealDay;
+  <span class="kw">int</span> realTaskWeeks = (realdays / WORK_DAYS_PER_WEEK);
+  sum += realTaskWeeks;
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The named version is longer, but finding <code>WORK_DAYS_PER_WEEK</code> is trivial compared to hunting every literal <code>5</code> and filtering by intent.</p>
+  <div class="principle">
+    <span class="card-label">Name Length ∝ Scope</span>
+    <p>The length of a name should correspond to the size of its scope. Single-letter names are acceptable <strong>only</strong> as local variables in short methods.</p>
+  </div>
+</section>
+
+<section id="encodings">
+  <h2 class="sec"><span class="n">2.6</span>Avoid Encodings</h2>
+  <p>Encoding type or scope into a name adds a deciphering burden, forces each new hire to learn another "language," and is easy to mistype.</p>
+  <h3>Hungarian Notation &amp; Member Prefixes</h3>
+  <p>Old, type-poor languages needed type encoding as a crutch. Modern languages have rich type systems and IDEs that flag type errors before compile, so <strong>Hungarian Notation</strong> is now just an impediment — it makes names harder to change and can mislead:</p>
+  <pre><code>PhoneNumber phoneString;
+<span class="cm">// name not changed when type changed!</span></code></pre>
+  <p>You also don't need <code>m_</code> prefixes for members anymore:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code><span class="kw">public class</span> Part {
+  <span class="kw">private</span> String m_dsc; <span class="cm">// The textual description</span>
+  <span class="kw">void</span> <span class="fn">setName</span>(String name) {
+    m_dsc = name;
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code><span class="kw">public class</span> Part {
+  String description;
+  <span class="kw">void</span> <span class="fn">setDescription</span>(String description) {
+    <span class="kw">this</span>.description = description;
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Readers quickly learn to ignore prefixes — they become unseen clutter and a marker of older code.</p>
+  <div class="principle">
+    <span class="card-label">Interfaces &amp; Implementations</span>
+    <p>Prefer to leave interfaces <em>unadorned</em>. The leading <code>I</code> in <code>IShapeFactory</code> is a distraction; users needn't know they're handed an interface. If you must encode one side, encode the implementation (<code>ShapeFactoryImp</code>), not the interface.</p>
+  </div>
+</section>
+
+<section id="mental">
+  <h2 class="sec"><span class="n">2.7</span>Avoid Mental Mapping</h2>
+  <p>Readers shouldn't have to mentally translate your names into names they already know. A loop counter may be <code>i</code>, <code>j</code>, or <code>k</code> (never <code>l</code>!) in a tiny scope, but elsewhere a single letter is just a placeholder the reader must map to a real concept.</p>
+  <div class="insight">
+    <span class="card-label">Clarity Is King</span>
+    <p>Smart programmers sometimes show off by juggling cryptic names in their heads. The <em>professional</em> understands that clarity wins — they use their powers for good and write code others can understand.</p>
+  </div>
+</section>
+
+<section id="classmethod">
+  <h2 class="sec"><span class="n">2.8</span>Class Names &amp; Method Names</h2>
+  <div class="principle">
+    <span class="card-label">Classes = Nouns</span>
+    <p>Classes and objects take <strong>noun</strong> or noun-phrase names: <code>Customer</code>, <code>WikiPage</code>, <code>Account</code>, <code>AddressParser</code>. Avoid <code>Manager</code>, <code>Processor</code>, <code>Data</code>, <code>Info</code>. A class name should never be a verb.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Methods = Verbs</span>
+    <p>Methods take <strong>verb</strong> or verb-phrase names: <code>postPayment</code>, <code>deletePage</code>, <code>save</code>. Accessors, mutators, and predicates follow the JavaBean standard with <code>get</code>, <code>set</code>, and <code>is</code>.</p>
+  </div>
+  <pre><code>String name = employee.<span class="fn">getName</span>();
+customer.<span class="fn">setName</span>(<span class="str">"mike"</span>);
+<span class="kw">if</span> (paycheck.<span class="fn">isPosted</span>())...</code></pre>
+  <p>For overloaded constructors, prefer static factory methods that describe the arguments — and consider making the constructors private to enforce their use:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before</span>
+<pre><code>Complex fulcrumPoint =
+  <span class="kw">new</span> Complex(<span class="num">23.0</span>);</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After</span>
+<pre><code>Complex fulcrumPoint =
+  Complex.<span class="fn">FromRealNumber</span>(<span class="num">23.0</span>);</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="cute">
+  <h2 class="sec"><span class="n">2.9</span>Don't Be Cute &amp; Don't Pun</h2>
+  <div class="bad-practice">
+    <span class="card-label">Cuteness over clarity</span>
+    <p>Clever names are memorable only to those who share the joke. <code>HolyHandGrenade</code> should be <code>DeleteItems</code>; don't use <code>whack()</code> for <code>kill()</code> or <code>eatMyShorts()</code> for <code>abort()</code>. <strong>Say what you mean. Mean what you say.</strong></p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Punning</span>
+    <p>Don't use one word for two purposes. If many classes have an <code>add</code> method that combines values, don't reuse <code>add</code> for a method that merely puts one item into a collection — call it <code>insert</code> or <code>append</code>. Using <code>add</code> there is a pun.</p>
+  </div>
+</section>
+
+<section id="oneword">
+  <h2 class="sec"><span class="n">2.10</span>Pick One Word per Concept</h2>
+  <p>Pick one word for one abstract concept and stick with it. Having <code>fetch</code>, <code>retrieve</code>, and <code>get</code> as equivalent methods across different classes is confusing — you end up memorizing which team wrote which library. The same applies to mixing <code>controller</code>, <code>manager</code>, and <code>driver</code>: what's the real difference between a <code>DeviceManager</code> and a <code>ProtocolController</code>?</p>
+  <div class="insight">
+    <span class="card-label">Function names must stand alone</span>
+    <p>A consistent lexicon is a great boon. IDE method lists rarely show your comments, so the function names themselves must be consistent enough to pick correctly without extra exploration.</p>
+  </div>
+</section>
+
+<section id="domain">
+  <h2 class="sec"><span class="n">2.11</span>Solution &amp; Problem Domain Names</h2>
+  <div class="principle">
+    <span class="card-label">Solution Domain Names</span>
+    <p>Your readers are programmers, so use CS terms, algorithm names, pattern names, and math terms where they fit. <code>AccountVisitor</code> means a great deal to anyone who knows the VISITOR pattern; everyone knows what a <code>JobQueue</code> is.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Problem Domain Names</span>
+    <p>When there's no "programmer-ese" for something, draw the name from the problem domain so a maintainer can ask a domain expert. Separating solution-domain from problem-domain concepts is part of a good designer's job.</p>
+  </div>
+</section>
+
+<section id="context">
+  <h2 class="sec"><span class="n">2.12</span>Add Meaningful Context</h2>
+  <p>Few names are meaningful by themselves. <code>state</code> seen alone could be anything; alongside <code>firstName</code>, <code>lastName</code>, <code>street</code>, <code>city</code>, and <code>zipcode</code> it's clearly part of an address. You <em>can</em> add prefixes (<code>addrState</code>), but a far better solution is a well-named <code>Address</code> class. Consider the unclear-context example and its refactoring:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Before — Listing 2-1</span>
+<pre><code><span class="kw">private void</span> <span class="fn">printGuessStatistics</span>(<span class="kw">char</span> candidate, <span class="kw">int</span> count) {
+  String number;
+  String verb;
+  String pluralModifier;
+  <span class="kw">if</span> (count == <span class="num">0</span>) {
+    number = <span class="str">"no"</span>;
+    verb = <span class="str">"are"</span>;
+    pluralModifier = <span class="str">"s"</span>;
+  } <span class="kw">else if</span> (count == <span class="num">1</span>) {
+    number = <span class="str">"1"</span>;
+    verb = <span class="str">"is"</span>;
+    pluralModifier = <span class="str">""</span>;
+  } <span class="kw">else</span> {
+    number = Integer.toString(count);
+    verb = <span class="str">"are"</span>;
+    pluralModifier = <span class="str">"s"</span>;
+  }
+  String guessMessage = String.format(
+    <span class="str">"There %s %s %s%s"</span>, verb, number, candidate, pluralModifier
+  );
+  print(guessMessage);
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ After — Listing 2-2</span>
+<pre><code><span class="kw">public class</span> GuessStatisticsMessage {
+  <span class="kw">private</span> String number;
+  <span class="kw">private</span> String verb;
+  <span class="kw">private</span> String pluralModifier;
+  <span class="kw">public</span> String <span class="fn">make</span>(<span class="kw">char</span> candidate, <span class="kw">int</span> count) {
+    createPluralDependentMessageParts(count);
+    <span class="kw">return</span> String.format(
+      <span class="str">"There %s %s %s%s"</span>,
+      verb, number, candidate, pluralModifier );
+  }
+  <span class="kw">private void</span> <span class="fn">createPluralDependentMessageParts</span>(<span class="kw">int</span> count) {
+    <span class="kw">if</span> (count == <span class="num">0</span>) {
+      thereAreNoLetters();
+    } <span class="kw">else if</span> (count == <span class="num">1</span>) {
+      thereIsOneLetter();
+    } <span class="kw">else</span> {
+      thereAreManyLetters(count);
+    }
+  }
+  <span class="kw">private void</span> <span class="fn">thereAreManyLetters</span>(<span class="kw">int</span> count) {
+    number = Integer.toString(count);
+    verb = <span class="str">"are"</span>;
+    pluralModifier = <span class="str">"s"</span>;
+  }
+  <span class="kw">private void</span> <span class="fn">thereIsOneLetter</span>() {
+    number = <span class="str">"1"</span>;
+    verb = <span class="str">"is"</span>;
+    pluralModifier = <span class="str">""</span>;
+  }
+  <span class="kw">private void</span> <span class="fn">thereAreNoLetters</span>() {
+    number = <span class="str">"no"</span>;
+    verb = <span class="str">"are"</span>;
+    pluralModifier = <span class="str">"s"</span>;
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Wrapping the three variables as fields of a <code>GuessStatisticsMessage</code> class gives them an unambiguous context and lets the long method break cleanly into small, well-named pieces.</p>
+
+  <h3>Don't Add Gratuitous Context</h3>
+  <div class="bad-practice">
+    <span class="card-label">Over-qualified names</span>
+    <p>In an app called "Gas Station Deluxe," prefixing every class with <code>GSD</code> defeats your IDE — type <code>G</code> and get a mile-long completion list. A <code>MailingAddress</code> named <code>GSDAccountAddress</code> wastes 10 of 17 characters and won't fit a customer-contact app. <strong>Shorter names are better, as long as they're clear. Add no more context than necessary.</strong></p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">2.13</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Intention-Revealing</span><p>If a name needs a comment, it doesn't reveal its intent. Rename it.</p></div>
+  <div class="principle"><span class="card-label">No Disinformation</span><p>Never leave false clues; spell similar things similarly, different things differently.</p></div>
+  <div class="principle"><span class="card-label">Meaningful Distinctions</span><p>If names differ, they must mean something different — no number series, no noise words.</p></div>
+  <div class="principle"><span class="card-label">Pronounceable &amp; Searchable</span><p>You should be able to say it out loud and <code>grep</code> for it. Name length scales with scope.</p></div>
+  <div class="principle"><span class="card-label">One Word per Concept</span><p>A consistent lexicon; no puns, no cuteness.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">2.14</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Encoding types into names</span><p>Hungarian notation and <code>m_</code> prefixes are noise the IDE already handles.</p></div>
+  <div class="bad-practice"><span class="card-label">Naming just to please the compiler</span><p>Misspelling or appending digits to dodge a name clash produces meaningless distinctions.</p></div>
+  <div class="bad-practice"><span class="card-label">Single letters outside tiny scopes</span><p>Forces the reader into mental mapping; reserve <code>i/j/k</code> for short loops only.</p></div>
+  <div class="bad-practice"><span class="card-label">Fearing renames</span><p>Refusing to rename for fear of upsetting others — modern tools make renaming cheap, and clarity pays off long-term.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">2.15</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Reveal why it exists, what it does, how it's used</td><td class="dont">Require a comment to explain a name</td></tr>
+      <tr><td class="do">Spell similar concepts similarly</td><td class="dont">Vary names in small, confusing ways</td></tr>
+      <tr><td class="do">Make every distinction meaningful</td><td class="dont">Use <code>a1/a2</code>, <code>Info</code>, <code>Data</code>, noise words</td></tr>
+      <tr><td class="do">Keep names pronounceable &amp; searchable</td><td class="dont">Use cryptic abbreviations or bare literals</td></tr>
+      <tr><td class="do">Name classes as nouns, methods as verbs</td><td class="dont">Use a verb for a class or vague <code>Manager</code></td></tr>
+      <tr><td class="do">Use one word per concept consistently</td><td class="dont">Mix <code>fetch/get/retrieve</code> or pun on a word</td></tr>
+      <tr><td class="do">Add context via a well-named class</td><td class="dont">Slap on gratuitous prefixes like <code>GSD</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">A name should make the reader think "of course" — if it needs a comment to explain it, rename it instead.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

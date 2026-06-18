@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.15: JUnit Internals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem; color:#6b6b6b; margin-top:.6em; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 15</span>
+  <h1>JUnit Internals</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Critiquing real, already-good code from JUnit's <code>ComparisonCompactor</code> — and improving it anyway, because no module is immune from the Boy Scout Rule.</p>
+  <div class="badges">
+    <span class="badge">Boy Scout Rule</span>
+    <span class="badge">Drop Encodings</span>
+    <span class="badge">Clear Names</span>
+    <span class="badge">Kill Dead Code</span>
+    <span class="badge">Analysis vs Synthesis</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#tests">The Tests First</a></li>
+    <li><a href="#original">The Original Module</a></li>
+    <li><a href="#improve">The Improvements</a></li>
+    <li><a href="#deadcode">Finding a Hidden Bug</a></li>
+    <li><a href="#final">The Final Result</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>JUnit's <code>ComparisonCompactor</code> turns two differing strings into a compact diff like <code>&lt;...B[X]D...&gt;</code>. The code was already good and <strong>100% test-covered</strong> — yet the <strong>Boy Scout Rule</strong> says leave it cleaner than you found it. Step by step Martin drops the <code>f</code> member prefixes, encapsulates a bare conditional, gives variables <strong>unambiguous names</strong>, inverts a negative, renames <code>compact</code> to the honest <code>formatCompactedComparison</code>, fixes the off-by-one <code>+1</code>s (revealing a <strong>hidden dead-code bug</strong>), and finally splits the module into clean <strong>analysis</strong> and <strong>synthesis</strong> functions. Refactoring is iterative trial and error — some earlier decisions even get reversed.</p>
+  </div>
+</section>
+
+<section id="tests">
+  <h2 class="sec"><span class="n">15.1</span>The Tests First</h2>
+  <p>The test cases define the requirements better than prose. Given two strings that differ, the compactor exposes the difference with context, ellipses, and <code>[ ]</code> deltas:</p>
+  <pre><code><span class="kw">public void</span> <span class="fn">testMessage</span>() {
+  String failure= <span class="kw">new</span> ComparisonCompactor(<span class="num">0</span>, <span class="str">"b"</span>, <span class="str">"c"</span>).compact(<span class="str">"a"</span>);
+  assertTrue(<span class="str">"a expected:&lt;[b]&gt; but was:&lt;[c]&gt;"</span>.equals(failure));
+}
+<span class="kw">public void</span> <span class="fn">testStartAndEndContextWithEllipses</span>() {
+  String failure=
+    <span class="kw">new</span> ComparisonCompactor(<span class="num">1</span>, <span class="str">"abcde"</span>, <span class="str">"abfde"</span>).compact(<span class="kw">null</span>);
+  assertEquals(<span class="str">"expected:&lt;...b[c]d...&gt; but was:&lt;...b[f]d...&gt;"</span>, failure);
+}</code></pre>
+  <div class="insight">
+    <span class="card-label">100% coverage breeds respect</span>
+    <p>A coverage analysis showed every line, <code>if</code>, and <code>for</code> loop is exercised by the tests — high confidence that the code works, and high respect for the authors' craftsmanship.</p>
+  </div>
+</section>
+
+<section id="original">
+  <h2 class="sec"><span class="n">15.2</span>The Original Module</h2>
+  <p>The original is nicely partitioned and reasonably expressive — but has <code>f</code>-prefixed members, a bare opening conditional, some strange <code>+1</code>s, and long expressions:</p>
+  <pre><code><span class="kw">public class</span> ComparisonCompactor {
+  <span class="kw">private static final</span> String ELLIPSIS = <span class="str">"..."</span>;
+  <span class="kw">private static final</span> String DELTA_END = <span class="str">"]"</span>;
+  <span class="kw">private static final</span> String DELTA_START = <span class="str">"["</span>;
+  <span class="kw">private int</span> fContextLength;
+  <span class="kw">private</span> String fExpected;
+  <span class="kw">private</span> String fActual;
+  <span class="kw">private int</span> fPrefix;
+  <span class="kw">private int</span> fSuffix;
+  <span class="kw">public</span> <span class="fn">ComparisonCompactor</span>(<span class="kw">int</span> contextLength,
+      String expected, String actual) {
+    fContextLength = contextLength;
+    fExpected = expected;
+    fActual = actual;
+  }
+  <span class="kw">public</span> String <span class="fn">compact</span>(String message) {
+    <span class="kw">if</span> (fExpected == <span class="kw">null</span> || fActual == <span class="kw">null</span> || areStringsEqual())
+      <span class="kw">return</span> Assert.format(message, fExpected, fActual);
+    findCommonPrefix();
+    findCommonSuffix();
+    String expected = compactString(fExpected);
+    String actual = compactString(fActual);
+    <span class="kw">return</span> Assert.format(message, expected, actual);
+  }
+  <span class="cm">// findCommonPrefix / findCommonSuffix /
+  // compactString / computeCommonPrefix /
+  // computeCommonSuffix with several "+1"s ...</span>
+}</code></pre>
+</section>
+
+<section id="improve">
+  <h2 class="sec"><span class="n">15.3</span>The Improvements, One at a Time</h2>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Member prefixes + bare conditional</span>
+<pre><code><span class="kw">private int</span> fContextLength;
+<span class="kw">private</span> String fExpected;
+<span class="kw">private</span> String fActual;
+...
+<span class="kw">public</span> String <span class="fn">compact</span>(String message) {
+  <span class="kw">if</span> (fExpected == <span class="kw">null</span> || fActual == <span class="kw">null</span> || areStringsEqual())
+    <span class="kw">return</span> Assert.format(message, fExpected, fActual);
+  findCommonPrefix();
+  findCommonSuffix();
+  String expected = compactString(fExpected);
+  String actual = compactString(fActual);
+  <span class="kw">return</span> Assert.format(message, expected, actual);
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Drop f's, encapsulate, invert, rename</span>
+<pre><code><span class="kw">private int</span> contextLength;
+<span class="kw">private</span> String expected;
+<span class="kw">private</span> String actual;
+...
+<span class="kw">public</span> String <span class="fn">formatCompactedComparison</span>(String message) {
+  String compactExpected = expected;
+  String compactActual = actual;
+  <span class="kw">if</span> (shouldBeCompacted()) {
+    findCommonPrefixAndSuffix();
+    compactExpected = compact(expected);
+    compactActual = compact(actual);
+  }
+  <span class="kw">return</span> Assert.format(message, compactExpected, compactActual);
+}
+<span class="kw">private boolean</span> <span class="fn">shouldBeCompacted</span>() {
+  <span class="kw">return</span> !shouldNotBeCompacted();
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The steps: <strong>drop the <code>f</code> prefixes</strong> (modern IDEs make scope encoding redundant); <strong>encapsulate the conditional</strong> into a named <code>shouldNotBeCompacted()</code>; give the locals <strong>unambiguous names</strong> (<code>compactExpected</code>, not <code>this.expected</code> shadowing); <strong>invert the negative</strong> for readability; and <strong>rename</strong> <code>compact</code> → <code>formatCompactedComparison</code>, since the function returns a formatted message and may not compact at all — the old name hid that side effect.</p>
+</section>
+
+<section id="deadcode">
+  <h2 class="sec"><span class="n">15.4</span>Fixing the <code>+1</code>s Reveals a Hidden Bug</h2>
+  <p>Renaming <code>suffixIndex</code> to <code>suffixLength</code> exposed that the variable was 1-based, not a true length — the source of all those <code>+1</code>s. Fixing it (a <code>-1</code> in <code>charFromEnd</code>, <code>&lt;=</code> in <code>suffixOverlapsPrefix</code>) made the code make sense — and uncovered dead code:</p>
+  <div class="bad-practice">
+    <span class="card-label">An <code>if</code> that never did anything</span>
+    <p>With the fix, <code>if (suffixLength &gt; 0)</code> finally made sense — meaning it <em>hadn't</em> before, because <code>suffixIndex</code> could never be less than one. Both guarding <code>if</code> statements in <code>compactString</code> were nonfunctional. Commenting them out and running the tests: they <strong>passed</strong>. So both were removed, simplifying the function to pure composition:</p>
+<pre><code><span class="kw">private</span> String <span class="fn">compactString</span>(String source) {
+  <span class="kw">return</span>
+    computeCommonPrefix() +
+    DELTA_START +
+    source.substring(prefixLength, source.length() - suffixLength) +
+    DELTA_END +
+    computeCommonSuffix();
+}</code></pre>
+  </div>
+</section>
+
+<section id="final">
+  <h2 class="sec"><span class="n">15.5</span>The Final Result</h2>
+  <p>After many small cleanups, the module separates into <strong>analysis</strong> functions and <strong>synthesis</strong> functions, topologically sorted so each definition appears just after its use:</p>
+  <pre><code><span class="kw">public class</span> ComparisonCompactor {
+  <span class="kw">private static final</span> String ELLIPSIS = <span class="str">"..."</span>;
+  <span class="kw">private static final</span> String DELTA_END = <span class="str">"]"</span>;
+  <span class="kw">private static final</span> String DELTA_START = <span class="str">"["</span>;
+  <span class="kw">private int</span> contextLength;
+  <span class="kw">private</span> String expected;
+  <span class="kw">private</span> String actual;
+  <span class="kw">private int</span> prefixLength;
+  <span class="kw">private int</span> suffixLength;
+  <span class="kw">public</span> <span class="fn">ComparisonCompactor</span>(
+      <span class="kw">int</span> contextLength, String expected, String actual) {
+    <span class="kw">this</span>.contextLength = contextLength;
+    <span class="kw">this</span>.expected = expected;
+    <span class="kw">this</span>.actual = actual;
+  }
+  <span class="kw">public</span> String <span class="fn">formatCompactedComparison</span>(String message) {
+    String compactExpected = expected;
+    String compactActual = actual;
+    <span class="kw">if</span> (shouldBeCompacted()) {
+      findCommonPrefixAndSuffix();
+      compactExpected = compact(expected);
+      compactActual = compact(actual);
+    }
+    <span class="kw">return</span> Assert.format(message, compactExpected, compactActual);
+  }
+  <span class="cm">// --- analysis ---</span>
+  <span class="kw">private boolean</span> <span class="fn">shouldBeCompacted</span>() {
+    <span class="kw">return</span> !shouldNotBeCompacted();
+  }
+  <span class="kw">private boolean</span> <span class="fn">shouldNotBeCompacted</span>() {
+    <span class="kw">return</span> expected == <span class="kw">null</span> || actual == <span class="kw">null</span> || expected.equals(actual);
+  }
+  <span class="kw">private void</span> <span class="fn">findCommonPrefixAndSuffix</span>() {
+    findCommonPrefix();
+    suffixLength = <span class="num">0</span>;
+    <span class="kw">for</span> (; !suffixOverlapsPrefix(); suffixLength++) {
+      <span class="kw">if</span> (charFromEnd(expected, suffixLength) != charFromEnd(actual, suffixLength))
+        <span class="kw">break</span>;
+    }
+  }
+  <span class="kw">private char</span> <span class="fn">charFromEnd</span>(String s, <span class="kw">int</span> i) {
+    <span class="kw">return</span> s.charAt(s.length() - i - <span class="num">1</span>);
+  }
+  <span class="kw">private boolean</span> <span class="fn">suffixOverlapsPrefix</span>() {
+    <span class="kw">return</span> actual.length() - suffixLength &lt;= prefixLength ||
+           expected.length() - suffixLength &lt;= prefixLength;
+  }
+  <span class="kw">private void</span> <span class="fn">findCommonPrefix</span>() {
+    prefixLength = <span class="num">0</span>;
+    <span class="kw">int</span> end = Math.min(expected.length(), actual.length());
+    <span class="kw">for</span> (; prefixLength &lt; end; prefixLength++)
+      <span class="kw">if</span> (expected.charAt(prefixLength) != actual.charAt(prefixLength))
+        <span class="kw">break</span>;
+  }
+  <span class="cm">// --- synthesis ---</span>
+  <span class="kw">private</span> String <span class="fn">compact</span>(String s) {
+    <span class="kw">return new</span> StringBuilder()
+      .append(startingEllipsis())
+      .append(startingContext())
+      .append(DELTA_START)
+      .append(delta(s))
+      .append(DELTA_END)
+      .append(endingContext())
+      .append(endingEllipsis())
+      .toString();
+  }
+  <span class="kw">private</span> String <span class="fn">startingEllipsis</span>() {
+    <span class="kw">return</span> prefixLength &gt; contextLength ? ELLIPSIS : <span class="str">""</span>;
+  }
+  <span class="kw">private</span> String <span class="fn">startingContext</span>() {
+    <span class="kw">int</span> contextStart = Math.max(<span class="num">0</span>, prefixLength - contextLength);
+    <span class="kw">int</span> contextEnd = prefixLength;
+    <span class="kw">return</span> expected.substring(contextStart, contextEnd);
+  }
+  <span class="kw">private</span> String <span class="fn">delta</span>(String s) {
+    <span class="kw">int</span> deltaStart = prefixLength;
+    <span class="kw">int</span> deltaEnd = s.length() - suffixLength;
+    <span class="kw">return</span> s.substring(deltaStart, deltaEnd);
+  }
+  <span class="kw">private</span> String <span class="fn">endingContext</span>() {
+    <span class="kw">int</span> contextStart = expected.length() - suffixLength;
+    <span class="kw">int</span> contextEnd = Math.min(contextStart + contextLength, expected.length());
+    <span class="kw">return</span> expected.substring(contextStart, contextEnd);
+  }
+  <span class="kw">private</span> String <span class="fn">endingEllipsis</span>() {
+    <span class="kw">return</span> (suffixLength &gt; contextLength ? ELLIPSIS : <span class="str">""</span>);
+  }
+}</code></pre>
+  <div class="insight">
+    <span class="card-label">Refactoring is iterative trial and error</span>
+    <p>Martin <strong>reversed several earlier decisions</strong> — inlining some extracted methods back into <code>formatCompactedComparison</code> and flipping the sense of <code>shouldNotBeCompacted</code>. This is typical: one refactoring leads to another that undoes the first, inevitably converging on something worthy of a professional.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">15.6</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Boy Scout Rule</span><p>No module is immune from improvement — leave it cleaner than you found it.</p></div>
+  <div class="principle"><span class="card-label">Drop Redundant Encodings</span><p>Member prefixes like <code>f</code> are noise modern IDEs make unnecessary.</p></div>
+  <div class="principle"><span class="card-label">Encapsulate &amp; Name Honestly</span><p>Wrap bare conditionals; name functions for what they really do (side effects included).</p></div>
+  <div class="principle"><span class="card-label">Cleaning Surfaces Bugs</span><p>Fixing the <code>+1</code>s exposed dead, never-true guard clauses.</p></div>
+  <div class="principle"><span class="card-label">Separate Analysis from Synthesis</span><p>Group and order functions so each appears just after it's used.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">15.7</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">"It's already good, leave it"</span><p>Skipping improvement on decent code — the Boy Scout Rule still applies.</p></div>
+  <div class="bad-practice"><span class="card-label">Misleading function names</span><p><code>compact</code> hid that it formats and may not compact — rename to reveal intent.</p></div>
+  <div class="bad-practice"><span class="card-label">1-based "length" variables</span><p><code>suffixIndex</code> masquerading as a length spawned scattered <code>+1</code>s and a hidden bug.</p></div>
+  <div class="bad-practice"><span class="card-label">Leaving non-functional guards</span><p>Dead <code>if</code> clauses that can never be false add noise and confusion.</p></div>
+</section>
+
+<section id="conclusion">
+  <h2 class="sec"><span class="n">15.8</span>Conclusion &amp; Takeaway</h2>
+  <p>And so the Boy Scout Rule is satisfied — the module was left a bit cleaner than we found it. Not that it wasn't clean already; the authors did an excellent job. But <strong>no module is immune from improvement</strong>, and each of us has the responsibility to leave the code a little better than we found it.</p>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Even excellent, fully-tested code can be left a little cleaner — that's the Boy Scout Rule, and it's everyone's responsibility.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

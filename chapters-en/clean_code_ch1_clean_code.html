@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.1: Clean Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:#f4f6f8; color:#333;
+    font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  /* Header */
+  header.chapter-head{
+    background:#ffffff; border-radius:14px; padding:34px 36px;
+    box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px;
+    border-top:5px solid var(--accent);
+  }
+  .ch-num{
+    font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--accent); font-weight:500;
+  }
+  header.chapter-head h1{
+    font-size:2.5rem; font-weight:900; margin:.15em 0 .1em;
+    border-bottom:2px solid #efe7dd; padding-bottom:.35em;
+  }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{
+    display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px;
+    font-family:'Source Sans 3',sans-serif; letter-spacing:.01em;
+  }
+
+  /* Cards */
+  .card{
+    background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0;
+    box-shadow:0 4px 18px rgba(60,60,80,.06);
+  }
+  .toc{ background:#fff; }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+
+  section{ margin:34px 0; }
+  h2.sec{
+    font-size:1.55rem; font-weight:700; margin:0 0 .55em;
+    border-bottom:1px solid #e7e0d6; padding-bottom:.28em;
+  }
+  h2.sec .n{
+    font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent);
+    margin-right:.55em; font-weight:500;
+  }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .lead{ font-weight:600; color:#3a352f; }
+
+  /* Card variants */
+  .principle, .insight, .bad-practice, .quote-box{
+    border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0;
+    box-shadow:0 4px 16px rgba(60,60,80,.05);
+  }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{
+    display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em;
+    text-transform:uppercase; margin-bottom:.45em;
+  }
+  .principle .card-label{ color:#3e8a5f; }
+  .insight .card-label{ color:#b98322; }
+  .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+
+  .quote-box{
+    background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a;
+  }
+  .quote-box .who{ display:block; font-style:normal; font-weight:600; font-size:.86rem;
+    color:#6b6b6b; margin-top:.6em; }
+  blockquote{
+    margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1;
+    font-style:italic; color:#444; border-radius:8px;
+  }
+
+  /* Before / After */
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .ba-before{ background:#fef2f0; }
+  .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; }
+  .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+
+  /* Code */
+  pre{
+    background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto;
+    box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0;
+  }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.86rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{
+    background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em;
+  }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; }
+  .fn{ color:#c96442; } .ann{ color:#8b6914; }
+
+  /* Tables */
+  table{
+    width:100%; border-collapse:collapse; background:#fff; border-radius:12px;
+    overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem;
+  }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  figcaption{ font-size:.85rem; color:#8a8278; text-align:center; margin-top:.4em; font-style:italic; }
+  @media(max-width:640px){
+    .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; }
+    header.chapter-head h1{ font-size:2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 01</span>
+  <h1>Clean Code</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Why bad code slows you down, what "clean" actually means according to the masters, and the disciplines that keep code from rotting over time.</p>
+  <div class="badges">
+    <span class="badge">Bad Code Cost</span>
+    <span class="badge">LeBlanc's Law</span>
+    <span class="badge">Definitions of Clean</span>
+    <span class="badge">Boy Scout Rule</span>
+    <span class="badge">Code-Sense</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#code">There Will Be Code</a></li>
+    <li><a href="#badcode">Bad Code</a></li>
+    <li><a href="#mess">The Total Cost of a Mess</a></li>
+    <li><a href="#conundrum">The Primal Conundrum</a></li>
+    <li><a href="#whatis">What Is Clean Code?</a></li>
+    <li><a href="#schools">Schools of Thought</a></li>
+    <li><a href="#authors">We Are Authors</a></li>
+    <li><a href="#boyscout">The Boy Scout Rule</a></li>
+    <li><a href="#principles">Principles &amp; Rules</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Code is the language in which we ultimately express requirements, so it will never go away — and bad code is the single biggest reason teams slow to a crawl. The only way to go fast is to keep code clean <em>at all times</em>, because messes compound and "later equals never." There is no single definition of clean code, but every master agrees it is <strong>focused, readable, minimal, tested, and cared for</strong>. Writing it well is a craft built on a hard-won sense of "cleanliness," practised one small improvement at a time.</p>
+  </div>
+</section>
+
+<section id="code">
+  <h2 class="sec"><span class="n">1.1</span>There Will Be Code</h2>
+  <p>Some predict that programmers will soon be replaced by tools that generate code from specifications. Martin calls this <strong>nonsense</strong>: a specification precise enough for a machine to execute <em>is</em> code. Languages will keep rising in abstraction and domain-specific languages will keep multiplying, but that doesn't eliminate code — those higher-level specs are themselves code, still requiring rigor and precision.</p>
+  <blockquote>Remember that code is really the language in which we ultimately express the requirements. … We will never eliminate necessary precision — so there will always be code.</blockquote>
+  <p><strong>Why it matters:</strong> if code is permanent, then the skill of writing it well is permanent too. Betting your career on "code will disappear" is a bad bet.</p>
+</section>
+
+<section id="badcode">
+  <h2 class="sec"><span class="n">1.2</span>Bad Code</h2>
+  <p>Martin opens with a company that shipped a wildly popular app in the late 80s, then drowned in its own mess — release cycles stretched, bugs lingered, crashes multiplied, and the company folded. The cause, confirmed years later, was <strong>bad code</strong> they had rushed to market.</p>
+  <p>We've all <strong>waded</strong> — slogged through tangled, senseless code looking for a clue about what's going on. And we've all <em>written</em> it, telling ourselves a working mess beats nothing and we'll clean it up later.</p>
+  <div class="principle">
+    <span class="card-label">LeBlanc's Law</span>
+    <p><strong>Later equals never.</strong> The cleanup you defer almost never happens. The mess you leave today is the mess someone inherits forever.</p>
+  </div>
+</section>
+
+<section id="mess">
+  <h2 class="sec"><span class="n">1.3</span>The Total Cost of Owning a Mess</h2>
+  <p>Over a year or two, a fast-starting team can slow to a snail's pace. Every change breaks two or three other things; no change is trivial. As productivity sinks toward zero, management adds more staff — but the new people don't understand the design, so they add <em>more</em> mess under pressure, driving productivity even lower.</p>
+  <figure>
+    <div class="card" style="text-align:center; color:#7a7268; font-style:italic;">Figure 1-1 — Productivity vs. time: a steep decline that asymptotically approaches zero as the mess grows.</div>
+    <figcaption>The famous downward curve: the mess builds, the team slows.</figcaption>
+  </figure>
+  <h3>The Grand Redesign in the Sky</h3>
+  <p>Eventually the team rebels and demands a redesign. A hand-picked "tiger team" builds a replacement while everyone else maintains the old system — and the two are now in a race that can last <strong>a decade</strong>. By the time the new system ships, its original authors are gone and the current team is demanding <em>it</em> be redesigned because it, too, has become a mess. Keeping code clean isn't just cost-effective; it's a matter of <strong>professional survival</strong>.</p>
+</section>
+
+<section id="conundrum">
+  <h2 class="sec"><span class="n">1.4</span>The Primal Conundrum &amp; Attitude</h2>
+  <p>Every experienced developer knows messes slow them down — yet everyone feels pressure to make messes to hit deadlines. The second belief is simply <strong>wrong</strong>: the mess slows you down <em>instantly</em> and makes you miss the deadline.</p>
+  <div class="insight">
+    <span class="card-label">Key Insight</span>
+    <p>The only way to go fast — the only way to make the deadline — is to <strong>keep the code as clean as possible at all times.</strong></p>
+  </div>
+  <p><strong>Attitude.</strong> Why does good code rot? We blame changing requirements, tight schedules, and clueless managers. But the fault is largely ours: we are unprofessional. Managers look to <em>us</em> for the information behind their promises, so it's our job to defend the code with the same passion they defend the schedule.</p>
+  <div class="principle">
+    <span class="card-label">The Surgeon Analogy</span>
+    <p>A patient who demands the surgeon skip hand-washing to save time is the boss — yet the doctor must <strong>refuse</strong>, because the doctor knows the risks of infection. So too, it is unprofessional for a programmer to bend to a manager who doesn't understand the risk of making messes.</p>
+  </div>
+</section>
+
+<section id="whatis">
+  <h2 class="sec"><span class="n">1.5</span>What Is Clean Code?</h2>
+  <p>There are as many definitions as programmers, so Martin asked several legends. Their answers converge on a few themes: <strong>focus, readability, minimalism, tests, and care.</strong></p>
+
+  <div class="quote-box">
+    I like my code to be elegant and efficient… the dependencies minimal… error handling complete… Clean code does one thing well.
+    <span class="who">— Bjarne Stroustrup, inventor of C++</span>
+  </div>
+  <p>Takeaway: bad code <strong>tempts</strong> the mess to grow (the broken-windows effect), and clean code is <strong>focused</strong> — each function, class, and module does one thing.</p>
+
+  <div class="quote-box">
+    Clean code is simple and direct. Clean code reads like well-written prose. Clean code never obscures the designer's intent…
+    <span class="who">— Grady Booch, author of <em>Object Oriented Analysis and Design</em></span>
+  </div>
+  <p>Takeaway: code should read like prose, built from <strong>crisp abstractions</strong> — matter-of-fact, containing only what is necessary.</p>
+
+  <div class="quote-box">
+    Clean code can be read, and enhanced by a developer other than its original author. It has unit and acceptance tests… meaningful names… one way rather than many ways for doing one thing… minimal dependencies.
+    <span class="who">— "Big" Dave Thomas, founder of OTI</span>
+  </div>
+  <p>Takeaway: there's a difference between easy to <em>read</em> and easy to <em>change</em>. And: <strong>code without tests is not clean</strong>, no matter how elegant.</p>
+
+  <div class="quote-box">
+    Clean code always looks like it was written by someone who cares. There is nothing obvious that you can do to make it better.
+    <span class="who">— Michael Feathers, author of <em>Working Effectively with Legacy Code</em></span>
+  </div>
+  <p>Takeaway: one word — <strong>care</strong>. A fitting subtitle for the book would be "How to Care for Code."</p>
+
+  <div class="quote-box">
+    In priority order, simple code: runs all the tests; contains no duplication; expresses all the design ideas in the system; minimizes the number of entities such as classes, methods, functions… Reduced duplication, high expressiveness, and early building of simple abstractions.
+    <span class="who">— Ron Jeffries, author of <em>Extreme Programming Installed</em></span>
+  </div>
+  <p>Takeaway: Jeffries focuses on <strong>duplication</strong> (a sign of an idea not yet well expressed) and <strong>expressiveness</strong> (meaningful names, methods that do one thing). This list quietly summarizes the whole book.</p>
+
+  <div class="quote-box">
+    You know you are working on clean code when each routine you read turns out to be pretty much what you expected.
+    <span class="who">— Ward Cunningham, inventor of the Wiki</span>
+  </div>
+  <p>Takeaway: clean code is <strong>unsurprising</strong>. It reads as obvious, simple, and compelling — each module sets the stage for the next. The programmer, not the language, makes the language look made for the problem.</p>
+</section>
+
+<section id="schools">
+  <h2 class="sec"><span class="n">1.6</span>Schools of Thought</h2>
+  <p>Martin frames the book as the <strong>"Object Mentor School"</strong> of clean code, drawing a martial-arts analogy: like Gracie Jiu-Jitsu or Jeet Kune Do, no school is absolutely right, yet within a school the techniques are taught as if they are. Follow these teachings and you'll write clean, professional code — but don't mistake them for absolute truth. Many recommendations are controversial; you may disagree, and that's fine. They're the product of decades of trial and error.</p>
+</section>
+
+<section id="authors">
+  <h2 class="sec"><span class="n">1.7</span>We Are Authors</h2>
+  <p>The <code>@author</code> field reminds us we are <strong>authors</strong>, and authors have readers. When you replay an edit session, the vast majority is scrolling and navigating existing code, not typing new code.</p>
+  <div class="insight">
+    <span class="card-label">The 10:1 Ratio</span>
+    <p>The ratio of time spent <strong>reading</strong> code vs. writing it is well over <strong>10:1</strong>. We constantly read old code in order to write new code. So make reading easy even if it makes writing a little harder — because you can't write code without reading the code around it. <strong>If you want to go fast, make the code easy to read.</strong></p>
+  </div>
+</section>
+
+<section id="boyscout">
+  <h2 class="sec"><span class="n">1.8</span>The Boy Scout Rule</h2>
+  <p>It isn't enough to write code well; it must be <em>kept</em> clean over time. Martin adapts a rule from the Boy Scouts of America.</p>
+  <div class="principle">
+    <span class="card-label">The Boy Scout Rule</span>
+    <p><strong>Leave the campground cleaner than you found it.</strong> If every check-in left the code a little cleaner than checkout — rename one variable, split one oversized function, kill one bit of duplication — the code simply could not rot. Continuous improvement is intrinsic to professionalism.</p>
+  </div>
+  <p>The book is also a "prequel" to <em>Agile Software Development: Principles, Patterns, and Practices (PPP)</em>, which covers design principles referenced throughout — the <strong>Single Responsibility Principle (SRP)</strong>, <strong>Open Closed Principle (OCP)</strong>, and <strong>Dependency Inversion Principle (DIP)</strong>.</p>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">1.9</span>Principles &amp; Rules</h2>
+  <div class="principle">
+    <span class="card-label">LeBlanc's Law</span>
+    <p>"Later equals never." Deferred cleanup almost never happens — so do it now.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">The Boy Scout Rule</span>
+    <p>Leave the code cleaner than you found it on every commit; small, continuous improvements prevent rot.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">The Primal Conundrum (resolved)</span>
+    <p>You cannot make a deadline by making a mess. The only way to go fast is to stay clean.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Code-Sense</span>
+    <p>A disciplined, acquired sense of "cleanliness" that lets you see options for transforming a messy module into a clean one — the key skill of the craft.</p>
+  </div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">1.10</span>Common Mistakes</h2>
+  <div class="bad-practice">
+    <span class="card-label">"A working mess is better than nothing"</span>
+    <p>Shipping a mess and promising to clean it later. By LeBlanc's Law, "later" never arrives, and the mess becomes permanent technical debt.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Blaming everything but ourselves</span>
+    <p>Pinning rot on requirements, schedules, and managers. We are complicit in planning and bear responsibility for failures caused by bad code.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Bending to schedule pressure</span>
+    <p>Making a mess because a manager is "obsessing about the schedule." Most managers actually want good code — it's your job to defend it with equal passion.</p>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Mistaking recognition for ability</span>
+    <p>Assuming that because you can tell good code from bad, you can therefore write clean code. Recognizing good art isn't the same as being able to paint it.</p>
+  </div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">1.11</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Keep code clean at all times</td><td class="dont">Defer cleanup "until later"</td></tr>
+      <tr><td class="do">Leave each module cleaner than you found it</td><td class="dont">Add to the mess under deadline pressure</td></tr>
+      <tr><td class="do">Optimize for readability (10:1 read ratio)</td><td class="dont">Optimize only for fast writing</td></tr>
+      <tr><td class="do">Make each unit do one thing, well, only</td><td class="dont">Let functions/classes sprawl with muddled intent</td></tr>
+      <tr><td class="do">Cover code with tests — untested code isn't clean</td><td class="dont">Trust elegance without tests</td></tr>
+      <tr><td class="do">Eliminate duplication; express ideas clearly</td><td class="dont">Repeat the same idea in many places</td></tr>
+      <tr><td class="do">Defend code quality like a professional</td><td class="dont">Blame requirements, schedule, or managers</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">The only way to go fast is to go well — keep the code clean today, because later equals never.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

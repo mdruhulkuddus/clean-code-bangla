@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.10: Classes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 10</span>
+  <h1>Classes</h1>
+  <p class="author">Robert C. Martin, with Jeff Langr</p>
+  <p class="subtitle">Clean lines and functions aren't enough — clean code needs clean classes: small, single-responsibility, cohesive, and organized so change touches as little as possible.</p>
+  <div class="badges">
+    <span class="badge">Small Classes</span>
+    <span class="badge">SRP</span>
+    <span class="badge">Cohesion</span>
+    <span class="badge">OCP</span>
+    <span class="badge">DIP</span>
+    <span class="badge">Organize for Change</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#organization">Class Organization</a></li>
+    <li><a href="#encapsulation">Encapsulation</a></li>
+    <li><a href="#small">Classes Should Be Small!</a></li>
+    <li><a href="#srp">Single Responsibility Principle</a></li>
+    <li><a href="#cohesion">Cohesion</a></li>
+    <li><a href="#manysmall">Many Small Classes</a></li>
+    <li><a href="#ocp">Organizing for Change (OCP)</a></li>
+    <li><a href="#dip">Isolating from Change (DIP)</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>Classes should be <strong>small</strong> — measured by <strong>responsibilities</strong>, not lines. The <strong>Single Responsibility Principle</strong> says a class should have one, and only one, reason to change; if you can't name it concisely or describe it in ~25 words without "and/or," it does too much. Prefer <strong>many small, cohesive classes</strong> over a few "God classes." Organize for change so new features arrive by <strong>extension, not modification</strong> (OCP), and depend on <strong>abstractions, not concrete details</strong> (DIP) so your code is testable and isolated from change.</p>
+  </div>
+</section>
+
+<section id="organization">
+  <h2 class="sec"><span class="n">10.1</span>Class Organization</h2>
+  <p>Following Java convention, a class begins with its <strong>variables</strong>: public static constants first, then private static variables, then private instance variables. There's seldom a good reason for a public variable. <strong>Public functions</strong> follow the variables, with the private utilities a public function calls placed right after it — honoring the stepdown rule so the class reads like a newspaper article.</p>
+</section>
+
+<section id="encapsulation">
+  <h2 class="sec"><span class="n">10.2</span>Encapsulation</h2>
+  <div class="principle">
+    <span class="card-label">Tests rule — but privacy first</span>
+    <p>Keep variables and utilities private, but don't be fanatic. If a test in the same package needs access, loosening to <strong>protected or package scope</strong> is acceptable — but only as a <strong>last resort</strong>, after first looking for a way to keep things private.</p>
+  </div>
+</section>
+
+<section id="small">
+  <h2 class="sec"><span class="n">10.3</span>Classes Should Be Small!</h2>
+  <p>The first rule of classes is that they should be small; the second is that they should be smaller than that. With functions we counted lines; with classes we <strong>count responsibilities</strong>. A <code>SuperDashboard</code> exposing ~70 public methods is a "God class":</p>
+  <div class="bad-practice">
+    <span class="card-label">Listing 10-1 — Too Many Responsibilities (excerpt)</span>
+<pre><code><span class="kw">public class</span> SuperDashboard <span class="kw">extends</span> JFrame <span class="kw">implements</span> MetaDataUser
+  <span class="kw">public</span> String <span class="fn">getCustomizerLanguagePath</span>()
+  <span class="kw">public void</span> <span class="fn">setSystemConfigPath</span>(String systemConfigPath)
+  <span class="kw">public</span> String <span class="fn">getSystemConfigDocument</span>()
+  <span class="kw">public boolean</span> <span class="fn">getGuruState</span>()
+  <span class="kw">public void</span> <span class="fn">showObject</span>(MetaObject object)
+  <span class="kw">public</span> Component <span class="fn">getLastFocusedComponent</span>()
+  <span class="kw">public void</span> <span class="fn">setLastFocused</span>(Component lastFocused)
+  <span class="kw">public</span> LanguageManager <span class="fn">getLanguageManager</span>()
+  <span class="kw">public</span> Project <span class="fn">getProject</span>()
+  <span class="kw">public int</span> <span class="fn">getMajorVersionNumber</span>()
+  <span class="kw">public int</span> <span class="fn">getMinorVersionNumber</span>()
+  <span class="kw">public int</span> <span class="fn">getBuildNumber</span>()
+  <span class="cm">// ... about 70 public methods in all ...</span>
+}</code></pre>
+  </div>
+  <p>But even a <strong>five-method</strong> version is too big if it has too many responsibilities:</p>
+  <pre><code><span class="kw">public class</span> SuperDashboard <span class="kw">extends</span> JFrame <span class="kw">implements</span> MetaDataUser
+  <span class="kw">public</span> Component <span class="fn">getLastFocusedComponent</span>()
+  <span class="kw">public void</span> <span class="fn">setLastFocused</span>(Component lastFocused)
+  <span class="kw">public int</span> <span class="fn">getMajorVersionNumber</span>()
+  <span class="kw">public int</span> <span class="fn">getMinorVersionNumber</span>()
+  <span class="kw">public int</span> <span class="fn">getBuildNumber</span>()
+}</code></pre>
+  <div class="insight">
+    <span class="card-label">Naming &amp; the 25-word test</span>
+    <p>A class name should describe its responsibilities — if you can't derive a <strong>concise</strong> name, it's too large. Weasel words like <code>Processor</code>, <code>Manager</code>, or <code>Super</code> hint at aggregated responsibilities. You should be able to describe the class in about <strong>25 words without using "if," "and," "or," or "but."</strong> The first "and" in "tracks the last focused component <em>and</em> the version numbers" reveals two responsibilities.</p>
+  </div>
+</section>
+
+<section id="srp">
+  <h2 class="sec"><span class="n">10.4</span>The Single Responsibility Principle</h2>
+  <div class="principle">
+    <span class="card-label">SRP</span>
+    <p>A class or module should have <strong>one, and only one, reason to change.</strong> The "small" <code>SuperDashboard</code> has two: it tracks version info (changes on each ship) and manages Swing components (changes with GUI code). Extract the version methods into their own reusable class:</p>
+<pre><code><span class="kw">public class</span> Version {
+  <span class="kw">public int</span> <span class="fn">getMajorVersionNumber</span>()
+  <span class="kw">public int</span> <span class="fn">getMinorVersionNumber</span>()
+  <span class="kw">public int</span> <span class="fn">getBuildNumber</span>()
+}</code></pre>
+  </div>
+  <div class="bad-practice">
+    <span class="card-label">Why SRP is abused</span>
+    <p>Getting code to <em>work</em> and making it <em>clean</em> are different activities. Most of us stop once it works and move on, never breaking the overstuffed class into single-responsibility units. Others fear that many small classes make the big picture harder to see — but a system of many small classes has no more moving parts than one of few large classes.</p>
+  </div>
+  <blockquote>Do you want your tools organized into toolboxes with many small, well-labeled drawers? Or a few drawers that you just toss everything into?</blockquote>
+</section>
+
+<section id="cohesion">
+  <h2 class="sec"><span class="n">10.5</span>Cohesion</h2>
+  <p>Classes should have few instance variables, and each method should manipulate one or more of them. The more variables a method uses, the more <strong>cohesive</strong> it is to its class; a class where every variable is used by every method is maximally cohesive. Aim for high cohesion — methods and variables that hang together as a logical whole.</p>
+  <pre><code><span class="kw">public class</span> Stack {
+  <span class="kw">private int</span> topOfStack = <span class="num">0</span>;
+  List&lt;Integer&gt; elements = <span class="kw">new</span> LinkedList&lt;Integer&gt;();
+  <span class="kw">public int</span> <span class="fn">size</span>() {
+    <span class="kw">return</span> topOfStack;
+  }
+  <span class="kw">public void</span> <span class="fn">push</span>(<span class="kw">int</span> element) {
+    topOfStack++;
+    elements.add(element);
+  }
+  <span class="kw">public int</span> <span class="fn">pop</span>() <span class="kw">throws</span> PoppedWhenEmpty {
+    <span class="kw">if</span> (topOfStack == <span class="num">0</span>)
+      <span class="kw">throw new</span> PoppedWhenEmpty();
+    <span class="kw">int</span> element = elements.get(--topOfStack);
+    elements.remove(topOfStack);
+    <span class="kw">return</span> element;
+  }
+}</code></pre>
+  <p>This <code>Stack</code> is very cohesive — only <code>size()</code> fails to use both variables.</p>
+</section>
+
+<section id="manysmall">
+  <h2 class="sec"><span class="n">10.6</span>Maintaining Cohesion → Many Small Classes</h2>
+  <div class="principle">
+    <span class="card-label">When cohesion drops, split</span>
+    <p>Keeping functions small and argument lists short can push shared state into instance variables used by only a subset of methods. That falling cohesion is a signal: those few functions and variables are a class trying to get out. <strong>When classes lose cohesion, split them.</strong></p>
+  </div>
+  <p>Knuth's <code>PrintPrimes</code> as one monolithic function vs. its refactoring into three single-responsibility classes:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 10-5 — PrintPrimes.java (monolith)</span>
+<pre><code><span class="kw">package</span> literatePrimes;
+<span class="kw">public class</span> PrintPrimes {
+  <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+    <span class="kw">final int</span> M = <span class="num">1000</span>;
+    <span class="kw">final int</span> RR = <span class="num">50</span>;
+    <span class="kw">final int</span> CC = <span class="num">4</span>;
+    <span class="kw">final int</span> WW = <span class="num">10</span>;
+    <span class="kw">final int</span> ORDMAX = <span class="num">30</span>;
+    <span class="kw">int</span> P[] = <span class="kw">new int</span>[M + <span class="num">1</span>];
+    <span class="kw">int</span> PAGENUMBER;
+    <span class="kw">int</span> PAGEOFFSET;
+    <span class="kw">int</span> ROWOFFSET;
+    <span class="kw">int</span> C;
+    <span class="kw">int</span> J;
+    <span class="kw">int</span> K;
+    <span class="kw">boolean</span> JPRIME;
+    <span class="kw">int</span> ORD;
+    <span class="kw">int</span> SQUARE;
+    <span class="kw">int</span> N;
+    <span class="kw">int</span> MULT[] = <span class="kw">new int</span>[ORDMAX + <span class="num">1</span>];
+    J = <span class="num">1</span>;
+    K = <span class="num">1</span>;
+    P[<span class="num">1</span>] = <span class="num">2</span>;
+    ORD = <span class="num">2</span>;
+    SQUARE = <span class="num">9</span>;
+    <span class="kw">while</span> (K &lt; M) {
+      <span class="kw">do</span> {
+        J = J + <span class="num">2</span>;
+        <span class="kw">if</span> (J == SQUARE) {
+          ORD = ORD + <span class="num">1</span>;
+          SQUARE = P[ORD] * P[ORD];
+          MULT[ORD - <span class="num">1</span>] = J;
+        }
+        N = <span class="num">2</span>;
+        JPRIME = <span class="kw">true</span>;
+        <span class="kw">while</span> (N &lt; ORD &amp;&amp; JPRIME) {
+          <span class="kw">while</span> (MULT[N] &lt; J)
+            MULT[N] = MULT[N] + P[N] + P[N];
+          <span class="kw">if</span> (MULT[N] == J)
+            JPRIME = <span class="kw">false</span>;
+          N = N + <span class="num">1</span>;
+        }
+      } <span class="kw">while</span> (!JPRIME);
+      K = K + <span class="num">1</span>;
+      P[K] = J;
+    }
+    {
+      PAGENUMBER = <span class="num">1</span>;
+      PAGEOFFSET = <span class="num">1</span>;
+      <span class="kw">while</span> (PAGEOFFSET &lt;= M) {
+        System.out.println(<span class="str">"The First "</span> + M +
+          <span class="str">" Prime Numbers --- Page "</span> + PAGENUMBER);
+        System.out.println(<span class="str">""</span>);
+        <span class="kw">for</span> (ROWOFFSET = PAGEOFFSET; ROWOFFSET &lt; PAGEOFFSET + RR; ROWOFFSET++){
+          <span class="kw">for</span> (C = <span class="num">0</span>; C &lt; CC;C++)
+            <span class="kw">if</span> (ROWOFFSET + C * RR &lt;= M)
+              System.out.format(<span class="str">"%10d"</span>, P[ROWOFFSET + C * RR]);
+          System.out.println(<span class="str">""</span>);
+        }
+        System.out.println(<span class="str">"\f"</span>);
+        PAGENUMBER = PAGENUMBER + <span class="num">1</span>;
+        PAGEOFFSET = PAGEOFFSET + RR * CC;
+      }
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 10-6/7/8 — three classes</span>
+<pre><code><span class="cm">// PrimePrinter.java — execution environment</span>
+<span class="kw">package</span> literatePrimes;
+<span class="kw">public class</span> PrimePrinter {
+  <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+    <span class="kw">final int</span> NUMBER_OF_PRIMES = <span class="num">1000</span>;
+    <span class="kw">int</span>[] primes = PrimeGenerator.generate(NUMBER_OF_PRIMES);
+    <span class="kw">final int</span> ROWS_PER_PAGE = <span class="num">50</span>;
+    <span class="kw">final int</span> COLUMNS_PER_PAGE = <span class="num">4</span>;
+    RowColumnPagePrinter tablePrinter =
+      <span class="kw">new</span> RowColumnPagePrinter(ROWS_PER_PAGE,
+        COLUMNS_PER_PAGE,
+        <span class="str">"The First "</span> + NUMBER_OF_PRIMES +
+        <span class="str">" Prime Numbers"</span>);
+    tablePrinter.print(primes);
+  }
+}
+
+<span class="cm">// RowColumnPagePrinter.java — formatting</span>
+<span class="kw">public class</span> RowColumnPagePrinter {
+  <span class="kw">private int</span> rowsPerPage;
+  <span class="kw">private int</span> columnsPerPage;
+  <span class="kw">private int</span> numbersPerPage;
+  <span class="kw">private</span> String pageHeader;
+  <span class="kw">private</span> PrintStream printStream;
+  <span class="cm">// constructor + print/printPage/printRow/
+  // printPageHeader/setOutput ...</span>
+}
+
+<span class="cm">// PrimeGenerator.java — the algorithm</span>
+<span class="kw">public class</span> PrimeGenerator {
+  <span class="kw">private static int</span>[] primes;
+  <span class="kw">private static</span> ArrayList&lt;Integer&gt; multiplesOfPrimeFactors;
+  <span class="kw">protected static int</span>[] <span class="fn">generate</span>(<span class="kw">int</span> n) {
+    primes = <span class="kw">new int</span>[n];
+    multiplesOfPrimeFactors = <span class="kw">new</span> ArrayList&lt;Integer&gt;();
+    set2AsFirstPrime();
+    checkOddNumbersForSubsequentPrimes();
+    <span class="kw">return</span> primes;
+  }
+  <span class="cm">// isPrime / isNotMultipleOf... helpers ...</span>
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">The refactor is <strong>longer</strong> (descriptive names, declarations as commentary, whitespace) but splits into three responsibilities: <code>PrimePrinter</code> (execution), <code>RowColumnPagePrinter</code> (formatting), <code>PrimeGenerator</code> (algorithm). This was <strong>not a rewrite</strong> — the same algorithm was transformed by many tiny changes, each verified by a test suite.</p>
+</section>
+
+<section id="ocp">
+  <h2 class="sec"><span class="n">10.7</span>Organizing for Change (OCP)</h2>
+  <p>Change is continual, and every change risks breaking the system. A <code>Sql</code> class that must be "opened" to add an <code>update</code> statement risks breaking its other code. Refactoring each statement type into its own <code>Sql</code> subclass fixes this:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 10-9 — opened for change</span>
+<pre><code><span class="kw">public class</span> Sql {
+  <span class="kw">public</span> <span class="fn">Sql</span>(String table, Column[] columns)
+  <span class="kw">public</span> String <span class="fn">create</span>()
+  <span class="kw">public</span> String <span class="fn">insert</span>(Object[] fields)
+  <span class="kw">public</span> String <span class="fn">selectAll</span>()
+  <span class="kw">public</span> String <span class="fn">findByKey</span>(String keyColumn, String keyValue)
+  <span class="kw">public</span> String <span class="fn">select</span>(Column column, String pattern)
+  <span class="kw">public</span> String <span class="fn">select</span>(Criteria criteria)
+  <span class="kw">public</span> String <span class="fn">preparedInsert</span>()
+  <span class="kw">private</span> String <span class="fn">columnList</span>(Column[] columns)
+  <span class="kw">private</span> String <span class="fn">valuesList</span>(Object[] fields, <span class="kw">final</span> Column[] columns)
+  <span class="kw">private</span> String <span class="fn">selectWithCriteria</span>(String criteria)
+  <span class="kw">private</span> String <span class="fn">placeholderList</span>(Column[] columns)
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 10-10 — closed classes</span>
+<pre><code><span class="kw">abstract public class</span> Sql {
+  <span class="kw">public</span> <span class="fn">Sql</span>(String table, Column[] columns)
+  <span class="kw">abstract public</span> String <span class="fn">generate</span>();
+}
+<span class="kw">public class</span> CreateSql <span class="kw">extends</span> Sql {
+  <span class="kw">public</span> <span class="fn">CreateSql</span>(String table, Column[] columns)
+  <span class="ann">@Override</span> <span class="kw">public</span> String <span class="fn">generate</span>()
+}
+<span class="kw">public class</span> SelectSql <span class="kw">extends</span> Sql {
+  <span class="kw">public</span> <span class="fn">SelectSql</span>(String table, Column[] columns)
+  <span class="ann">@Override</span> <span class="kw">public</span> String <span class="fn">generate</span>()
+}
+<span class="kw">public class</span> InsertSql <span class="kw">extends</span> Sql {
+  <span class="kw">public</span> <span class="fn">InsertSql</span>(String table, Column[] columns, Object[] fields)
+  <span class="ann">@Override</span> <span class="kw">public</span> String <span class="fn">generate</span>()
+  <span class="kw">private</span> String <span class="fn">valuesList</span>(Object[] fields, <span class="kw">final</span> Column[] columns)
+}
+<span class="cm">// ...SelectWithCriteriaSql, FindByKeySql, etc.
+// shared behavior in Where and ColumnList</span></code></pre>
+    </div>
+  </div>
+  <div class="principle">
+    <span class="card-label">Open-Closed Principle (OCP)</span>
+    <p>Classes should be <strong>open for extension but closed for modification</strong>. Adding an <code>update</code> statement means dropping in a new <code>UpdateSql</code> subclass — no existing class changes. Each class becomes excruciatingly simple, isolated, and easy to test. Incorporate new features by <strong>extending</strong> the system, not modifying existing code.</p>
+  </div>
+</section>
+
+<section id="dip">
+  <h2 class="sec"><span class="n">10.8</span>Isolating from Change (DIP)</h2>
+  <p>A client depending on concrete details is at risk when those details change — and hard to test. A <code>Portfolio</code> that directly used a live <code>TokyoStockExchange</code> would give a different answer every five minutes. Introduce an interface and inject it:</p>
+  <pre><code><span class="kw">public interface</span> StockExchange {
+  Money <span class="fn">currentPrice</span>(String symbol);
+}
+
+<span class="kw">public</span> Portfolio {
+  <span class="kw">private</span> StockExchange exchange;
+  <span class="kw">public</span> <span class="fn">Portfolio</span>(StockExchange exchange) {
+    <span class="kw">this</span>.exchange = exchange;
+  }
+  <span class="cm">// ...</span>
+}</code></pre>
+  <p>Now the test injects a fixed stub that always returns a known price:</p>
+  <pre><code><span class="kw">public class</span> PortfolioTest {
+  <span class="kw">private</span> FixedStockExchangeStub exchange;
+  <span class="kw">private</span> Portfolio portfolio;
+  <span class="ann">@Before</span>
+  <span class="kw">protected void</span> <span class="fn">setUp</span>() <span class="kw">throws</span> Exception {
+    exchange = <span class="kw">new</span> FixedStockExchangeStub();
+    exchange.fix(<span class="str">"MSFT"</span>, <span class="num">100</span>);
+    portfolio = <span class="kw">new</span> Portfolio(exchange);
+  }
+  <span class="ann">@Test</span>
+  <span class="kw">public void</span> <span class="fn">GivenFiveMSFTTotalShouldBe500</span>() <span class="kw">throws</span> Exception {
+    portfolio.add(<span class="num">5</span>, <span class="str">"MSFT"</span>);
+    Assert.assertEquals(<span class="num">500</span>, portfolio.value());
+  }
+}</code></pre>
+  <div class="principle">
+    <span class="card-label">Dependency Inversion Principle (DIP)</span>
+    <p>Classes should depend upon <strong>abstractions, not concrete details</strong>. <code>Portfolio</code> now depends on the <code>StockExchange</code> interface (the abstract concept of "current price of a symbol"), not on <code>TokyoStockExchange</code>. Decoupling like this makes the system testable, more flexible, and more reusable — each element is isolated from change and easier to understand.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">10.9</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Small Classes</span><p>Measure size by responsibilities; a concise name and a 25-word description are litmus tests.</p></div>
+  <div class="principle"><span class="card-label">SRP</span><p>One, and only one, reason to change per class.</p></div>
+  <div class="principle"><span class="card-label">High Cohesion → Many Small Classes</span><p>When cohesion drops, a new class is trying to get out — split it.</p></div>
+  <div class="principle"><span class="card-label">OCP</span><p>Open for extension, closed for modification; add features by extending.</p></div>
+  <div class="principle"><span class="card-label">DIP</span><p>Depend on abstractions, not concrete details, to isolate from change.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">10.10</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">God classes</span><p>Dozens of methods and many responsibilities crammed into one class.</p></div>
+  <div class="bad-practice"><span class="card-label">Stopping at "it works"</span><p>Never refactoring the overstuffed class into single-responsibility units.</p></div>
+  <div class="bad-practice"><span class="card-label">Weasel-word names</span><p><code>Processor</code>, <code>Manager</code>, <code>Super</code> — signs of aggregated responsibilities.</p></div>
+  <div class="bad-practice"><span class="card-label">Opening classes to change them</span><p>Modifying existing code instead of extending via subclasses (OCP).</p></div>
+  <div class="bad-practice"><span class="card-label">Depending on concrete details</span><p>Coupling to a concrete API makes code fragile and hard to test.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">10.11</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Keep classes small (few responsibilities)</td><td class="dont">Build God classes with dozens of methods</td></tr>
+      <tr><td class="do">Give each class one reason to change</td><td class="dont">Mix unrelated responsibilities</td></tr>
+      <tr><td class="do">Name precisely; pass the 25-word test</td><td class="dont">Use vague <code>Manager</code>/<code>Processor</code>/<code>Super</code> names</td></tr>
+      <tr><td class="do">Split when cohesion drops</td><td class="dont">Pile up variables used by a few methods</td></tr>
+      <tr><td class="do">Add features by extension (OCP)</td><td class="dont">Reopen and modify working classes</td></tr>
+      <tr><td class="do">Depend on abstractions (DIP)</td><td class="dont">Couple to concrete implementations</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Build systems from many small, single-responsibility classes that depend on abstractions — so change extends the system instead of breaking it.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

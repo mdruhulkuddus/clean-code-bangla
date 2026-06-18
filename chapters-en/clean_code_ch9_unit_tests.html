@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.9: Unit Tests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 09</span>
+  <h1>Unit Tests</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Test code is just as important as production code. It's the thing that keeps your production code flexible — but only if you keep the tests themselves clean.</p>
+  <div class="badges">
+    <span class="badge">Three Laws of TDD</span>
+    <span class="badge">Keep Tests Clean</span>
+    <span class="badge">BUILD-OPERATE-CHECK</span>
+    <span class="badge">One Concept per Test</span>
+    <span class="badge">F.I.R.S.T.</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#threelaws">The Three Laws of TDD</a></li>
+    <li><a href="#keepclean">Keeping Tests Clean</a></li>
+    <li><a href="#ilities">Tests Enable the -ilities</a></li>
+    <li><a href="#cleantests">Clean Tests</a></li>
+    <li><a href="#dsl">Domain-Specific Testing Language</a></li>
+    <li><a href="#dual">A Dual Standard</a></li>
+    <li><a href="#oneassert">One Assert / One Concept</a></li>
+    <li><a href="#first">F.I.R.S.T.</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p>TDD's <strong>Three Laws</strong> lock production and test code into a ~30-second cycle, producing thousands of tests a year. <strong>Dirty tests are worse than no tests</strong> — they rot until the team abandons them and loses the ability to change code safely. Tests enable all the <strong>-ilities</strong> because they enable change without fear. A clean test's first quality is <strong>readability</strong>, achieved with the BUILD-OPERATE-CHECK structure and a domain-specific testing language. Minimize asserts and test <strong>one concept per test</strong>, and keep every test <strong>F.I.R.S.T.</strong></p>
+  </div>
+</section>
+
+<section id="threelaws">
+  <h2 class="sec"><span class="n">9.1</span>The Three Laws of TDD</h2>
+  <div class="principle">
+    <span class="card-label">First Law</span>
+    <p>You may not write production code until you have written a failing unit test.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Second Law</span>
+    <p>You may not write more of a unit test than is sufficient to fail — and not compiling is failing.</p>
+  </div>
+  <div class="principle">
+    <span class="card-label">Third Law</span>
+    <p>You may not write more production code than is sufficient to pass the currently failing test.</p>
+  </div>
+  <p>These laws lock you into a cycle perhaps thirty seconds long, with tests just a few seconds ahead of production code. Work this way and you write dozens of tests a day, thousands a year — covering virtually all production code. That sheer bulk can become a management problem of its own.</p>
+</section>
+
+<section id="keepclean">
+  <h2 class="sec"><span class="n">9.2</span>Keeping Tests Clean</h2>
+  <div class="bad-practice">
+    <span class="card-label">"Quick and dirty" tests</span>
+    <p>A team that let test code skip the standards of production code — bad names, long functions, no design — found that as production code evolved, the tangled tests grew ever harder to change. Old tests failed on every change, the suite became a liability, and eventually they <strong>discarded it entirely</strong>. Without tests they feared change, stopped cleaning code, and the production code rotted.</p>
+  </div>
+  <div class="insight">
+    <span class="card-label">The moral</span>
+    <p><strong>Test code is just as important as production code.</strong> It is not a second-class citizen — it requires thought, design, and care, and must be kept as clean as production code. Having dirty tests is equivalent to, if not worse than, having no tests.</p>
+  </div>
+</section>
+
+<section id="ilities">
+  <h2 class="sec"><span class="n">9.3</span>Tests Enable the -ilities</h2>
+  <p>It is unit tests that keep code <strong>flexible, maintainable, and reusable</strong>. The reason is simple: with tests, you don't fear making changes. The higher your coverage, the less your fear — you can improve a tangled architecture with near impunity. Lose the tests and you lose the ability to improve the code's structure; the dirtier your tests, the dirtier your code becomes.</p>
+</section>
+
+<section id="cleantests">
+  <h2 class="sec"><span class="n">9.4</span>Clean Tests</h2>
+  <blockquote>What makes a clean test? Three things. Readability, readability, and readability.</blockquote>
+  <p>Readability comes from clarity, simplicity, and density of expression — say a lot with few expressions. Compare these FitNesse tests:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 9-1 — drowning in detail</span>
+<pre><code><span class="kw">public void</span> <span class="fn">testGetPageHieratchyAsXml</span>() <span class="kw">throws</span> Exception
+{
+  crawler.addPage(root, PathParser.parse(<span class="str">"PageOne"</span>));
+  crawler.addPage(root, PathParser.parse(<span class="str">"PageOne.ChildOne"</span>));
+  crawler.addPage(root, PathParser.parse(<span class="str">"PageTwo"</span>));
+
+  request.setResource(<span class="str">"root"</span>);
+  request.addInput(<span class="str">"type"</span>, <span class="str">"pages"</span>);
+  Responder responder = <span class="kw">new</span> SerializedPageResponder();
+  SimpleResponse response =
+    (SimpleResponse) responder.makeResponse(
+      <span class="kw">new</span> FitNesseContext(root), request);
+  String xml = response.getContent();
+
+  assertEquals(<span class="str">"text/xml"</span>, response.getContentType());
+  assertSubString(<span class="str">"&lt;name&gt;PageOne&lt;/name&gt;"</span>, xml);
+  assertSubString(<span class="str">"&lt;name&gt;PageTwo&lt;/name&gt;"</span>, xml);
+  assertSubString(<span class="str">"&lt;name&gt;ChildOne&lt;/name&gt;"</span>, xml);
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 9-2 — refactored</span>
+<pre><code><span class="kw">public void</span> <span class="fn">testGetPageHierarchyAsXml</span>() <span class="kw">throws</span> Exception {
+  makePages(<span class="str">"PageOne"</span>, <span class="str">"PageOne.ChildOne"</span>, <span class="str">"PageTwo"</span>);
+
+  submitRequest(<span class="str">"root"</span>, <span class="str">"type:pages"</span>);
+
+  assertResponseIsXML();
+  assertResponseContains(
+    <span class="str">"&lt;name&gt;PageOne&lt;/name&gt;"</span>, <span class="str">"&lt;name&gt;PageTwo&lt;/name&gt;"</span>, <span class="str">"&lt;name&gt;ChildOne&lt;/name&gt;"</span>
+  );
+}
+
+<span class="kw">public void</span> <span class="fn">testGetDataAsXml</span>() <span class="kw">throws</span> Exception {
+  makePageWithContent(<span class="str">"TestPageOne"</span>, <span class="str">"test page"</span>);
+
+  submitRequest(<span class="str">"TestPageOne"</span>, <span class="str">"type:data"</span>);
+
+  assertResponseIsXML();
+  assertResponseContains(<span class="str">"test page"</span>, <span class="str">"&lt;Test"</span>);
+}</code></pre>
+    </div>
+  </div>
+  <div class="principle">
+    <span class="card-label">BUILD-OPERATE-CHECK</span>
+    <p>Each clean test splits into three obvious parts: <strong>build</strong> the test data, <strong>operate</strong> on it, and <strong>check</strong> the results. The annoying detail (PathParser calls, responder construction, casting) is gone — anyone can grasp the test quickly.</p>
+  </div>
+</section>
+
+<section id="dsl">
+  <h2 class="sec"><span class="n">9.5</span>Domain-Specific Testing Language</h2>
+  <div class="principle">
+    <span class="card-label">Build a testing API</span>
+    <p>Rather than calling raw system APIs, build helper functions (<code>makePages</code>, <code>submitRequest</code>, <code>assertResponseContains</code>) that form a specialized <strong>testing language</strong>. It isn't designed up front — it <strong>evolves</strong> from refactoring test code that got too tainted by obfuscating detail, making tests easier to write and read.</p>
+  </div>
+</section>
+
+<section id="dual">
+  <h2 class="sec"><span class="n">9.6</span>A Dual Standard</h2>
+  <p>Test code can hold to <strong>different engineering standards</strong> than production code — still simple, succinct, and expressive, but it need not be as efficient, because it runs in a test environment. Compare these environment-controller tests:</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 9-3 — eye ping-pong</span>
+<pre><code><span class="ann">@Test</span>
+<span class="kw">public void</span> <span class="fn">turnOnLoTempAlarmAtThreashold</span>() <span class="kw">throws</span> Exception {
+  hw.setTemp(WAY_TOO_COLD);
+  controller.tic();
+  assertTrue(hw.heaterState());
+  assertTrue(hw.blowerState());
+  assertFalse(hw.coolerState());
+  assertFalse(hw.hiTempAlarm());
+  assertTrue(hw.loTempAlarm());
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 9-4/9-5 — encoded state</span>
+<pre><code><span class="ann">@Test</span>
+<span class="kw">public void</span> <span class="fn">turnOnLoTempAlarmAtThreshold</span>() <span class="kw">throws</span> Exception {
+  wayTooCold();
+  assertEquals(<span class="str">"HBchL"</span>, hw.getState());
+}
+<span class="ann">@Test</span>
+<span class="kw">public void</span> <span class="fn">turnOnCoolerAndBlowerIfTooHot</span>() <span class="kw">throws</span> Exception {
+  tooHot();
+  assertEquals(<span class="str">"hBChl"</span>, hw.getState());
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Upper case = "on," lower case = "off," in a fixed order {heater, blower, cooler, hi-temp, lo-temp}. It edges close to mental-mapping, but once learned, the eye glides across the string. The <code>getState</code> implementation uses string concatenation instead of a <code>StringBuffer</code> — fine in a test environment that isn't resource-constrained. <strong>The dual standard touches efficiency, never cleanliness.</strong></p>
+</section>
+
+<section id="oneassert">
+  <h2 class="sec"><span class="n">9.7</span>One Assert / Single Concept per Test</h2>
+  <p>One school says every test should have a <strong>single assert</strong> — a quick, easy-to-understand conclusion. Splitting a multi-assert test using the <em>given-when-then</em> convention helps, though it can cause duplication (resolvable via TEMPLATE METHOD or <code>@Before</code>). Martin treats single-assert as a good guideline, not a law: <strong>minimize</strong> the asserts.</p>
+  <div class="bad-practice">
+    <span class="card-label">Listing 9-8 — testing many concepts at once</span>
+<pre><code><span class="kw">public void</span> <span class="fn">testAddMonths</span>() {
+  SerialDate d1 = SerialDate.createInstance(<span class="num">31</span>, <span class="num">5</span>, <span class="num">2004</span>);
+  SerialDate d2 = SerialDate.addMonths(<span class="num">1</span>, d1);
+  assertEquals(<span class="num">30</span>, d2.getDayOfMonth());
+  assertEquals(<span class="num">6</span>, d2.getMonth());
+  assertEquals(<span class="num">2004</span>, d2.getYYYY());
+  SerialDate d3 = SerialDate.addMonths(<span class="num">2</span>, d1);
+  assertEquals(<span class="num">31</span>, d3.getDayOfMonth());
+  ...
+}</code></pre>
+    <p>This tests three independent things and should be split. The real rule: <strong>minimize asserts per concept, and test just one concept per test function.</strong></p>
+  </div>
+</section>
+
+<section id="first">
+  <h2 class="sec"><span class="n">9.8</span>F.I.R.S.T.</h2>
+  <div class="principle"><span class="card-label">Fast</span><p>Tests should run quickly, or you won't run them often, and problems hide.</p></div>
+  <div class="principle"><span class="card-label">Independent</span><p>No test sets up the next; run them in any order. Dependence causes failure cascades.</p></div>
+  <div class="principle"><span class="card-label">Repeatable</span><p>Runnable in any environment — prod, QA, your laptop on a train with no network.</p></div>
+  <div class="principle"><span class="card-label">Self-Validating</span><p>A boolean pass/fail — never read logs or compare files by hand.</p></div>
+  <div class="principle"><span class="card-label">Timely</span><p>Written just before the production code that passes them, so that code stays testable.</p></div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">9.9</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Three Laws of TDD</span><p>Failing test first; just enough test to fail; just enough code to pass.</p></div>
+  <div class="principle"><span class="card-label">Tests Are First-Class Code</span><p>Keep them as clean as production code or you'll lose them.</p></div>
+  <div class="principle"><span class="card-label">Readability Above All</span><p>BUILD-OPERATE-CHECK plus a domain-specific testing language.</p></div>
+  <div class="principle"><span class="card-label">One Concept per Test</span><p>Minimize asserts; don't test miscellaneous things together.</p></div>
+  <div class="principle"><span class="card-label">F.I.R.S.T.</span><p>Fast, Independent, Repeatable, Self-Validating, Timely.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">9.10</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">"Quick and dirty" test code</span><p>Held to lower standards — rots and gets abandoned.</p></div>
+  <div class="bad-practice"><span class="card-label">Tests drowning in detail</span><p>Raw APIs and casting obscure intent; build a testing DSL.</p></div>
+  <div class="bad-practice"><span class="card-label">Multiple concepts per test</span><p>Forces the reader to decode why each section exists.</p></div>
+  <div class="bad-practice"><span class="card-label">Slow / interdependent tests</span><p>Discourage frequent runs and cause failure cascades.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">9.11</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Follow the Three Laws of TDD</td><td class="dont">Write production code with no failing test</td></tr>
+      <tr><td class="do">Keep test code as clean as production</td><td class="dont">Let tests be "quick and dirty"</td></tr>
+      <tr><td class="do">Structure tests BUILD-OPERATE-CHECK</td><td class="dont">Bury intent under setup detail</td></tr>
+      <tr><td class="do">Build a domain-specific testing language</td><td class="dont">Call raw APIs in every test</td></tr>
+      <tr><td class="do">Test one concept; minimize asserts</td><td class="dont">Test many things in one function</td></tr>
+      <tr><td class="do">Keep tests F.I.R.S.T.</td><td class="dont">Tolerate slow, interdependent, manual tests</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">If you let the tests rot, your code rots too — keep your tests clean and they'll keep your code free to change.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

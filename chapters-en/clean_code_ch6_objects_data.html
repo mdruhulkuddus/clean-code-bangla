@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Code — Ch.6: Objects and Data Structures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#c96442; --accent2:#d4845e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f6f8; color:#333; font-family:'Source Sans 3',sans-serif; font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:44px 20px 90px; }
+  h1,h2,h3,h4{ font-family:'Merriweather',serif; color:#2b2b2b; line-height:1.32; }
+  p{ margin:0 0 1em; }
+  a{ color:#3b82f6; text-decoration:none; } a:hover{ text-decoration:underline; }
+  header.chapter-head{ background:#ffffff; border-radius:14px; padding:34px 36px; box-shadow:0 6px 24px rgba(60,60,80,.07); margin-bottom:26px; border-top:5px solid var(--accent); }
+  .ch-num{ font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:500; }
+  header.chapter-head h1{ font-size:2.5rem; font-weight:900; margin:.15em 0 .1em; border-bottom:2px solid #efe7dd; padding-bottom:.35em; }
+  .author{ font-size:.95rem; color:#7a7268; font-style:italic; margin:.2em 0 .8em; }
+  .subtitle{ font-size:1.12rem; color:#55504a; margin:0 0 1.1em; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .badge{ display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:.78rem; font-weight:600; padding:5px 13px; border-radius:999px; }
+  .card{ background:#fff; border-radius:14px; padding:22px 26px; margin:20px 0; box-shadow:0 4px 18px rgba(60,60,80,.06); }
+  .toc h2{ font-size:1.15rem; margin:0 0 .5em; border:none; }
+  .toc ol{ margin:0; padding-left:1.3em; columns:2; column-gap:34px; }
+  .toc li{ margin:.28em 0; font-size:.97rem; }
+  section{ margin:34px 0; }
+  h2.sec{ font-size:1.55rem; font-weight:700; margin:0 0 .55em; border-bottom:1px solid #e7e0d6; padding-bottom:.28em; }
+  h2.sec .n{ font-family:'JetBrains Mono',monospace; font-size:.95rem; color:var(--accent); margin-right:.55em; font-weight:500; }
+  h3{ font-size:1.2rem; margin:1.3em 0 .35em; }
+  .principle, .insight, .bad-practice, .quote-box{ border-radius:14px; padding:18px 22px 18px 24px; margin:20px 0; box-shadow:0 4px 16px rgba(60,60,80,.05); }
+  .principle{ background:linear-gradient(135deg,#f0f9f3,#f7fcf8); border-left:5px solid #5aab7b; }
+  .insight{ background:linear-gradient(135deg,#fdf6eb,#fffbf4); border-left:5px solid #d4a24c; }
+  .bad-practice{ background:linear-gradient(135deg,#fef2f0,#fff8f7); border-left:5px solid #e06b5e; }
+  .card-label{ display:block; font-size:.75rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.45em; }
+  .principle .card-label{ color:#3e8a5f; } .insight .card-label{ color:#b98322; } .bad-practice .card-label{ color:#c0493b; }
+  .principle p:last-child,.insight p:last-child,.bad-practice p:last-child{ margin-bottom:0; }
+  .quote-box{ background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#4a4a4a; }
+  blockquote{ margin:18px 0; padding:14px 20px; background:#f8f9fa; border-left:4px solid #cbd5e1; font-style:italic; color:#444; border-radius:8px; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .ba-col{ border-radius:14px; padding:16px 18px; box-shadow:0 4px 16px rgba(60,60,80,.05); min-width:0; }
+  .ba-before{ background:#fef2f0; } .ba-after{ background:#f0f9f3; }
+  .ba-col .ba-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.55em; }
+  .ba-before .ba-label{ color:#c0493b; } .ba-after .ba-label{ color:#3e8a5f; }
+  .ba-col pre{ margin:0; background:#fffdfb; }
+  .ba-note{ font-size:.95rem; color:#5a554e; margin:6px 2px 22px; }
+  pre{ background:#fdfaf7; border-radius:12px; padding:16px 18px; overflow-x:auto; box-shadow:inset 0 2px 7px rgba(120,90,60,.09); margin:14px 0; }
+  code, pre{ font-family:'JetBrains Mono',monospace; }
+  pre code{ font-size:.84rem; line-height:1.6; background:none; color:#3a342e; padding:0; }
+  :not(pre) > code{ background:#f3ece4; color:#9a5030; border-radius:4px; padding:2px 6px; font-size:.86em; }
+  .kw{ color:#7c5cbf; } .str{ color:#3a8a5c; } .num{ color:#b8860b; }
+  .cm{ color:#a89a8a; font-style:italic; } .err{ color:#c44d3e; } .fn{ color:#c96442; } .ann{ color:#8b6914; }
+  .listing-label{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#8a8278; margin:18px 0 2px; }
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(60,60,80,.06); margin:18px 0; font-size:.96rem; }
+  thead th{ background:#f0e8de; color:#4a4036; text-align:left; padding:11px 15px; font-weight:700; }
+  tbody td{ padding:11px 15px; border-top:1px solid #f0ece6; vertical-align:top; }
+  tbody tr:nth-child(even){ background:#fcfbf9; }
+  td.do{ color:#3e8a5f; } td.dont{ color:#c0493b; }
+  .takeaway{ text-align:center; font-size:1.18rem; font-weight:700; }
+  @media(max-width:640px){ .before-after{ grid-template-columns:1fr; } .toc ol{ columns:1; } header.chapter-head h1{ font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chapter-head">
+  <span class="ch-num">Chapter 06</span>
+  <h1>Objects and Data Structures</h1>
+  <p class="author">Robert C. Martin ("Uncle Bob")</p>
+  <p class="subtitle">Objects hide data and expose behavior; data structures expose data and have no behavior. They are virtual opposites — and knowing which you need is what separates mature design from a muddle.</p>
+  <div class="badges">
+    <span class="badge">Data Abstraction</span>
+    <span class="badge">Object/Data Anti-Symmetry</span>
+    <span class="badge">Law of Demeter</span>
+    <span class="badge">Train Wrecks</span>
+    <span class="badge">DTOs</span>
+  </div>
+</header>
+
+<nav class="card toc" aria-label="Table of contents">
+  <h2>On this page</h2>
+  <ol>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#abstraction">Data Abstraction</a></li>
+    <li><a href="#antisymmetry">Data/Object Anti-Symmetry</a></li>
+    <li><a href="#demeter">The Law of Demeter</a></li>
+    <li><a href="#trainwreck">Train Wrecks</a></li>
+    <li><a href="#hybrids">Hybrids</a></li>
+    <li><a href="#hiding">Hiding Structure</a></li>
+    <li><a href="#dto">Data Transfer Objects</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#mistakes">Common Mistakes</a></li>
+    <li><a href="#ref">Quick Reference</a></li>
+  </ol>
+</nav>
+
+<section id="tldr">
+  <div class="insight">
+    <span class="card-label">TL;DR</span>
+    <p><strong>Objects</strong> hide their data behind abstractions and expose functions that operate on it; <strong>data structures</strong> expose their data and have no meaningful behavior — they are virtual opposites. This creates an anti-symmetry: <strong>OO code</strong> makes it easy to add new <em>types</em> but hard to add new <em>functions</em>; <strong>procedural code</strong> is the reverse. Pick the side that fits the change you expect. The <strong>Law of Demeter</strong> says talk to friends, not strangers — avoid "train wreck" call chains that reach through an object's innards. And don't blindly bolt getters/setters onto everything: that creates <strong>hybrids</strong>, the worst of both worlds.</p>
+  </div>
+</section>
+
+<section id="abstraction">
+  <h2 class="sec"><span class="n">6.1</span>Data Abstraction</h2>
+  <p>We keep variables private so no one depends on them and we stay free to change their type or implementation. So why do so many programmers reflexively add getters and setters, effectively making private variables public again?</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 6-1 — Concrete Point</span>
+<pre><code><span class="kw">public class</span> Point {
+  <span class="kw">public double</span> x;
+  <span class="kw">public double</span> y;
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 6-2 — Abstract Point</span>
+<pre><code><span class="kw">public interface</span> Point {
+  <span class="kw">double</span> <span class="fn">getX</span>();
+  <span class="kw">double</span> <span class="fn">getY</span>();
+  <span class="kw">void</span> <span class="fn">setCartesian</span>(<span class="kw">double</span> x, <span class="kw">double</span> y);
+  <span class="kw">double</span> <span class="fn">getR</span>();
+  <span class="kw">double</span> <span class="fn">getTheta</span>();
+  <span class="kw">void</span> <span class="fn">setPolar</span>(<span class="kw">double</span> r, <span class="kw">double</span> theta);
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">You can't tell whether Listing 6-2 is rectangular or polar — it might be neither. The interface also <strong>enforces a policy</strong>: read coordinates independently, but set them together atomically. The concrete version forces you to manipulate rectangular coordinates and exposes implementation (even with private fields and single-variable getters/setters).</p>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Listing 6-3 — Concrete Vehicle</span>
+<pre><code><span class="kw">public interface</span> Vehicle {
+  <span class="kw">double</span> <span class="fn">getFuelTankCapacityInGallons</span>();
+  <span class="kw">double</span> <span class="fn">getGallonsOfGasoline</span>();
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Listing 6-4 — Abstract Vehicle</span>
+<pre><code><span class="kw">public interface</span> Vehicle {
+  <span class="kw">double</span> <span class="fn">getPercentFuelRemaining</span>();
+}</code></pre>
+    </div>
+  </div>
+  <div class="principle">
+    <span class="card-label">Hiding Implementation = Abstraction</span>
+    <p>Hiding implementation isn't just putting a layer of functions over variables. A class should <strong>expose abstract interfaces</strong> that let users manipulate the <em>essence</em> of the data without knowing its form. The worst option is to blithely add getters and setters; serious thought belongs in how you represent the data.</p>
+  </div>
+</section>
+
+<section id="antisymmetry">
+  <h2 class="sec"><span class="n">6.2</span>Data/Object Anti-Symmetry</h2>
+  <div class="principle">
+    <span class="card-label">The Two Definitions (virtual opposites)</span>
+    <p><strong>Objects</strong> hide their data behind abstractions and expose functions that operate on that data. <strong>Data structures</strong> expose their data and have no meaningful functions. Read that again — the difference seems trivial but has far-reaching implications.</p>
+  </div>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">Procedural — Listing 6-5</span>
+<pre><code><span class="kw">public class</span> Square {
+  <span class="kw">public</span> Point topLeft;
+  <span class="kw">public double</span> side;
+}
+<span class="kw">public class</span> Rectangle {
+  <span class="kw">public</span> Point topLeft;
+  <span class="kw">public double</span> height;
+  <span class="kw">public double</span> width;
+}
+<span class="kw">public class</span> Circle {
+  <span class="kw">public</span> Point center;
+  <span class="kw">public double</span> radius;
+}
+<span class="kw">public class</span> Geometry {
+  <span class="kw">public final double</span> PI = <span class="num">3.141592653589793</span>;
+  <span class="kw">public double</span> <span class="fn">area</span>(Object shape) <span class="kw">throws</span> NoSuchShapeException
+  {
+    <span class="kw">if</span> (shape <span class="kw">instanceof</span> Square) {
+      Square s = (Square)shape;
+      <span class="kw">return</span> s.side * s.side;
+    }
+    <span class="kw">else if</span> (shape <span class="kw">instanceof</span> Rectangle) {
+      Rectangle r = (Rectangle)shape;
+      <span class="kw">return</span> r.height * r.width;
+    }
+    <span class="kw">else if</span> (shape <span class="kw">instanceof</span> Circle) {
+      Circle c = (Circle)shape;
+      <span class="kw">return</span> PI * c.radius * c.radius;
+    }
+    <span class="kw">throw new</span> NoSuchShapeException();
+  }
+}</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">Object-Oriented — Listing 6-6</span>
+<pre><code><span class="kw">public class</span> Square <span class="kw">implements</span> Shape {
+  <span class="kw">private</span> Point topLeft;
+  <span class="kw">private double</span> side;
+  <span class="kw">public double</span> <span class="fn">area</span>() {
+    <span class="kw">return</span> side*side;
+  }
+}
+<span class="kw">public class</span> Rectangle <span class="kw">implements</span> Shape {
+  <span class="kw">private</span> Point topLeft;
+  <span class="kw">private double</span> height;
+  <span class="kw">private double</span> width;
+  <span class="kw">public double</span> <span class="fn">area</span>() {
+    <span class="kw">return</span> height * width;
+  }
+}
+<span class="kw">public class</span> Circle <span class="kw">implements</span> Shape {
+  <span class="kw">private</span> Point center;
+  <span class="kw">private double</span> radius;
+  <span class="kw">public final double</span> PI = <span class="num">3.141592653589793</span>;
+  <span class="kw">public double</span> <span class="fn">area</span>() {
+    <span class="kw">return</span> PI * radius * radius;
+  }
+}</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Add a <code>perimeter()</code> function: the procedural shapes are unaffected, but you must touch every function in <code>Geometry</code> to add a new shape. The OO version is the mirror image — add a new shape freely, but adding a function forces a change to all shapes.</p>
+  <div class="insight">
+    <span class="card-label">The Fundamental Dichotomy</span>
+    <p><strong>Procedural code</strong> makes it easy to add new functions without changing existing data structures, but hard to add new data structures (every function must change). <strong>OO code</strong> makes it easy to add new classes without changing existing functions, but hard to add new functions (every class must change). What's hard for one is easy for the other — so the idea that "everything is an object" is a myth. Sometimes you really do want simple data structures with procedures operating on them.</p>
+  </div>
+</section>
+
+<section id="demeter">
+  <h2 class="sec"><span class="n">6.3</span>The Law of Demeter</h2>
+  <div class="principle">
+    <span class="card-label">Law of Demeter</span>
+    <p>A module should not know about the <strong>innards</strong> of the objects it manipulates. More precisely, a method <code>f</code> of class <code>C</code> should only call methods of: <strong>C</strong> itself, an object <strong>created by f</strong>, an object <strong>passed as an argument</strong> to f, or an object <strong>held in an instance variable</strong> of C. It should not call methods on objects <em>returned</em> by those allowed calls. In short: <strong>talk to friends, not to strangers.</strong></p>
+  </div>
+</section>
+
+<section id="trainwreck">
+  <h2 class="sec"><span class="n">6.4</span>Train Wrecks</h2>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Train wreck</span>
+<pre><code><span class="kw">final</span> String outputDir = ctxt.getOptions()
+  .getScratchDir().getAbsolutePath();</code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Split up</span>
+<pre><code>Options opts = ctxt.getOptions();
+File scratchDir = opts.getScratchDir();
+<span class="kw">final</span> String outputDir = scratchDir.getAbsolutePath();</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Chained calls look like coupled train cars. Whether this <em>violates</em> Demeter depends on what <code>ctxt</code>, <code>Options</code>, and <code>ScratchDir</code> are: if they're <strong>objects</strong>, reaching through their innards is a clear violation; if they're plain <strong>data structures</strong> (which naturally expose their fields), Demeter doesn't apply. Accessor functions muddy this — written as <code>ctxt.options.scratchDir.absolutePath</code> we wouldn't even ask. The confusion arises because frameworks (like "beans") demand accessors even on simple data structures.</p>
+</section>
+
+<section id="hybrids">
+  <h2 class="sec"><span class="n">6.5</span>Hybrids</h2>
+  <div class="bad-practice">
+    <span class="card-label">The worst of both worlds</span>
+    <p>A <strong>hybrid</strong> is half object, half data structure: it has functions that do significant things <em>and</em> public variables (or public accessors/mutators) that effectively expose its private fields. Hybrids make it hard to add new functions <em>and</em> hard to add new data structures. They signal a muddled design whose authors aren't sure whether they need protection from functions or from types. <strong>Avoid creating them.</strong></p>
+  </div>
+</section>
+
+<section id="hiding">
+  <h2 class="sec"><span class="n">6.6</span>Hiding Structure</h2>
+  <p>If <code>ctxt</code>, <code>options</code>, and <code>scratchDir</code> are real objects, we shouldn't navigate through them at all. Neither <code>ctxt.getAbsolutePathOfScratchDirectoryOption()</code> (an explosion of methods) nor <code>ctx.getScratchDirectoryOption().getAbsolutePath()</code> (which presumes a returned data structure) feels good.</p>
+  <p>So ask <em>why</em> we wanted the absolute path. The code downstream was building a scratch file:</p>
+  <pre><code>String outFile = outputDir + <span class="str">"/"</span> + className.replace(<span class="str">'.'</span>, <span class="str">'/'</span>) + <span class="str">".class"</span>;
+FileOutputStream fout = <span class="kw">new</span> FileOutputStream(outFile);
+BufferedOutputStream bos = <span class="kw">new</span> BufferedOutputStream(fout);</code></pre>
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="ba-label">❌ Asking for internals</span>
+<pre><code><span class="kw">final</span> String outputDir =
+  ctxt.options.scratchDir.absolutePath;
+<span class="cm">// ...then build the stream by hand</span></code></pre>
+    </div>
+    <div class="ba-col ba-after"><span class="ba-label">✅ Telling the object what to do</span>
+<pre><code>BufferedOutputStream bos =
+  ctxt.createScratchFileStream(classFileName);</code></pre>
+    </div>
+  </div>
+  <p class="ba-note">Tell <code>ctxt</code> to create the scratch file. That lets it hide its internals and frees the caller from navigating objects it shouldn't know about — <strong>tell, don't ask.</strong></p>
+</section>
+
+<section id="dto">
+  <h2 class="sec"><span class="n">6.7</span>Data Transfer Objects</h2>
+  <p>The quintessential data structure is a class with <strong>public variables and no functions</strong> — a <strong>Data Transfer Object (DTO)</strong>. DTOs are very useful for talking to databases or parsing socket messages, often the first stage that converts raw data into application objects. The more common "bean" form uses private fields with getters/setters:</p>
+  <pre><code><span class="kw">public class</span> Address {
+  <span class="kw">private</span> String street;
+  <span class="kw">private</span> String streetExtra;
+  <span class="kw">private</span> String city;
+  <span class="kw">private</span> String state;
+  <span class="kw">private</span> String zip;
+  <span class="kw">public</span> <span class="fn">Address</span>(String street, String streetExtra,
+                 String city, String state, String zip) {
+    <span class="kw">this</span>.street = street;
+    <span class="kw">this</span>.streetExtra = streetExtra;
+    <span class="kw">this</span>.city = city;
+    <span class="kw">this</span>.state = state;
+    <span class="kw">this</span>.zip = zip;
+  }
+  <span class="kw">public</span> String <span class="fn">getStreet</span>() { <span class="kw">return</span> street; }
+  <span class="kw">public</span> String <span class="fn">getStreetExtra</span>() { <span class="kw">return</span> streetExtra; }
+  <span class="kw">public</span> String <span class="fn">getCity</span>() { <span class="kw">return</span> city; }
+  <span class="kw">public</span> String <span class="fn">getState</span>() { <span class="kw">return</span> state; }
+  <span class="kw">public</span> String <span class="fn">getZip</span>() { <span class="kw">return</span> zip; }
+}</code></pre>
+  <p>The bean's quasi-encapsulation soothes OO purists but usually provides no other benefit.</p>
+  <div class="bad-practice">
+    <span class="card-label">Active Record</span>
+    <p>An <strong>Active Record</strong> is a DTO with navigational methods like <code>save</code> and <code>find</code>, typically a direct translation of a database table. The mistake is adding business-rule methods to it, creating a hybrid. The solution: treat the Active Record as a pure data structure and put business rules in <strong>separate objects</strong> that hide their data (which may just be instances of the Active Record).</p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2 class="sec"><span class="n">6.8</span>Principles &amp; Rules</h2>
+  <div class="principle"><span class="card-label">Abstraction over Accessors</span><p>Expose the essence of data through abstract interfaces — don't reflexively add getters/setters.</p></div>
+  <div class="principle"><span class="card-label">Object/Data Anti-Symmetry</span><p>Objects ease new types; data structures ease new functions. Choose by the change you expect.</p></div>
+  <div class="principle"><span class="card-label">Law of Demeter</span><p>Talk to friends, not strangers; don't reach through returned objects.</p></div>
+  <div class="principle"><span class="card-label">Tell, Don't Ask</span><p>Tell an object to do work rather than asking for its internals to do it yourself.</p></div>
+  <div class="principle"><span class="card-label">No Prejudice</span><p>"Everything is an object" is a myth; sometimes a plain data structure is right.</p></div>
+</section>
+
+<section id="mistakes">
+  <h2 class="sec"><span class="n">6.9</span>Common Mistakes</h2>
+  <div class="bad-practice"><span class="card-label">Reflexive getters/setters</span><p>Pushing every private variable out through accessors — exposing, not hiding, implementation.</p></div>
+  <div class="bad-practice"><span class="card-label">Train-wreck call chains</span><p>Reaching through an object's innards: <code>a.getB().getC().getD()</code>.</p></div>
+  <div class="bad-practice"><span class="card-label">Creating hybrids</span><p>Mixing significant behavior with exposed data — hard to extend in either direction.</p></div>
+  <div class="bad-practice"><span class="card-label">Business rules in Active Records</span><p>Treating a data structure as an object; keep rules in separate objects.</p></div>
+  <div class="bad-practice"><span class="card-label">Dogmatic OO</span><p>Forcing objects where simple data + procedures would serve better.</p></div>
+</section>
+
+<section id="ref">
+  <h2 class="sec"><span class="n">6.10</span>Quick Reference</h2>
+  <table>
+    <thead><tr><th>Do</th><th>Don't</th></tr></thead>
+    <tbody>
+      <tr><td class="do">Expose abstract interfaces over the data</td><td class="dont">Blindly add getters/setters for every field</td></tr>
+      <tr><td class="do">Use OO when you'll add new types</td><td class="dont">Force OO when you'll add new functions</td></tr>
+      <tr><td class="do">Use data structures + procedures for new behavior</td><td class="dont">Assume everything must be an object</td></tr>
+      <tr><td class="do">Talk to friends; tell objects what to do</td><td class="dont">Chain calls through returned objects (train wrecks)</td></tr>
+      <tr><td class="do">Keep DTOs/Active Records as pure data</td><td class="dont">Build hybrids or put business rules in them</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="insight">
+    <span class="card-label">One-liner Takeaway</span>
+    <p class="takeaway">Objects hide data and expose behavior; data structures do the opposite — choose deliberately, and never build the muddled hybrid in between.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
