@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Project context for working in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
@@ -21,9 +21,10 @@ python -m http.server 8000   # then open http://localhost:8000
 - `index.html` — single page shell: sidebar, header, reading area, footer.
 - `script.js` — all behavior: chapter data, sidebar/dropdown, chapter loading, theme.
 - `style.css` — all styling, with light/dark themes via `[data-theme]` CSS variables.
-- `chapters/` — **Bangla** chapter HTML fragments (`chapter-01.html` … `chapter-12.html`,
-  `chapter-16.html`, `chapter-17.html`, `appendix.html`).
-- `chapters-en/` — **English** chapter HTML fragments (`clean_code_chN_*.html`, ch 1–17).
+- `chapters/` — **Bangla** chapter HTML fragments (`chapter-01.html` … `chapter-17.html`,
+  `appendix.html`).
+- `chapters-en/` — **English** chapter HTML fragments (`clean_code_chN_*.html`, ch 1–18,
+  where ch 18 is the Appendix).
 
 The files in `chapters/` and `chapters-en/` are HTML **fragments**, not full documents —
 they are fetched and injected into `#chapterContent`'s `.chapter-body`.
